@@ -1,6 +1,9 @@
 using Application;
+using Domain.Interfaces.Repositories;
 using FluentValidation;
-using System.Reflection;
+using Microsoft.EntityFrameworkCore;
+using Persistence;
+using Persistence.Repository;
 
 namespace WebAPI
 {
@@ -21,6 +24,10 @@ namespace WebAPI
             builder.Services.AddMediatR(cnf => cnf.RegisterServicesFromAssemblies(DependencyInjection.Assembly));
             builder.Services.AddValidatorsFromAssembly(DependencyInjection.Assembly);
 
+            // Регистрируем DbContext с InMemory базой
+            builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("CorporateMessengerDb"));
+            builder.Services.AddScoped<IRepository<Domain.Entity.User>, UserRepository>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -31,10 +38,7 @@ namespace WebAPI
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
-
-
             app.MapControllers();
 
             app.Run();
