@@ -1,6 +1,6 @@
 ﻿namespace Domain.Result
 {
-    public record Result
+    public class Result
     {
         public bool IsSuccess { get; init; }
         public bool IsFailure => !IsSuccess;
@@ -10,24 +10,25 @@
         {
             get
             {
-                if (IsFailure) throw new InvalidOperationException();
+                if (IsSuccess) throw new InvalidOperationException();
                 return _exception!;
+
             }
-            init => _exception = value;
         }
 
-        protected internal Result(bool isSuccess, CustomException error)
+        protected internal Result(bool isSuccess, CustomException exception)
         {
             IsSuccess = isSuccess;
-            Exception = error;
+            _exception = exception;
         }
 
         public static Result Success() => new(true, null!);
-        public static Result<T> Success<T>(T value) => new(true, null!, value);
         public static Result Failure(CustomException exception) => new(false, exception);
+        public static Result<T> Success<T>(T value) => new(true, null!, value);
         public static Result<T> Failure<T>(CustomException exception) => new(false, exception, default!);
 
         public static implicit operator Result(CustomException exception) => Failure(exception);
         public static implicit operator CustomException(Result result) => result.Exception;
+        public static CustomException operator ~(Result result) => result.Exception;
     }
 }
