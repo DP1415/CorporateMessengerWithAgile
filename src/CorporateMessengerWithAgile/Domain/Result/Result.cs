@@ -29,6 +29,5 @@
 
         public static implicit operator Result(CustomException exception) => Failure(exception);
         public static implicit operator CustomException(Result result) => result.Exception;
-        public static CustomException operator ~(Result result) => result.Exception;
     }
 }
