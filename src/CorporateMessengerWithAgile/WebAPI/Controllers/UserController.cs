@@ -1,5 +1,8 @@
-﻿using Domain.Entity;
+﻿using Application.Entity.Users.Commands.UserCreate;
+using Application.Entity.Users.Queries.UsersGetAll;
+using Domain.Entity;
 using Domain.Interfaces.Repositories;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
@@ -8,31 +11,30 @@ namespace WebAPI.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly IRepository<User> _userRepository;
+        private readonly ISender Sender;
 
-        public UserController(IRepository<User> userRepository)
+        public UserController(ISender sender)
         {
-            _userRepository = userRepository;
+            Sender = sender;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetAllUsers(CancellationToken cancellationToken = default)
+        public async Task<ActionResult<IEnumerable<User>>> GetAllUsers(
+            CancellationToken cancellationToken = default
+            )
         {
-            var users = await _userRepository.GetAllAsync(cancellationToken);
-            return Ok(users);
+            return await Sender.Send(new UsersGetAllQuery(), cancellationToken);
         }
 
         [HttpPost]
-        public async Task<ActionResult<User>> CreateUser([FromBody] string userName, CancellationToken cancellationToken = default)
+        public async Task<ActionResult<User>> CreateUser(
+            [FromBody] UserCreateCommand command,
+            CancellationToken cancellationToken = default
+            )
         {
-            var user = new User
-            {
-                Id = Guid.NewGuid(),
-                name = userName
-            };
+            var response = await Sender.Send(command, cancellationToken);
 
-            await _userRepository.AddAsync(user, cancellationToken);
-            return CreatedAtAction(nameof(GetAllUsers), new { id = user.Id }, user);
+            return CreatedAtAction(nameof(GetAllUsers), new { id = response });
         }
     }
 }
