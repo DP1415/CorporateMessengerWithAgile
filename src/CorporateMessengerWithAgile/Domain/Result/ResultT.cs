@@ -1,4 +1,6 @@
-﻿namespace Domain.Result
+﻿using Domain.Result.CustomExceptions;
+
+namespace Domain.Result
 {
     public class Result<T> : Result
     {
@@ -7,7 +9,7 @@
         {
             get
             {
-                if (IsFailure) throw new InvalidOperationException();
+                if (IsFailure) throw InvalidResultStateException.CannotAccessValueOnFailure();
                 return _value!;
             }
         }
@@ -23,7 +25,7 @@
             if (IsFailure) throw Exception;
             return Value;
         }
-
+        
         public static implicit operator Result<T>(T value) => Success(value);
         public static implicit operator T(Result<T> result) => result.Check();
         public static implicit operator Result<T>(CustomException exception) => Failure<T>(exception);

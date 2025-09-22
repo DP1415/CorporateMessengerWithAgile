@@ -1,4 +1,6 @@
-﻿namespace Domain.Result
+﻿using Domain.Result.CustomExceptions;
+
+namespace Domain.Result
 {
     public class Result
     {
@@ -10,7 +12,7 @@
         {
             get
             {
-                if (IsSuccess) throw new InvalidOperationException();
+                if (IsSuccess) throw InvalidResultStateException.CannotAccessExceptionOnSuccess();
                 return _exception!;
 
             }
