@@ -1,9 +1,6 @@
-using Application;
 using Domain.Interfaces.Repositories;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using Persistence;
-using Persistence.Repository;
 
 namespace WebAPI
 {
@@ -21,12 +18,12 @@ namespace WebAPI
             builder.Services.AddSwaggerGen();
 
             // настройка
-            builder.Services.AddMediatR(cnf => cnf.RegisterServicesFromAssemblies(DependencyInjection.Assembly));
-            builder.Services.AddValidatorsFromAssembly(DependencyInjection.Assembly);
+            builder.Services.AddMediatR(cnf => cnf.RegisterServicesFromAssemblies(Application.DependencyInjection.Assembly));
+            builder.Services.AddValidatorsFromAssembly(Application.DependencyInjection.Assembly);
 
             // Регистрируем DbContext с InMemory базой
-            builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("CorporateMessengerDb"));
-            builder.Services.AddScoped<IRepository<Domain.Entity.User>, UserRepository>();
+            builder.Services.AddDbContext<Persistence.AppDbContext>(options => options.UseInMemoryDatabase("CorporateMessengerDb"));
+            builder.Services.AddScoped<IRepository<Domain.Entity.User>, Persistence.Repository.UserRepository>();
 
             var app = builder.Build();
 
