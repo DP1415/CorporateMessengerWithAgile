@@ -1,23 +1,16 @@
 ﻿using Application.Entity.Users.Commands.UserCreate;
 using Application.Entity.Users.Queries.UsersGetAll;
 using Domain.Entity;
-using Domain.Interfaces.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using WebAPI.Controllers.Abstract;
 
 namespace WebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UserController : ControllerBase
+    public class UserController(ISender sender) : ApiController(sender)
     {
-        private readonly ISender Sender;
-
-        public UserController(ISender sender)
-        {
-            Sender = sender;
-        }
-
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetAllUsers(
             CancellationToken cancellationToken = default
