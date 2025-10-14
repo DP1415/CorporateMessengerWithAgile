@@ -1,8 +1,9 @@
-﻿namespace Domain.Entity
+﻿using Domain.Common;
+
+namespace Domain.Entity
 {
-    public class User
+    public class User : BaseEntity
     {
-        public Guid Id { get; set; }
-        public string name { get; set; } = "name";
+        public string Name { get; set; } = "Name";
     }
 }
