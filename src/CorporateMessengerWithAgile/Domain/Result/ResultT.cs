@@ -4,7 +4,7 @@ namespace Domain.Result
 {
     public class Result<T> : Result
     {
-        private T? _value;
+        private readonly T? _value;
         public T Value
         {
             get

@@ -7,7 +7,7 @@ namespace Domain.Result
         public bool IsSuccess { get; init; }
         public bool IsFailure => !IsSuccess;
 
-        private CustomException? _exception;
+        private readonly CustomException? _exception;
         public CustomException Exception
         {
             get
