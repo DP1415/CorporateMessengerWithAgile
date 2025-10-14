@@ -27,7 +27,7 @@ namespace WebAPI.Controllers
         {
             var response = await Sender.Send(command, cancellationToken);
 
-            return CreatedAtAction(nameof(GetAllUsers), new { id = response });
+            return CreatedAtAction(nameof(CreateUser), new { id = response });
         }
     }
 }
