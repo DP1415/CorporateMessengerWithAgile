@@ -18,7 +18,7 @@ namespace Application.Entity.Users.Commands.UserCreate
             var user = new User
             {
                 Id = Guid.NewGuid(),
-                name = request.UserName
+                Name = request.UserName
             };
 
             await _userRepository.AddAsync(user, cancellationToken);
