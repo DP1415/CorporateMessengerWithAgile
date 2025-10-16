@@ -12,9 +12,13 @@ namespace Domain.Abstract.DBQueryDesigner
             >
         where TEntity : BaseEntity
     {
-        IDBQueryDesignerSingular<TEntity> Get(Guid id);
+        IDBQueryDesigner<TEntity, Result<TEntity>, IDBQueryDesignerSingular<TEntity>> First();
+
         IDBQueryDesignerSet<TEntity> Filter(Expression<Func<TEntity, bool>> predicate);
+        IDBQueryDesignerSet<TEntity> this[Expression<Func<TEntity, bool>> predicate] { get => Filter(predicate); }
+
         IDBQueryDesignerSet<TEntity> Pagination(int indexPage, int sizePage);
-        IDBQuerySender<int> Count();
+        IDBQuerySender<int> Count { get; }
+        IDBQuerySender<bool> Any { get; }
     }
 }
