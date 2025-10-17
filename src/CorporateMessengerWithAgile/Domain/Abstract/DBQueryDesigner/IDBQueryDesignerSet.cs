@@ -15,7 +15,6 @@ namespace Domain.Abstract.DBQueryDesigner
         IDBQueryDesigner<TEntity, Result<TEntity>, IDBQueryDesignerSingular<TEntity>> First();
 
         IDBQueryDesignerSet<TEntity> Filter(Expression<Func<TEntity, bool>> predicate);
-        IDBQueryDesignerSet<TEntity> this[Expression<Func<TEntity, bool>> predicate] { get => Filter(predicate); }
 
         IDBQueryDesignerSet<TEntity> Pagination(int indexPage, int sizePage);
         IDBQuerySender<int> Count { get; }
