@@ -1,6 +1,6 @@
 ﻿namespace Domain.Entity
 {
-    public enum TaskStatus
+    public enum TaskItemStatus
     {
         Status1,
         Status2
