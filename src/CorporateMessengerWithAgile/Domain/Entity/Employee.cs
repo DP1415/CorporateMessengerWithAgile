@@ -11,6 +11,6 @@
         public User User { get; set; } = null!;
         public Guid UserId { get; set; }
 
-        public ICollection<TeamMember> TeamMembers { get; set; } = []
+        public ICollection<TeamMember> TeamMembers { get; set; } = [];
     }
 }
