@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using Domain.Common;
 using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -7,16 +8,23 @@ namespace Persistence.Configurations
 {
     public abstract class AbstractEntityTypeConfiguration<TEntity>
         : IEntityTypeConfiguration<TEntity>
-        where TEntity : class
+        where TEntity : BaseEntity
     {
-        public abstract void Configure(EntityTypeBuilder<TEntity> builder);
+        public void Configure(EntityTypeBuilder<TEntity> builder)
+        {
+            builder.HasKey(user => user.Id);
+
+            ConfigureEntity(builder);
+        }
+        public abstract void ConfigureEntity(EntityTypeBuilder<TEntity> builder);
 
         #region Свойства пользователя
         protected void PropertyEmail(
             EntityTypeBuilder<TEntity> builder,
             Expression<Func<TEntity, Email?>> propertyExpression)
         {
-            builder.ComplexProperty(propertyExpression, email =>
+
+            builder.OwnsOne(propertyExpression, email =>
             {
                 email.Property(e => e.Value)
                     .HasColumnName(TableNames.Emails)
@@ -29,7 +37,7 @@ namespace Persistence.Configurations
             EntityTypeBuilder<TEntity> builder,
             Expression<Func<TEntity, PasswordHashed?>> propertyExpression)
         {
-            builder.ComplexProperty(propertyExpression, password =>
+            builder.OwnsOne(propertyExpression, password =>
             {
                 password.Property(p => p.Value)
                     .HasColumnName(TableNames.PasswordHashes)
@@ -42,7 +50,7 @@ namespace Persistence.Configurations
             EntityTypeBuilder<TEntity> builder,
             Expression<Func<TEntity, PhoneNumber?>> propertyExpression)
         {
-            builder.ComplexProperty(propertyExpression, phone =>
+            builder.OwnsOne(propertyExpression, phone =>
             {
                 phone.Property(p => p.Value)
                     .HasColumnName(TableNames.PhoneNumbers)
@@ -55,7 +63,7 @@ namespace Persistence.Configurations
             EntityTypeBuilder<TEntity> builder,
             Expression<Func<TEntity, Username?>> propertyExpression)
         {
-            builder.ComplexProperty(propertyExpression, username =>
+            builder.OwnsOne(propertyExpression, username =>
             {
                 username.Property(u => u.Value)
                     .HasColumnName(TableNames.Usernames)
@@ -70,7 +78,7 @@ namespace Persistence.Configurations
             Expression<Func<TEntity, Text?>> propertyExpression,
             bool isRequired = false)
         {
-            builder.ComplexProperty(propertyExpression, text =>
+            builder.OwnsOne(propertyExpression, text =>
             {
                 text.Property(t => t.Value)
                     .HasColumnName(TableNames.Texts)
@@ -84,7 +92,7 @@ namespace Persistence.Configurations
             Expression<Func<TEntity, Title?>> propertyExpression,
             bool isRequired = false)
         {
-            builder.ComplexProperty(propertyExpression, title =>
+            builder.OwnsOne(propertyExpression, title =>
             {
                 title.Property(t => t.Value)
                     .HasColumnName(TableNames.Titles)

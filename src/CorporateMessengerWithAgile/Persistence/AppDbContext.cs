@@ -5,6 +5,7 @@ namespace Persistence
     public class AppDbContext : DbContext
     {
         public DbSet<Domain.Entity.User> Users { get; set; }
+        public DbSet<Domain.Entity.Employee> Employees { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -15,6 +16,7 @@ namespace Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new Configurations.UserConfiguration());
+            modelBuilder.ApplyConfiguration(new Configurations.EmployeeConfiguration());
             base.OnModelCreating(modelBuilder);
         }
 
