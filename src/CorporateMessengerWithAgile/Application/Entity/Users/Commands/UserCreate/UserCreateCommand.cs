@@ -2,5 +2,9 @@
 
 namespace Application.Entity.Users.Commands.UserCreate
 {
-    public record UserCreateCommand(string UserName) : IRequest<Guid> { }
+    public record UserCreateCommand(
+        string UserName,
+        string Email,
+        string password
+        ) : IRequest<Guid>;
 }

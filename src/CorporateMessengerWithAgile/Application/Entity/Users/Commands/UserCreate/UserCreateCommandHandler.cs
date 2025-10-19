@@ -1,5 +1,6 @@
 ﻿using Domain.Entity;
 using Domain.Interfaces.Repositories;
+using Domain.ValueObjects;
 using MediatR;
 
 namespace Application.Entity.Users.Commands.UserCreate
@@ -18,7 +19,9 @@ namespace Application.Entity.Users.Commands.UserCreate
             var user = new User
             {
                 Id = Guid.NewGuid(),
-                Name = request.UserName
+                Username = Username.Create(request.UserName),
+                Email = Email.Create(request.Email),
+                PasswordHashed = PasswordHashed.Create(request.password)
             };
 
             await _userRepository.AddAsync(user, cancellationToken);

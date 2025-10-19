@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Application.Entity.Users.Queries.UsersGetAll
 {
-    class UsersGetAllQueryHandler : IRequestHandler<UsersGetAllQuery, List<User>>
+    class UsersGetAllQueryHandler : IRequestHandler<UsersGetAllQuery, List<UserDto>>
     {
         private readonly IRepository<User> _userRepository;
 
@@ -13,10 +13,21 @@ namespace Application.Entity.Users.Queries.UsersGetAll
             _userRepository = userRepository;
         }
 
-        public async Task<List<User>> Handle(UsersGetAllQuery request, CancellationToken cancellationToken)
+        public async Task<List<UserDto>> Handle(UsersGetAllQuery request, CancellationToken cancellationToken)
         {
             var users = await _userRepository.GetAllAsync(cancellationToken);
-            return users;
+
+            return users.Select(user => new UserDto(
+                Email: user.Email.Value,
+                Username: user.Username.Value,
+                PasswordHashed: user.PasswordHashed.Value,
+                Employees: user.Employees,
+                Id: user.Id,
+                CreatedAt: user.CreatedAt,
+                UpdatedAt: user.UpdatedAt
+            )).ToList();
+            //var users = await _userRepository.GetAllAsync(cancellationToken);
+            //return users;
         }
     }
 }
