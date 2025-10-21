@@ -1,29 +1,40 @@
 ﻿using Domain.Common;
+using Domain.Result;
 using System.Linq.Expressions;
 
 namespace Domain.Abstract.DBQueryDesigner
 {
     public interface IDBQuerySender<TResult>
     {
-        Task<TResult> SendAsync(CancellationToken cancellationToken = default);
+        Task<Result<TResult>> SendAsync(CancellationToken cancellationToken = default);
     }
 
-    public interface IDBQueryDesigner<TEntity, TResult, TQuery>
+    public interface IDBQueryDesigner<TEntity, TResult, TDBQuery>
         : IDBQuerySender<TResult>
         where TEntity : BaseEntity
-        where TQuery : IDBQuerySender<TResult>
+        where TDBQuery : IDBQuerySender<TResult>
     {
-        TQuery Include<TProperty>(Expression<Func<TEntity, TProperty>> navigationProperty);
-        IDBQueryDesignerInclude<TEntity, TResult, TProperty, TQuery> IncludeWich<TProperty>(Expression<Func<TEntity, TProperty>> navigationProperty);
+        TDBQuery Include<TProperty>(Expression<Func<TEntity, TProperty>> navigationProperty);
+        IDBQueryDesignerInclude<TEntity, TResult, TProperty, TDBQuery>
+            IncludeWith<TProperty>(Expression<Func<TEntity, TProperty>> navigationProperty);
     }
 
-    public interface IDBQueryDesignerInclude<TEntity, TResult, TCurrentProperty, TQuery>
+    public interface IDBQueryDesigner<TEntity, TResult>
+        : IDBQueryDesigner<
+            TEntity,
+            TResult,
+            IDBQueryDesigner<TEntity, TResult>
+            >
         where TEntity : BaseEntity
-        where TQuery : IDBQuerySender<TResult>
-    {
-        IDBQueryDesignerInclude<TEntity, TResult, TCurrentProperty, TQuery> And<TNextProperty>(Expression<Func<TCurrentProperty, TNextProperty>> navigationProperty);
-        IDBQueryDesignerInclude<TEntity, TResult, TNextProperty, TQuery> AlongWich<TNextProperty>(Expression<Func<TCurrentProperty, TNextProperty>> navigationProperty);
+    { }
 
-        TQuery Then { get; }
+    public interface IDBQueryDesignerInclude<TEntity, TResult, TCurrentProperty, TDBQuery>
+        where TEntity : BaseEntity
+        where TDBQuery : IDBQuerySender<TResult>
+    {
+        IDBQueryDesignerInclude<TEntity, TResult, TCurrentProperty, TDBQuery> And<TNextProperty>(Expression<Func<TCurrentProperty, TNextProperty>> navigationProperty);
+        IDBQueryDesignerInclude<TEntity, TResult, TNextProperty, TDBQuery> AlongWich<TNextProperty>(Expression<Func<TCurrentProperty, TNextProperty>> navigationProperty);
+
+        TDBQuery Then { get; }
     }
 }

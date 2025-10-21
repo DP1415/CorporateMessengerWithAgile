@@ -1,132 +1,91 @@
 ﻿using Domain.Abstract.DBQueryDesigner;
 using Domain.Common;
-using Domain.Result;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace Persistence.DBQueryDesigner
 {
-    public abstract class AbstractDBQuerySender<TResult> : IDBQuerySender<TResult>
-    {
-        protected readonly AppDbContext _dbContext;
 
-        public AbstractDBQuerySender(AppDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
-
-        public Task<TResult> SendAsync(CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public abstract class AbstractDBQueryDesigner<TEntity, TResult, TQuery>
-        : AbstractDBQuerySender<TResult>
+    public abstract class AbstractDBQueryDesigner<TEntity, TResult, TDBQuery>
+        : AbstractDBQuerySender<TEntity, TResult>
+        , IDBQueryDesigner<TEntity, TResult, TDBQuery>
         where TEntity : BaseEntity
-        where TQuery : IDBQuerySender<TResult>
+        where TDBQuery : AbstractDBQuerySender<TEntity, TResult>
     {
-        public AbstractDBQueryDesigner(AppDbContext dbContext) : base(dbContext)
+        protected TDBQuery _queryFromReturn;
+
+        protected AbstractDBQueryDesigner(AppDbContext dbContext, TDBQuery queryFromReturn) : base(dbContext)
         {
+            _queryFromReturn = queryFromReturn;
         }
 
-        public TQuery Include<TProperty>(Expression<Func<TEntity, TProperty>> navigationProperty)
+        public
+            TDBQuery
+            Include<TProperty>(Expression<Func<TEntity, TProperty>> navigationProperty)
         {
-            throw new NotImplementedException();
+            _query = _query.Include(navigationProperty);
+            return _queryFromReturn;
         }
-        public IDBQueryDesignerInclude<TEntity, TResult, TProperty, TQuery> IncludeWich<TProperty>(Expression<Func<TEntity, TProperty>> navigationProperty)
+
+        public
+            IDBQueryDesignerInclude<TEntity, TResult, TProperty, TDBQuery>
+            IncludeWith<TProperty>(Expression<Func<TEntity, TProperty>> navigationProperty)
         {
-            throw new NotImplementedException();
+            _query = _query.Include(navigationProperty);
+            var result = new DBQueryDesignerInclude<TEntity, TResult, TProperty, TDBQuery>(_queryFromReturn, navigationProperty);
+            return result;
         }
     }
 
-    public abstract class AbstractDBQueryDesignerInclude<TEntity, TResult, TCurrentProperty, TQuery>
-        where TEntity : BaseEntity
-        where TQuery : IDBQuerySender<TResult>
-    {
-        public IDBQueryDesignerInclude<TEntity, TResult, TCurrentProperty, TQuery> And<TNextProperty>(Expression<Func<TCurrentProperty, TNextProperty>> navigationProperty)
-        {
-            throw new NotImplementedException();
-        }
-        public IDBQueryDesignerInclude<TEntity, TResult, TNextProperty, TQuery> AlongWich<TNextProperty>(Expression<Func<TCurrentProperty, TNextProperty>> navigationProperty)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TQuery Then
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-    }
-
-
-
-    public abstract class AbstractDBQueryDesignerSet<TEntity>
+    public abstract class AbstractDBQueryDesigner<TEntity, TResult>
         : AbstractDBQueryDesigner<
             TEntity,
-            Result<TEntity[]>,
-            IDBQueryDesignerSet<TEntity>
+            TResult,
+            AbstractDBQueryDesigner<TEntity, TResult>
             >
+        , IDBQueryDesigner<TEntity, TResult>
         where TEntity : BaseEntity
     {
-        public AbstractDBQueryDesignerSet(AppDbContext dbContext) : base(dbContext)
+        protected AbstractDBQueryDesigner(AppDbContext dbContext) : base(dbContext, null!)
         {
+            _queryFromReturn = this;
         }
 
-        public IDBQueryDesigner<TEntity, Result<TEntity>, IDBQueryDesignerSingular<TEntity>> First()
+
+        IDBQueryDesigner<TEntity, TResult>
+            IDBQueryDesigner<TEntity, TResult, IDBQueryDesigner<TEntity, TResult>>.Include<TProperty>
+            (Expression<Func<TEntity, TProperty>> navigationProperty)
         {
-            throw new NotImplementedException();
+            return Include(navigationProperty);
         }
 
-        public IDBQueryDesignerSet<TEntity> Filter(Expression<Func<TEntity, bool>> predicate)
+        IDBQueryDesignerInclude<TEntity, TResult, TProperty, IDBQueryDesigner<TEntity, TResult>>
+            IDBQueryDesigner<TEntity, TResult, IDBQueryDesigner<TEntity, TResult>>.IncludeWith<TProperty>
+            (Expression<Func<TEntity, TProperty>> navigationProperty)
         {
-            throw new NotImplementedException();
+            return
+                (IDBQueryDesignerInclude<TEntity, TResult, TProperty, IDBQueryDesigner<TEntity, TResult>>)
+                IncludeWith(navigationProperty);
         }
 
-        public IDBQueryDesignerSet<TEntity> Pagination(int indexPage, int sizePage)
-        {
-            throw new NotImplementedException();
-        }
-        public IDBQuerySender<int> Count
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-        public IDBQuerySender<bool> Any
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        //public IDBQueryDesigner<TEntity, TResult> Include<TProperty>(Expression<Func<TEntity, TProperty>> navigationProperty)
+        //{
+        //    _query = _query.Include(navigationProperty);
+        //    return this;
+        //}
+
+        //public IDBQueryDesignerInclude<TEntity, TResult, TProperty, IDBQueryDesigner<TEntity, TResult>>
+        //    IncludeWich<TProperty>(Expression<Func<TEntity, TProperty>> navigationProperty)
+        //{
+        //    _query = _query.Include(navigationProperty);
+        //    var result = new DBQueryDesignerInclude<TEntity, TResult, TProperty, AbstractDBQueryDesigner<TEntity, TResult>>(this, navigationProperty);
+        //    return (IDBQueryDesignerInclude<TEntity, TResult, TProperty, IDBQueryDesigner<TEntity, TResult>>)result;
+        //    //_query = _query.Include(navigationProperty);
+        //    //IDBQueryDesignerInclude<TEntity, TResult, TProperty, IDBQueryDesigner<TEntity, TResult>>
+        //    //    result = new
+        //    //    DBQueryDesignerInclude<TEntity, TResult, TProperty, AbstractDBQueryDesigner<TEntity, TResult>>
+        //    //    (this, navigationProperty);
+        //    //return result;
+        //}
     }
-
-
-    public abstract class AbstractDBQueryDesignerSingular<TEntity>
-        : AbstractDBQueryDesigner<
-            TEntity,
-            Result<TEntity>,
-            IDBQueryDesignerSingular<TEntity>
-            >
-        where TEntity : BaseEntity
-    {
-        protected AbstractDBQueryDesignerSingular(AppDbContext dbContext) : base(dbContext)
-        {
-        }
-
-        public IDBQueryDesigner<TEntity, Result<TEntity>, IDBQueryDesignerSingular<TEntity>> Get(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IDBQueryDesigner<TEntity, Result<TEntity>, IDBQueryDesignerSingular<TEntity>> Get(Expression<Func<TEntity, bool>> predicate)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
 }

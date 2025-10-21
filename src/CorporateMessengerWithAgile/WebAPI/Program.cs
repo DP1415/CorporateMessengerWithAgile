@@ -1,6 +1,8 @@
+using Domain.Abstract.DBQueryDesigner;
 using Domain.Interfaces.Repositories;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Persistence.DBQueryDesigner;
 
 namespace WebAPI
 {
@@ -24,6 +26,7 @@ namespace WebAPI
             // Регистрируем DbContext с InMemory базой
             builder.Services.AddDbContext<Persistence.AppDbContext>(options => options.UseInMemoryDatabase("CorporateMessengerDb"));
             builder.Services.AddScoped<IRepository<Domain.Entity.User>, Persistence.Repository.UserRepository>();
+            builder.Services.AddScoped<IDBQueryDesignerSet<Domain.Entity.User>, DBQueryDesignerSet<Domain.Entity.User>>();
 
             var app = builder.Build();
 
