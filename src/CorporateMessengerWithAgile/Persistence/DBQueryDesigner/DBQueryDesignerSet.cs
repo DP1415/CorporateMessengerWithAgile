@@ -28,7 +28,7 @@ namespace Persistence.DBQueryDesigner
                 => _query.AnyAsync(cancellationToken);
         }
 
-        protected DBQueryDesignerSet(AppDbContext dbContext) : base(dbContext, null!) { _queryFromReturn = this; } //TODO проверить не ломает ли null
+        public DBQueryDesignerSet(AppDbContext dbContext) : base(dbContext, null!) { _queryFromReturn = this; } //TODO проверить не ломает ли null
 
         public IDBQuerySender<int> Count => new QueryCount(_dbContext);
         public IDBQuerySender<bool> Any => new QueryAny(_dbContext);
