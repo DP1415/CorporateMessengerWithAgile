@@ -11,6 +11,6 @@ namespace Domain.Entity
         public DateTime DateEnd { get; set; }
 
         public ICollection<TaskItem> TaskItems { get; set; } = [];
-        public ICollection<TaskItemInSprint> taskItemInSprints { get; set; } = [];
+        public ICollection<TaskItemInSprint> TaskItemInSprints { get; set; } = [];
     }
 }

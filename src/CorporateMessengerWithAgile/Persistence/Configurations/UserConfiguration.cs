@@ -1,15 +1,14 @@
 ﻿using Domain.Entity;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Persistence.Configurations
 {
     public class UserConfiguration : AbstractEntityTypeConfiguration<User>
     {
-        public override void ConfigureEntity(EntityTypeBuilder<User> builder)
+        public override void Configure()
         {
-            PropertyEmail(builder, user => user.Email);
-            PropertyUsername(builder, user => user.Username);
-            PropertyPasswordHashed(builder, user => user.PasswordHashed);
+            PropertyEmail(user => user.Email);
+            PropertyUsername(user => user.Username);
+            PropertyPasswordHashed(user => user.PasswordHashed);
         }
     }
 }

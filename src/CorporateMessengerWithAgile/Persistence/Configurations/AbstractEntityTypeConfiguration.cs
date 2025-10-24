@@ -10,20 +10,18 @@ namespace Persistence.Configurations
         : IEntityTypeConfiguration<TEntity>
         where TEntity : BaseEntity
     {
+        protected EntityTypeBuilder<TEntity> builder = null!;
         public void Configure(EntityTypeBuilder<TEntity> builder)
         {
+            this.builder = builder;
             builder.HasKey(user => user.Id);
-
-            ConfigureEntity(builder);
+            Configure();
         }
-        public abstract void ConfigureEntity(EntityTypeBuilder<TEntity> builder);
+        public abstract void Configure();
 
         #region Свойства пользователя
-        protected void PropertyEmail(
-            EntityTypeBuilder<TEntity> builder,
-            Expression<Func<TEntity, Email?>> propertyExpression)
+        protected void PropertyEmail(Expression<Func<TEntity, Email?>> propertyExpression)
         {
-
             builder.OwnsOne(propertyExpression, email =>
             {
                 email.Property(e => e.Value)
@@ -33,9 +31,7 @@ namespace Persistence.Configurations
             });
         }
 
-        protected void PropertyPasswordHashed(
-            EntityTypeBuilder<TEntity> builder,
-            Expression<Func<TEntity, PasswordHashed?>> propertyExpression)
+        protected void PropertyPasswordHashed(Expression<Func<TEntity, PasswordHashed?>> propertyExpression)
         {
             builder.OwnsOne(propertyExpression, password =>
             {
@@ -46,9 +42,7 @@ namespace Persistence.Configurations
             });
         }
 
-        protected void PropertyPhoneNumber(
-            EntityTypeBuilder<TEntity> builder,
-            Expression<Func<TEntity, PhoneNumber?>> propertyExpression)
+        protected void PropertyPhoneNumber(Expression<Func<TEntity, PhoneNumber?>> propertyExpression)
         {
             builder.OwnsOne(propertyExpression, phone =>
             {
@@ -59,9 +53,7 @@ namespace Persistence.Configurations
             });
         }
 
-        protected void PropertyUsername(
-            EntityTypeBuilder<TEntity> builder,
-            Expression<Func<TEntity, Username?>> propertyExpression)
+        protected void PropertyUsername(Expression<Func<TEntity, Username?>> propertyExpression)
         {
             builder.OwnsOne(propertyExpression, username =>
             {
@@ -73,9 +65,7 @@ namespace Persistence.Configurations
         }
         #endregion
 
-        protected void PropertyText(
-            EntityTypeBuilder<TEntity> builder,
-            Expression<Func<TEntity, Text?>> propertyExpression,
+        protected void PropertyText(Expression<Func<TEntity, Text?>> propertyExpression,
             bool isRequired = false)
         {
             builder.OwnsOne(propertyExpression, text =>
@@ -87,9 +77,7 @@ namespace Persistence.Configurations
             });
         }
 
-        protected void PropertyTitle(
-            EntityTypeBuilder<TEntity> builder,
-            Expression<Func<TEntity, Title?>> propertyExpression,
+        protected void PropertyTitle(Expression<Func<TEntity, Title?>> propertyExpression,
             bool isRequired = false)
         {
             builder.OwnsOne(propertyExpression, title =>

@@ -9,7 +9,7 @@ namespace Domain.Entity
         public Guid ProjectId { get; set; }
 
         public Title Title { get; set; } = null!;
-        public int StandardSprintDuration { get; set; }
+        public int StandardSprintDuration { get; set; } = 14;
 
         public ICollection<TeamMember> TeamMembers { get; set; } = [];
         public ICollection<Sprint> Sprints { get; set; } = [];
