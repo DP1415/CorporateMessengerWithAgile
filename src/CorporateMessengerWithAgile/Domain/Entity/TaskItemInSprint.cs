@@ -11,7 +11,7 @@ namespace Domain.Entity
         public Sprint Sprint { get; set; } = null!;
         public Guid SprintId { get; set; }
 
-        public TaskStatus TaskStatus { get; set; }
+        public TaskItemStatus TaskStatus { get; set; }
         public Text Description { get; set; } = null!;
     }
 }
