@@ -28,10 +28,7 @@ namespace WebAPI
             // Регистрируем DbContext с InMemory базой
             builder.Services.AddDbContext<Persistence.AppDbContext>(options => options.UseInMemoryDatabase("CorporateMessengerDb"));
             builder.Services.AddScoped<IRepository<Domain.Entity.User>, Persistence.Repository.UserRepository>();
-            builder.Services.AddScoped<
-                IDBQueryDesignerSet<Domain.Entity.User>,
-                Persistence.DBQueryDesigner.DBQueryDesignerSet<Domain.Entity.User>
-                >();
+            builder.Services.AddScoped<IDBQueryBuilder, Persistence.DBQueryDesigner.DBQueryBuilder>();
 
             var app = builder.Build();
 

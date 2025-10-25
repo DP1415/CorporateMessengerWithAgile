@@ -7,13 +7,11 @@ namespace Application.Entity.Users.Queries.UsersGetAll
 {
     class UsersGetAllQueryHandler : IRequestHandler<UsersGetAllQuery, List<UserDto>>
     {
-        private readonly IRepository<User> _userRepository;
         private readonly IDBQueryDesignerSet<User> _dBQueryDesignerSet;
 
-        public UsersGetAllQueryHandler(IRepository<User> userRepository, IDBQueryDesignerSet<User> dBQueryDesignerSet)
+        public UsersGetAllQueryHandler(IDBQueryBuilder dBQueryBuilder)
         {
-            _userRepository = userRepository;
-            _dBQueryDesignerSet = dBQueryDesignerSet;
+            _dBQueryDesignerSet = dBQueryBuilder.Set<User>();
         }
 
         public async Task<List<UserDto>> Handle(UsersGetAllQuery request, CancellationToken cancellationToken)
