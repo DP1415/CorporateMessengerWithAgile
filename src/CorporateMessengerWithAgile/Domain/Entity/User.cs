@@ -18,5 +18,8 @@ namespace Domain.Entity
         public PasswordHashed PasswordHashed { get; set; } = null!;
 
         public ICollection<Employee> Employees { get; set; } = [];
+
+        public User() : base() { }
+        public User(Guid id) : base(id) { }
     }
 }

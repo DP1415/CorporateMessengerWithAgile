@@ -18,7 +18,6 @@ namespace Application.Entity.Users.Commands.UserCreate
         {
             var user = new User
             {
-                Id = Guid.NewGuid(),
                 Username = Username.Create(request.UserName),
                 Email = Email.Create(request.Email),
                 PasswordHashed = PasswordHashed.Create(request.password)

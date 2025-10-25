@@ -19,19 +19,14 @@ namespace Application.Entity.Users.Queries.UsersGetAll
         public async Task<List<UserDto>> Handle(UsersGetAllQuery request, CancellationToken cancellationToken)
         {
             User[] arr = await _dBQueryDesignerSet.SendAsync(cancellationToken);
-            List<User> list = new(arr);
-
-
             //var users = await _userRepository.GetAllAsync(cancellationToken);
-
             return [.. arr.Select(user => new UserDto(
+                Id: user.Id,
                 Email: user.Email.Value,
                 Username: user.Username.Value,
-                PasswordHashed: user.PasswordHashed.Value,
-                Employees: user.Employees,
-                Id: user.Id,
                 CreatedAt: user.CreatedAt,
-                UpdatedAt: user.UpdatedAt
+                UpdatedAt: user.UpdatedAt,
+                Employees: user.Employees
             ))];
             //var users = await _userRepository.GetAllAsync(cancellationToken);
             //return users;
