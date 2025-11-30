@@ -12,7 +12,7 @@ namespace WebAPI.Controllers
     public class UserController(ISender sender) : ApiController(sender)
     {
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsers(
+        public async Task<ActionResult<IEnumerable<User>>> GetAllUsers(
             CancellationToken cancellationToken = default
             )
         {

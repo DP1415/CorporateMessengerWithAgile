@@ -1,17 +1,17 @@
 ﻿using Domain.Entity;
-using Domain.Interfaces.Repositories;
 using Domain.ValueObjects;
 using MediatR;
+using Persistence;
 
 namespace Application.Entity.Users.Commands.UserCreate
 {
     public class UserCreateCommandHandler : IRequestHandler<UserCreateCommand, Guid>
     {
-        private readonly IRepository<User> _userRepository;
+        private readonly AppDbContext _context;
 
-        public UserCreateCommandHandler(IRepository<User> userRepository)
+        public UserCreateCommandHandler(AppDbContext context)
         {
-            _userRepository = userRepository;
+            _context = context;
         }
 
         public async Task<Guid> Handle(UserCreateCommand request, CancellationToken cancellationToken)
@@ -23,7 +23,8 @@ namespace Application.Entity.Users.Commands.UserCreate
                 PasswordHashed = PasswordHashed.Create(request.password)
             };
 
-            await _userRepository.AddAsync(user, cancellationToken);
+            await _context.Users.AddAsync(user, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
             return user.Id;
         }
     }
