@@ -31,7 +31,8 @@ namespace Domain.Result
             {
                 writer.WriteStartObject();
                 writer.WriteBoolean("isSuccess", value.IsSuccess);
-                writer.WriteString("exception", value.Exception?.Message);
+                if (value.IsSuccess) writer.WriteNull("exception");
+                else writer.WriteString("exception", value.Exception.Message);
                 writer.WriteEndObject();
             }
         }
@@ -47,11 +48,15 @@ namespace Domain.Result
                 writer.WriteBoolean("isSuccess", value.IsSuccess);
                 if (value.IsSuccess)
                 {
+                    writer.WriteNull("exception");
                     writer.WritePropertyName("value");
                     JsonSerializer.Serialize(writer, value.Value, options);
                 }
-                else writer.WriteNull("value");
-                writer.WriteString("exception", value.Exception?.Message);
+                else
+                {
+                    writer.WriteNull("value");
+                    writer.WriteString("exception", value.Exception.Message);
+                }
                 writer.WriteEndObject();
             }
         }
