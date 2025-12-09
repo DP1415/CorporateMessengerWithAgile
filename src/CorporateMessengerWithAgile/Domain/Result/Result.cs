@@ -7,8 +7,8 @@ namespace Domain.Result
         public bool IsSuccess { get; init; }
         public bool IsFailure => !IsSuccess;
 
-        private readonly CustomException? _exception;
-        public CustomException Exception
+        private readonly Exception? _exception;
+        public Exception Exception
         {
             get
             {
@@ -18,18 +18,18 @@ namespace Domain.Result
             }
         }
 
-        protected internal Result(bool isSuccess, CustomException exception)
+        protected internal Result(bool isSuccess, Exception exception)
         {
             IsSuccess = isSuccess;
             _exception = exception;
         }
 
         public static Result Success() => new(true, null!);
-        public static Result Failure(CustomException exception) => new(false, exception);
+        public static Result Failure(Exception exception) => new(false, exception);
         public static Result<T> Success<T>(T value) => new(true, null!, value);
-        public static Result<T> Failure<T>(CustomException exception) => new(false, exception, default!);
+        public static Result<T> Failure<T>(Exception exception) => new(false, exception, default!);
 
-        public static implicit operator Result(CustomException exception) => Failure(exception);
-        public static implicit operator CustomException(Result result) => result.Exception;
+        public static implicit operator Result(Exception exception) => Failure(exception);
+        public static implicit operator Exception(Result result) => result.Exception;
     }
 }
