@@ -1,11 +1,7 @@
-using Domain.ValueObjects;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using System.Text.Json;
-using Microsoft.OpenApi;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using Microsoft.Extensions.Options;
 
 namespace WebAPI
 {

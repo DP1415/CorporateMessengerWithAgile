@@ -7,9 +7,12 @@ namespace Domain.Result
     public class Result
     {
         public bool IsSuccess { get; init; }
+        [JsonIgnore]
         public bool IsFailure => !IsSuccess;
 
         private readonly Exception? _exception;
+
+        [JsonIgnore]
         public Exception Exception
         {
             get

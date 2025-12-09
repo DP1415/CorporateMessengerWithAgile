@@ -1,4 +1,5 @@
 ﻿using Application.Entity.Users.Commands.UserCreate;
+using Application.Entity.Users.Commands.UserDelete;
 using Application.Entity.Users.Queries.UsersGetAll;
 using Domain.Entity;
 using Domain.Result;
@@ -19,10 +20,15 @@ namespace WebAPI.Controllers
             ) => await Sender.Send(new UsersGetAllQuery(), cancellationToken);
 
         [HttpPost]
-        [SwaggerResponse(200, "Success", typeof(Nullable))]
         public async Task<Result<User>> CreateUser(
             [FromBody] CommandCreateUser command,
             CancellationToken cancellationToken = default
             ) => await Sender.Send(command, cancellationToken);
+
+        [HttpDelete("{id}")]
+        public async Task<Result> DeleteUser(
+            [FromRoute] Guid id,
+            CancellationToken cancellationToken = default
+            ) => await Sender.Send(new CommandDeleteUser(id), cancellationToken);
     }
 }
