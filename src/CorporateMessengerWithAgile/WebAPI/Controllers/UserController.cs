@@ -20,7 +20,7 @@ namespace WebAPI.Controllers
 
         [HttpPost]
         [SwaggerResponse(200, "Success", typeof(Nullable))]
-        public async Task<Result<Guid>> CreateUser(
+        public async Task<Result<User>> CreateUser(
             [FromBody] CommandCreateUser command,
             CancellationToken cancellationToken = default
             ) => await Sender.Send(command, cancellationToken);

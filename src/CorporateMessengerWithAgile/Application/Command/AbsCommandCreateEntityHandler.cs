@@ -6,7 +6,7 @@ using Persistence;
 namespace Application.Command
 {
     abstract public class AbsCommandCreateEntityHandler<TCommand, TEntity>
-        : AbsCommandBaseHandler<TCommand, Result<Guid>>
+        : AbsCommandBaseHandler<TCommand, Result<TEntity>>
         where TCommand : AbsCommandCreateEntity<TEntity>
         where TEntity : BaseEntity
     {
@@ -17,7 +17,7 @@ namespace Application.Command
             _dbSet = context.Set<TEntity>();
         }
 
-        public override async Task<Result<Guid>> Handle(TCommand request, CancellationToken cancellationToken)
+        public override async Task<Result<TEntity>> Handle(TCommand request, CancellationToken cancellationToken)
         {
             Result<TEntity> entity = Create(request);
             if (entity.IsFailure) return entity.Exception;
@@ -25,7 +25,7 @@ namespace Application.Command
             await _dbSet.AddAsync(entity, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
 
-            return entity.Value.Id;
+            return entity.Value;
         }
 
         public abstract Result<TEntity> Create(TCommand request);

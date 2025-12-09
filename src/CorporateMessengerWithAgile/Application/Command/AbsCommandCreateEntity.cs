@@ -3,5 +3,5 @@ using Domain.Result;
 
 namespace Application.Command
 {
-    public abstract record AbsCommandCreateEntity<TEntity> : AbsCommandBase<Result<Guid>> where TEntity : BaseEntity;
+    public abstract record AbsCommandCreateEntity<TEntity> : AbsCommandBase<Result<TEntity>> where TEntity : BaseEntity;
 }
