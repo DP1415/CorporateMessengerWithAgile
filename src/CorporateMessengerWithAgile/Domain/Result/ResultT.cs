@@ -1,7 +1,9 @@
 ﻿using Domain.Result.CustomExceptions;
+using System.Text.Json.Serialization;
 
 namespace Domain.Result
 {
+    [JsonConverter(typeof(ResultConverterFactory))]
     public class Result<T> : Result
     {
         private readonly T? _value;
@@ -25,7 +27,7 @@ namespace Domain.Result
             if (IsFailure) throw Exception;
             return Value;
         }
-        
+
         public static implicit operator Result<T>(T value) => Success(value);
         public static implicit operator T(Result<T> result) => result.Check();
         public static implicit operator Result<T>(Exception exception) => Failure<T>(exception);

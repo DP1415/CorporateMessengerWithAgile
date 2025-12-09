@@ -1,7 +1,9 @@
 ﻿using Domain.Result.CustomExceptions;
+using System.Text.Json.Serialization;
 
 namespace Domain.Result
 {
+    [JsonConverter(typeof(ResultConverterFactory))]
     public class Result
     {
         public bool IsSuccess { get; init; }
@@ -14,7 +16,6 @@ namespace Domain.Result
             {
                 if (IsSuccess) throw InvalidResultStateException.CannotAccessExceptionOnSuccess();
                 return _exception!;
-
             }
         }
 
