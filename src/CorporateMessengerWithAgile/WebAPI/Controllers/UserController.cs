@@ -1,8 +1,10 @@
 ﻿using Application.Entity.Users.Commands.UserCreate;
 using Application.Entity.Users.Queries.UsersGetAll;
 using Domain.Entity;
+using Domain.Result;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using WebAPI.Controllers.Abstract;
 
 namespace WebAPI.Controllers
@@ -14,20 +16,13 @@ namespace WebAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetAllUsers(
             CancellationToken cancellationToken = default
-            )
-        {
-            return await Sender.Send(new UsersGetAllQuery(), cancellationToken);
-        }
+            ) => await Sender.Send(new UsersGetAllQuery(), cancellationToken);
 
         [HttpPost]
-        public async Task<ActionResult<User>> CreateUser(
-            [FromBody] UserCreateCommand command,
+        [SwaggerResponse(200, "Success", typeof(Nullable))]
+        public async Task<Result<Guid>> CreateUser(
+            [FromBody] CommandCreateUser command,
             CancellationToken cancellationToken = default
-            )
-        {
-            var response = await Sender.Send(command, cancellationToken);
-
-            return CreatedAtAction(nameof(CreateUser), new { id = response });
-        }
+            ) => await Sender.Send(command, cancellationToken);
     }
 }

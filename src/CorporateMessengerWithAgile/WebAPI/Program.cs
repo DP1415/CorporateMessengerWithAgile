@@ -3,6 +3,9 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using Microsoft.OpenApi;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Microsoft.Extensions.Options;
 
 namespace WebAPI
 {
@@ -17,7 +20,10 @@ namespace WebAPI
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.EnableAnnotations(); // Включаем поддержку атрибутов
+            });
 
             // настройка
             builder.Services.AddMediatR(cnf => cnf.RegisterServicesFromAssemblies(Application.DependencyInjection.Assembly));
@@ -33,8 +39,8 @@ namespace WebAPI
                 options.JsonSerializerOptions.WriteIndented = true;
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                 options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                options.JsonSerializerOptions.Converters.Add(new ValueObjectJsonConverterFactory());
+                //options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                //options.JsonSerializerOptions.Converters.Add(new ValueObjectJsonConverterFactory());
             });
 
             var app = builder.Build();
