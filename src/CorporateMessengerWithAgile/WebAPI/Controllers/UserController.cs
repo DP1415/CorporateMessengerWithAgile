@@ -1,4 +1,5 @@
-﻿using Application.Entity.Users.Commands.UserCreate;
+﻿using Application.Entity.Users.Commands.UserChange;
+using Application.Entity.Users.Commands.UserCreate;
 using Application.Entity.Users.Commands.UserDelete;
 using Application.Entity.Users.Queries.UsersGetAll;
 using Domain.Entity;
@@ -30,5 +31,11 @@ namespace WebAPI.Controllers
             [FromRoute] Guid id,
             CancellationToken cancellationToken = default
             ) => await Sender.Send(new CommandDeleteUser(id), cancellationToken);
+
+        [HttpPut]
+        public async Task<Result> ChangeUser(
+            [FromBody] CommandChangeUser command,
+            CancellationToken cancellationToken = default
+            ) => await Sender.Send(command, cancellationToken);
     }
 }

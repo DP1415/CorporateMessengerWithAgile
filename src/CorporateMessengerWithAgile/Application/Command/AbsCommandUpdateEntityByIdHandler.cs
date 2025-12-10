@@ -22,7 +22,7 @@ namespace Application.Command
             TEntity? entity = await _dbSet.FirstOrDefaultAsync(e => e.Id == request.Id, cancellationToken);
             if (entity == null) return new Exception($"{typeof(TEntity).Name} not found");
 
-            Result<TEntity> updateResult = Update(entity);
+            Result<TEntity> updateResult = Update(entity, request);
             if (updateResult.IsFailure) return updateResult.Exception;
 
             _dbSet.Update(entity);
@@ -31,6 +31,6 @@ namespace Application.Command
             return updateResult;
         }
 
-        protected abstract Result<TEntity> Update(TEntity entity);
+        protected abstract Result<TEntity> Update(TEntity entity, TCommand request);
     }
 }
