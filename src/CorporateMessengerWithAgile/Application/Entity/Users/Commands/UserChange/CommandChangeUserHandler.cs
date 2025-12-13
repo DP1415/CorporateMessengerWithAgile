@@ -17,7 +17,6 @@ namespace Application.Entity.Users.Commands.UserChange
                 entity.Username = username;
             }
 
-
             if (request.Email != null)
             {
                 var email = Email.Create(request.Email);

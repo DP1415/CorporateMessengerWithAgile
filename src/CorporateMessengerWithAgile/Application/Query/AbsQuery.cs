@@ -5,9 +5,9 @@ using MediatR;
 
 namespace Application.Query
 {
-    public abstract record AbsQueryWithOptions<TEntity, TDto>
+    public abstract record AbsQuery<TEntity, TDto>
         (
-            AbsOption<TEntity>[] Options
+            AbsOption<TEntity>[]? Options = null
         )
         : IRequest<IEnumerable<TDto>>
         where TDto : BaseDto
