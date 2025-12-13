@@ -22,6 +22,7 @@ namespace WebAPI
             });
 
             // настройка
+            builder.Services.AddAutoMapper(Application.DependencyInjection.Assembly);
             builder.Services.AddMediatR(cnf => cnf.RegisterServicesFromAssemblies(Application.DependencyInjection.Assembly));
             builder.Services.AddValidatorsFromAssembly(Application.DependencyInjection.Assembly);
 
