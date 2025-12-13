@@ -1,0 +1,17 @@
+﻿using Application.Dto;
+using Application.Query.Options;
+using Application.Query;
+using Domain.Entity;
+
+namespace Application.Entity.Teams
+{
+    public record TeamsGetAllQuery()
+        : AbsQuery<Team, TeamDto>(
+            [
+                new Include<Team, Project>(t => t.Project),
+                new Include<Team, ICollection<TeamMember>>(t => t.TeamMembers),
+                new Include<Team, ICollection<Sprint>>(t => t.Sprints),
+                new Include<Team, ICollection<KanbanBoardColumn>>(t => t.KanbanBoardColumns)
+            ]
+        );
+}

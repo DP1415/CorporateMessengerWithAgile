@@ -1,0 +1,20 @@
+﻿using Application.Dto;
+using Application.Query.Options;
+using Application.Query;
+using Domain.Entity;
+
+namespace Application.Entity.TaskItems
+{
+    public record TaskItemsGetAllQuery()
+        : AbsQuery<TaskItem, TaskItemDto>(
+            [
+                new Include<TaskItem, Project>(t => t.Project),
+                new Include<TaskItem, Employee>(t => t.Author),
+                new Include<TaskItem, Employee>(t => t.Responsible),
+                new Include<TaskItem, Sprint>(t => t.SprintWithLastMention),
+                new Include<TaskItem, TaskItem>(t => t.ParentTask),
+                new Include<TaskItem, ICollection<TaskItem>>(t => t.Subtasks),
+                new Include<TaskItem, ICollection<TaskItemInSprint>>(t => t.TaskItemInSprints)
+            ]
+        );
+}

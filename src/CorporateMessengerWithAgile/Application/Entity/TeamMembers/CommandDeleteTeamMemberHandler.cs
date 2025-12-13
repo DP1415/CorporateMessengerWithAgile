@@ -1,0 +1,9 @@
+﻿using Application.Command;
+using Domain.Entity;
+using Persistence;
+
+namespace Application.Entity.TeamMembers
+{
+    public class CommandDeleteTeamMemberHandler(AppDbContext context)
+        : AbsCommandDeleteEntityByIdHandler<CommandDeleteTeamMember, TeamMember>(context);
+}
