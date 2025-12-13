@@ -7,5 +7,5 @@ namespace Application.Command
         (
             Guid Id
         )
-        : AbsCommandBase<Result<TEntity>> where TEntity : BaseEntity;
+        : AbsCommandUpdateEntityBase<TEntity> where TEntity : BaseEntity;
 }
