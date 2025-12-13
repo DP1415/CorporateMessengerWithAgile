@@ -3,8 +3,6 @@ using Application.Entity.Users.Commands.UserChange;
 using Application.Entity.Users.Commands.UserCreate;
 using Application.Entity.Users.Commands.UserDelete;
 using Application.Entity.Users.Queries.UsersGetAll;
-using AutoMapper;
-using Domain.Entity;
 using Domain.Result;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

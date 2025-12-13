@@ -1,5 +1,4 @@
-﻿using Application.Dto;
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
 using Persistence;
 
