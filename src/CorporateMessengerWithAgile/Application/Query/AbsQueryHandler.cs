@@ -36,9 +36,7 @@ namespace Application.Query
                 query = option.AddOption(query);
             }
 
-            TEntity[] entities = await query.ToArrayAsync(cancellationToken);
-
-            return _mapper.Map<IEnumerable<TDto>>(entities);
+            return _mapper.Map<IEnumerable<TDto>>(query);
         }
     }
 }
