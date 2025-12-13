@@ -1,4 +1,5 @@
 ﻿using Application.Command;
+using Application.Dto;
 using Domain.Entity;
 
 namespace Application.Entity.Users.Commands.UserChange
@@ -9,6 +10,6 @@ namespace Application.Entity.Users.Commands.UserChange
             string? UserName,
             string? Email,
             string? Password
-        ) 
-        : AbsCommandUpdateEntityById<User>(Id);
+        )
+        : AbsCommandUpdateEntityById<User, UserDto>(Id);
 }

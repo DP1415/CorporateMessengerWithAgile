@@ -12,7 +12,7 @@ namespace Application.Command
     {
         protected readonly DbSet<TEntity> _dbSet;
 
-        public AbsCommandDeleteEntityByIdHandler(AppDbContext context) : base(context)
+        public AbsCommandDeleteEntityByIdHandler(AppDbContext context) : base(context, null!)
         {
             _dbSet = context.Set<TEntity>();
         }

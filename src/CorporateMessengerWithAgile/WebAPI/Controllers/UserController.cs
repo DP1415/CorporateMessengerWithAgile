@@ -22,7 +22,7 @@ namespace WebAPI.Controllers
             ) => await Sender.Send(new UsersGetAllQuery(), cancellationToken);
 
         [HttpPost]
-        public async Task<Result<User>> Create(
+        public async Task<Result<UserDto>> Create(
             [FromBody] CommandCreateUser command,
             CancellationToken cancellationToken = default
             ) => await Sender.Send(command, cancellationToken);
@@ -34,7 +34,7 @@ namespace WebAPI.Controllers
             ) => await Sender.Send(new CommandDeleteUser(id), cancellationToken);
 
         [HttpPut]
-        public async Task<Result> Change(
+        public async Task<Result<UserDto>> Change(
             [FromBody] CommandChangeUser command,
             CancellationToken cancellationToken = default
             ) => await Sender.Send(command, cancellationToken);

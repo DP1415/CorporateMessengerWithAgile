@@ -1,11 +1,13 @@
-﻿using Domain.Common;
-using Domain.Result;
+﻿using Application.Dto;
+using Domain.Common;
 
 namespace Application.Command
 {
-    public abstract record AbsCommandUpdateEntityById<TEntity>
+    public abstract record AbsCommandUpdateEntityById<TEntity, TDto>
         (
             Guid Id
         )
-        : AbsCommandUpdateEntityBase<TEntity> where TEntity : BaseEntity;
+        : AbsCommandUpdateEntityBase<TEntity, TDto>
+        where TEntity : BaseEntity
+        where TDto : BaseDto;
 }
