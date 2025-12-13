@@ -1,10 +1,8 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace Domain.Result.CustomExceptions
+﻿namespace Domain.Result.CustomExceptions
 {
     public class DomainException
     {
-        public class Email
+        public class EmailExp
         {
             public static EmptyException Empty => new();
             public class EmptyException() : CustomException
@@ -26,7 +24,7 @@ namespace Domain.Result.CustomExceptions
             public class AlreadySetException() : CustomException
                 ("Email.AlreadySet", "Значение совпадает с предыдущим");
         }
-        public class PasswordHashed
+        public class PasswordHashedExp
         {
 
             public static EmptyException Empty => new();
@@ -48,7 +46,7 @@ namespace Domain.Result.CustomExceptions
                 "PasswordHashed.AlreadySet",
                 "Значение совпадает с предыдущим");
         }
-        public class PhoneNumber
+        public class PhoneNumberExp
         {
             public static EmptyException Empty => new();
             public class EmptyException() : CustomException
@@ -74,7 +72,7 @@ namespace Domain.Result.CustomExceptions
             public class AlreadySetException() : CustomException
                 ("PhoneNumber.AlreadySet", "Значение совпадает с предыдущим");
         }
-        public static class Text
+        public static class TextExp
         {
             public static EmptyException Empty => new();
             public class EmptyException() : CustomException
@@ -88,7 +86,7 @@ namespace Domain.Result.CustomExceptions
             public class AlreadySetException() : CustomException
                 ("Text.AlreadySet", "Значение совпадает с предыдущим");
         }
-        public static class Title
+        public static class TitleExp
         {
             public static EmptyException Empty => new();
             public class EmptyException() : CustomException
@@ -102,7 +100,7 @@ namespace Domain.Result.CustomExceptions
             public class AlreadySetException() : CustomException
                 ("Title.AlreadySet", "Значение совпадает с предыдущим");
         }
-        public static class Username
+        public static class UsernameExp
         {
             public static EmptyException Empty => new();
             public class EmptyException() : CustomException

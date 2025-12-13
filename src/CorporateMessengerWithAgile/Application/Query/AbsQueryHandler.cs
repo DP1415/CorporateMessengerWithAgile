@@ -8,9 +8,9 @@ using Persistence;
 
 namespace Application.Query
 {
-    public abstract class AbsQueryHandler<TQueryWithOption, TEntity, TDto> :
-        IRequestHandler<TQueryWithOption, IEnumerable<TDto>>
-        where TQueryWithOption : AbsQuery<TEntity, TDto>
+    public abstract class AbsQueryHandler<TQuery, TEntity, TDto> :
+        IRequestHandler<TQuery, IEnumerable<TDto>>
+        where TQuery : AbsQuery<TEntity, TDto>
         where TEntity : BaseEntity
         where TDto : BaseDto
     {
@@ -25,7 +25,7 @@ namespace Application.Query
             _dbSet = context.Set<TEntity>();
         }
 
-        public async Task<IEnumerable<TDto>> Handle(TQueryWithOption request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<TDto>> Handle(TQuery request, CancellationToken cancellationToken)
         {
             if (request.Options is null) return _mapper.Map<IEnumerable<TDto>>(await _dbSet.ToArrayAsync(cancellationToken));
 

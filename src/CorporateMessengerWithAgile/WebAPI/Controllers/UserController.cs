@@ -33,7 +33,7 @@ namespace WebAPI.Controllers
 
         [HttpPut]
         public async Task<Result<UserDto>> Change(
-            [FromBody] CommandChangeUser command,
+            [FromBody] CommandUpdateUser command,
             CancellationToken cancellationToken = default
             ) => await Sender.Send(command, cancellationToken);
     }

@@ -17,9 +17,9 @@ namespace Domain.ValueObjects
 
         public static Result<Username> Create(string value)
         {
-            if (string.IsNullOrWhiteSpace(value)) return DomainException.Username.Empty;
-            if (value.Length > MAX_LENGTH) return DomainException.Username.TooLong;
-            if (value.Length < MIN_LENGTH) return DomainException.Username.TooShort;
+            if (string.IsNullOrWhiteSpace(value)) return DomainException.UsernameExp.Empty;
+            if (value.Length > MAX_LENGTH) return DomainException.UsernameExp.TooLong;
+            if (value.Length < MIN_LENGTH) return DomainException.UsernameExp.TooShort;
             return new Username(value);
         }
     }

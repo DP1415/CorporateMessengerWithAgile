@@ -8,10 +8,10 @@ using Persistence;
 
 namespace Application.Entity.Users.Commands.UserChange
 {
-    public class CommandChangeUserHandler(AppDbContext context, IMapper mapper)
-        : AbsCommandUpdateEntityByIdHandler<CommandChangeUser, User, UserDto>(context, mapper)
+    public class CommandUpdateUserHandler(AppDbContext context, IMapper mapper)
+        : AbsCommandUpdateEntityByIdHandler<CommandUpdateUser, User, UserDto>(context, mapper)
     {
-        protected override Result<User> Update(User entity, CommandChangeUser request)
+        protected override Result<User> Update(User entity, CommandUpdateUser request)
         {
             if (request.UserName is not null)
             {

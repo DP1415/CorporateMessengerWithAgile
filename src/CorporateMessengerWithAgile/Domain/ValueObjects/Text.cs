@@ -21,7 +21,7 @@ namespace Domain.ValueObjects
         public static Result<Text> Create(string? stringText)
         {
             if (string.IsNullOrWhiteSpace(stringText)) return CreateDefault();
-            if (stringText.Length > MAX_LENGTH) return DomainException.Text.TooLong;
+            if (stringText.Length > MAX_LENGTH) return DomainException.TextExp.TooLong;
             return new Text(stringText);
         }
         public static Text CreateDefault() { return new Text(); }

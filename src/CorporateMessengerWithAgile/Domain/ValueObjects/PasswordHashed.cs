@@ -19,9 +19,9 @@ namespace Domain.ValueObjects
 
         public static Result<PasswordHashed> Create(string value)
         {
-            if (string.IsNullOrWhiteSpace(value)) return DomainException.PasswordHashed.Empty;
-            if (value.Length > MAX_LENGTH) return DomainException.PasswordHashed.TooLong;
-            if (value.Length < MIN_LENGTH) return DomainException.PasswordHashed.TooShort;
+            if (string.IsNullOrWhiteSpace(value)) return DomainException.PasswordHashedExp.Empty;
+            if (value.Length > MAX_LENGTH) return DomainException.PasswordHashedExp.TooLong;
+            if (value.Length < MIN_LENGTH) return DomainException.PasswordHashedExp.TooShort;
             string hash = HashPassword(value);
             return new PasswordHashed(hash);
         }

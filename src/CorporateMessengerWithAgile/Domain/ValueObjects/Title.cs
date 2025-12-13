@@ -22,7 +22,7 @@ namespace Domain.ValueObjects
         public static Result<Title> Create(string? title)
         {
             if (string.IsNullOrWhiteSpace(title)) return CreateDefault();
-            if (title.Length > MAX_LENGTH) return DomainException.Title.TooLong;
+            if (title.Length > MAX_LENGTH) return DomainException.TitleExp.TooLong;
             return new Title(title);
         }
         public static Title CreateDefault() { return new Title(); }

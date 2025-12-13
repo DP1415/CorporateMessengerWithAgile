@@ -4,7 +4,7 @@ using Domain.Entity;
 
 namespace Application.Entity.Users.Commands.UserChange
 {
-    public record CommandChangeUser
+    public record CommandUpdateUser
         (
             Guid Id,
             string? UserName,
