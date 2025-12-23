@@ -5,21 +5,14 @@ using Domain.Result;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
-namespace Application.Command
+namespace Application.AbsCommand.Update
 {
-    public abstract class AbsCommandUpdateEntityBaseHandler<TCommand, TEntity, TDto>
-        : AbsCommandBaseHandler<TCommand, Result<TDto>>
+    public abstract class AbsCommandUpdateEntityBaseHandler<TCommand, TEntity, TDto>(AppDbContext context, IMapper mapper)
+        : AbsCommandOverAnEntityHandler<TCommand, TEntity, Result<TDto>>(context, mapper)
         where TCommand : AbsCommandUpdateEntityBase<TEntity, TDto>
         where TEntity : BaseEntity
         where TDto : BaseDto
     {
-        protected readonly DbSet<TEntity> _dbSet;
-
-        public AbsCommandUpdateEntityBaseHandler(AppDbContext context, IMapper mapper) : base(context, mapper)
-        {
-            _dbSet = context.Set<TEntity>();
-        }
-
         public override async Task<Result<TDto>> Handle(TCommand request, CancellationToken cancellationToken)
         {
             TEntity? entity = await GetEntity(request, cancellationToken);

@@ -6,7 +6,8 @@ namespace Application.Profile
     public class EntityMappingProfile : AutoMapper.Profile
     {
         public EntityMappingProfile()
-        {// User
+        {
+            // User
             CreateMap<Domain.Entity.User, Application.Dto.UserDto>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
                 .ForMember(d => d.Email, opt => opt.MapFrom(s => s.Email.Value))

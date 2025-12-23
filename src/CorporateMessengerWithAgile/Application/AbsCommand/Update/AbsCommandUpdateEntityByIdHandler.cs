@@ -4,7 +4,7 @@ using Domain.Common;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
-namespace Application.Command
+namespace Application.AbsCommand.Update
 {
     abstract public class AbsCommandUpdateEntityByIdHandler<TCommand, TEntity, TDto>(AppDbContext context, IMapper mapper)
         : AbsCommandUpdateEntityBaseHandler<TCommand, TEntity, TDto>(context, mapper)

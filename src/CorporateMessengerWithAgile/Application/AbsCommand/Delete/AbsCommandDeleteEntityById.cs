@@ -1,11 +1,11 @@
 ﻿using Domain.Common;
 using Domain.Result;
 
-namespace Application.Command
+namespace Application.AbsCommand.Delete
 {
     public abstract record AbsCommandDeleteEntityById<TEntity>
         (
             Guid Id
         )
-        : AbsCommandBase<Result> where TEntity : BaseEntity;
+        : AbsCommandOverAnEntity<TEntity, Result> where TEntity : BaseEntity;
 }

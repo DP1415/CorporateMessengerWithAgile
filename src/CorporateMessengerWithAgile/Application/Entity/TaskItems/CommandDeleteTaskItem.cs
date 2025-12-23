@@ -1,4 +1,4 @@
-﻿using Application.Command;
+﻿using Application.AbsCommand.Delete;
 using Domain.Entity;
 
 namespace Application.Entity.TaskItems

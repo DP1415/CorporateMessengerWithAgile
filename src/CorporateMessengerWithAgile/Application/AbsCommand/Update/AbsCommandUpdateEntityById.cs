@@ -1,7 +1,7 @@
 ﻿using Application.Dto;
 using Domain.Common;
 
-namespace Application.Command
+namespace Application.AbsCommand.Update
 {
     public abstract record AbsCommandUpdateEntityById<TEntity, TDto>
         (
