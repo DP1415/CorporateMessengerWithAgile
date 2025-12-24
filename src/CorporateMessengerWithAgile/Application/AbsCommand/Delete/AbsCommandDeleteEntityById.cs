@@ -1,4 +1,4 @@
-﻿using Domain.Common;
+﻿using Domain.Entity;
 using Domain.Result;
 
 namespace Application.AbsCommand.Delete

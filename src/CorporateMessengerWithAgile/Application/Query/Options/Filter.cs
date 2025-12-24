@@ -1,4 +1,4 @@
-﻿using Domain.Common;
+﻿using Domain.Entity;
 using System.Linq.Expressions;
 
 namespace Application.Query.Options

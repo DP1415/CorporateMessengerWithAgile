@@ -1,5 +1,5 @@
 ﻿using Application.Dto;
-using Domain.Common;
+using Domain.Entity;
 
 namespace Application.AbsCommand.Update
 {

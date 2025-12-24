@@ -1,7 +1,7 @@
 ﻿using Application.Dto;
 using Application.Query.Options;
 using AutoMapper;
-using Domain.Common;
+using Domain.Entity;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;

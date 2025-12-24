@@ -1,6 +1,6 @@
 ﻿using Application.Dto;
 using AutoMapper;
-using Domain.Common;
+using Domain.Entity;
 using Domain.Result;
 using Microsoft.EntityFrameworkCore;
 using Persistence;

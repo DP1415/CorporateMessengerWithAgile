@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Domain.Common;
+using Domain.Entity;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 

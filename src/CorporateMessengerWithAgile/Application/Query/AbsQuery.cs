@@ -1,6 +1,6 @@
 ﻿using Application.Dto;
 using Application.Query.Options;
-using Domain.Common;
+using Domain.Entity;
 using MediatR;
 
 namespace Application.Query

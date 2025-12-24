@@ -1,6 +1,4 @@
-﻿using Domain.Common;
-
-namespace Domain.Entity
+﻿namespace Domain.Entity
 {
     public class Employee : BaseEntity
     {

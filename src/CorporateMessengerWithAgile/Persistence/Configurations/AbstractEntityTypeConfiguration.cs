@@ -1,5 +1,5 @@
 ﻿using System.Linq.Expressions;
-using Domain.Common;
+using Domain.Entity;
 using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

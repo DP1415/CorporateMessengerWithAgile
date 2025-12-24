@@ -1,4 +1,4 @@
-﻿using Domain.Common;
+﻿using Domain.Entity;
 using Domain.Result;
 using Microsoft.EntityFrameworkCore;
 using Persistence;

@@ -1,4 +1,4 @@
-﻿using Domain.Common;
+﻿using Domain.Entity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Query.Options
