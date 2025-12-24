@@ -8,7 +8,7 @@ using System.Text;
 namespace Domain.ValueObjects
 {
     [ComplexType]
-    public class PasswordHashed : ValueObject<string>
+    public class PasswordHashed : BaseValueObject<string>
     {
         public const int MAX_LENGTH = 100;
         public const int MIN_LENGTH = 8;

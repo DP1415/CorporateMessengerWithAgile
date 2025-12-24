@@ -6,7 +6,7 @@ namespace Domain.ValueObjects
 {
     // Универсальный конвертер
     public class ValueObjectJsonConverter<TValueObject, TValue> : JsonConverter<TValueObject>
-        where TValueObject : ValueObject<TValue>
+        where TValueObject : BaseValueObject<TValue>
     {
         public override TValueObject Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
@@ -27,7 +27,7 @@ namespace Domain.ValueObjects
             return typeToConvert.IsClass &&
                    !typeToConvert.IsAbstract &&
                    typeToConvert.BaseType?.IsGenericType == true &&
-                   typeToConvert.BaseType.GetGenericTypeDefinition() == typeof(ValueObject<>);
+                   typeToConvert.BaseType.GetGenericTypeDefinition() == typeof(BaseValueObject<>);
         }
 
         public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options)

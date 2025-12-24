@@ -49,7 +49,7 @@ namespace WebAPI
                 using (var scope = app.Services.CreateScope())
                 {
                     var context = scope.ServiceProvider.GetRequiredService<Persistence.AppDbContext>();
-                    SeedData.SeedDataFunc(context);
+                    //SeedData.SeedDataFunc(context);
                 }
 
                 app.UseSwagger();

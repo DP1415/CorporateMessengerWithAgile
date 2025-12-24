@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Domain.ValueObjects
 {
     [ComplexType]
-    public class Email : ValueObject<string>
+    public class Email : BaseValueObject<string>
     {
         public const int MAX_LENGTH = 50;
         public const int MIN_LENGTH = 6;

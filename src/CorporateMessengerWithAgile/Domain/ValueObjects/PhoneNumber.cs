@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 namespace Domain.ValueObjects
 {
     [ComplexType]
-    public class PhoneNumber : ValueObject<string>
+    public class PhoneNumber : BaseValueObject<string>
     {
         public const int MAX_LENGTH = 15;
         public const int MIN_LENGTH = 8;

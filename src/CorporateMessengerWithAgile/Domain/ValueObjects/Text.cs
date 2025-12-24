@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Domain.ValueObjects
 {
     [ComplexType]
-    public class Text : ValueObject<string>
+    public class Text : BaseValueObject<string>
     {
         public const int MAX_LENGTH = 5000;
         public const string DEFAULT_VALUE = "Text DEFAULT_VALUE";

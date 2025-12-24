@@ -4,11 +4,11 @@
 /// Базовый класс для объектов-значений (Value Objects) в Domain-Driven Design.
 /// Объекты-значения идентифицируются по их свойствам, а не по идентификатору.
 /// </summary>
-public abstract class ValueObject<TValue> : IEquatable<ValueObject<TValue>>
+public abstract class BaseValueObject<TValue> : IEquatable<BaseValueObject<TValue>>
 {
     public TValue Value { get; protected set; }
 
-    protected ValueObject(TValue value)
+    protected BaseValueObject(TValue value)
     {
         Value = value;
     }
@@ -26,7 +26,7 @@ public abstract class ValueObject<TValue> : IEquatable<ValueObject<TValue>>
     /// Сравнивает текущий объект-значение с другим объектом-значением.
     /// </summary>
     /// <param name="other">Другой объект-значение для сравнения.</param>
-    public bool Equals(ValueObject<TValue>? other)
+    public bool Equals(BaseValueObject<TValue>? other)
     {
         return other is not null && ValuesAreEqual(other);
     }
@@ -37,7 +37,7 @@ public abstract class ValueObject<TValue> : IEquatable<ValueObject<TValue>>
     /// <param name="obj">Другой объект для сравнения.</param>
     public override bool Equals(object? obj)
     {
-        return obj is ValueObject<TValue> other && ValuesAreEqual(other);
+        return obj is BaseValueObject<TValue> other && ValuesAreEqual(other);
     }
 
     /// <summary>
@@ -54,7 +54,7 @@ public abstract class ValueObject<TValue> : IEquatable<ValueObject<TValue>>
     /// <summary>
     /// Проверяет, равны ли значения свойств текущего объекта и другого объекта-значения.
     /// </summary>
-    private bool ValuesAreEqual(ValueObject<TValue> other)
+    private bool ValuesAreEqual(BaseValueObject<TValue> other)
     {
         return GetAtomicValues().SequenceEqual(other.GetAtomicValues());
     }
