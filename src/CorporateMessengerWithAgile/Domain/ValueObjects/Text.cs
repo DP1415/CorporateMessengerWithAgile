@@ -9,7 +9,7 @@ namespace Domain.ValueObjects
     public class Text : ValueObject<string>
     {
         public const int MAX_LENGTH = 5000;
-        public const string DEFAULT_VALUE = "";
+        public const string DEFAULT_VALUE = "Text DEFAULT_VALUE";
 
         internal Text() : base(DEFAULT_VALUE) { }
         private Text(string value) : base(value) { }
