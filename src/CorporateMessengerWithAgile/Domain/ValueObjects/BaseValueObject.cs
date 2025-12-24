@@ -1,4 +1,4 @@
-﻿namespace Domain.Common;
+﻿namespace Domain.ValueObjects;
 
 /// <summary>
 /// Базовый класс для объектов-значений (Value Objects) в Domain-Driven Design.

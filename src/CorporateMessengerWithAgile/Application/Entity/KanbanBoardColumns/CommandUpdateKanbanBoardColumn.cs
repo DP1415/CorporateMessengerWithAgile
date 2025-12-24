@@ -1,6 +1,5 @@
 ﻿using Application.AbsCommand.Update;
 using Application.Dto;
-using Domain.Common;
 using Domain.Entity;
 
 namespace Application.Entity.KanbanBoardColumns

@@ -1,5 +1,4 @@
-﻿using Domain.Common;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using System.Text.Json;
 
 namespace Domain.ValueObjects
