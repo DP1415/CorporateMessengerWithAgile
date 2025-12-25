@@ -1,24 +1,24 @@
 ﻿using Application.Dto;
-using Application.Entity.TaskItems;
+using Application.Entity.Projects;
 using Domain.Result;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ReactApp.Server.Controllers.Abstract;
 
-namespace ReactApp.Server.Controllers
+namespace ReactApp.Server.Controllers.api
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class TaskItemController(ISender sender) : ApiController(sender)
+    public class ProjectController(ISender sender) : ApiController(sender)
     {
         [HttpGet]
-        public async Task<IEnumerable<TaskItemDto>> GetAll(
+        public async Task<IEnumerable<ProjectDto>> GetAll(
             CancellationToken cancellationToken = default) =>
-            await Sender.Send(new TaskItemsGetAllQuery(), cancellationToken);
+            await Sender.Send(new ProjectsGetAllQuery(), cancellationToken);
 
         [HttpPost]
-        public async Task<Result<TaskItemDto>> Create(
-            [FromBody] CommandCreateTaskItem command,
+        public async Task<Result<ProjectDto>> Create(
+            [FromBody] CommandCreateProject command,
             CancellationToken cancellationToken = default) =>
             await Sender.Send(command, cancellationToken);
 
@@ -26,11 +26,11 @@ namespace ReactApp.Server.Controllers
         public async Task<Result> Delete(
             [FromRoute] Guid id,
             CancellationToken cancellationToken = default) =>
-            await Sender.Send(new CommandDeleteTaskItem(id), cancellationToken);
+            await Sender.Send(new CommandDeleteProject(id), cancellationToken);
 
         [HttpPut]
-        public async Task<Result<TaskItemDto>> Change(
-            [FromBody] CommandUpdateTaskItem command,
+        public async Task<Result<ProjectDto>> Change(
+            [FromBody] CommandUpdateProject command,
             CancellationToken cancellationToken = default) =>
             await Sender.Send(command, cancellationToken);
     }

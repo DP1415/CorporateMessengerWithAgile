@@ -8,7 +8,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ReactApp.Server.Controllers.Abstract;
 
-namespace ReactApp.Server.Controllers
+namespace ReactApp.Server.Controllers.api
 {
     [ApiController]
     [Route("api/[controller]")]

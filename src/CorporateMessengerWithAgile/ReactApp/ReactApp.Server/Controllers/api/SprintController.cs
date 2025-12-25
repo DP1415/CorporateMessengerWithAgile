@@ -1,24 +1,24 @@
 ﻿using Application.Dto;
-using Application.Entity.Teams;
+using Application.Entity.Sprints;
 using Domain.Result;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ReactApp.Server.Controllers.Abstract;
 
-namespace ReactApp.Server.Controllers
+namespace ReactApp.Server.Controllers.api
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class TeamController(ISender sender) : ApiController(sender)
+    public class SprintController(ISender sender) : ApiController(sender)
     {
         [HttpGet]
-        public async Task<IEnumerable<TeamDto>> GetAll(
+        public async Task<IEnumerable<SprintDto>> GetAll(
             CancellationToken cancellationToken = default) =>
-            await Sender.Send(new TeamsGetAllQuery(), cancellationToken);
+            await Sender.Send(new SprintsGetAllQuery(), cancellationToken);
 
         [HttpPost]
-        public async Task<Result<TeamDto>> Create(
-            [FromBody] CommandCreateTeam command,
+        public async Task<Result<SprintDto>> Create(
+            [FromBody] CommandCreateSprint command,
             CancellationToken cancellationToken = default) =>
             await Sender.Send(command, cancellationToken);
 
@@ -26,11 +26,11 @@ namespace ReactApp.Server.Controllers
         public async Task<Result> Delete(
             [FromRoute] Guid id,
             CancellationToken cancellationToken = default) =>
-            await Sender.Send(new CommandDeleteTeam(id), cancellationToken);
+            await Sender.Send(new CommandDeleteSprint(id), cancellationToken);
 
         [HttpPut]
-        public async Task<Result<TeamDto>> Change(
-            [FromBody] CommandUpdateTeam command,
+        public async Task<Result<SprintDto>> Change(
+            [FromBody] CommandUpdateSprint command,
             CancellationToken cancellationToken = default) =>
             await Sender.Send(command, cancellationToken);
     }

@@ -1,24 +1,24 @@
 ﻿using Application.Dto;
-using Application.Entity.Sprints;
+using Application.Entity.PositionInCompany_s;
 using Domain.Result;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ReactApp.Server.Controllers.Abstract;
 
-namespace ReactApp.Server.Controllers
+namespace ReactApp.Server.Controllers.api
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class SprintController(ISender sender) : ApiController(sender)
+    public class PositionInCompanyController(ISender sender) : ApiController(sender)
     {
         [HttpGet]
-        public async Task<IEnumerable<SprintDto>> GetAll(
+        public async Task<IEnumerable<PositionInCompanyDto>> GetAll(
             CancellationToken cancellationToken = default) =>
-            await Sender.Send(new SprintsGetAllQuery(), cancellationToken);
+            await Sender.Send(new PositionInCompaniesGetAllQuery(), cancellationToken);
 
         [HttpPost]
-        public async Task<Result<SprintDto>> Create(
-            [FromBody] CommandCreateSprint command,
+        public async Task<Result<PositionInCompanyDto>> Create(
+            [FromBody] CommandCreatePositionInCompany command,
             CancellationToken cancellationToken = default) =>
             await Sender.Send(command, cancellationToken);
 
@@ -26,11 +26,11 @@ namespace ReactApp.Server.Controllers
         public async Task<Result> Delete(
             [FromRoute] Guid id,
             CancellationToken cancellationToken = default) =>
-            await Sender.Send(new CommandDeleteSprint(id), cancellationToken);
+            await Sender.Send(new CommandDeletePositionInCompany(id), cancellationToken);
 
         [HttpPut]
-        public async Task<Result<SprintDto>> Change(
-            [FromBody] CommandUpdateSprint command,
+        public async Task<Result<PositionInCompanyDto>> Change(
+            [FromBody] CommandUpdatePositionInCompany command,
             CancellationToken cancellationToken = default) =>
             await Sender.Send(command, cancellationToken);
     }
