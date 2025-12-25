@@ -1,14 +1,8 @@
-﻿using Application.Dto;
-using Application.AbsQuery.Options;
-using Domain.Entity;
+﻿using Domain.Entity;
 
 namespace Application.AbsQuery
 {
-    public abstract record AbsQueryEntity<TEntity, TDto>
-        (
-            AbsOption<TEntity>[]? Options = null
-        )
-        : AbsQuery<IEnumerable<TDto>>
-        where TDto : BaseDto
+    public abstract record AbsQueryEntity<TEntity, TResult>
+        : AbsQuery<TResult>
         where TEntity : BaseEntity;
 }

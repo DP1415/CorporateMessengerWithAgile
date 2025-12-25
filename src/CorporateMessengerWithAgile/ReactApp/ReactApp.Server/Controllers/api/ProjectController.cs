@@ -9,6 +9,7 @@ namespace ReactApp.Server.Controllers.api
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Tags("API / Project")]
     public class ProjectController(ISender sender) : ApiController(sender)
     {
         [HttpGet]

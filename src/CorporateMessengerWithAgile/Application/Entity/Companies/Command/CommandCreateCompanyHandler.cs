@@ -6,7 +6,7 @@ using Domain.Result;
 using Domain.ValueObjects;
 using Persistence;
 
-namespace Application.Entity.Companies
+namespace Application.Entity.Companies.Command
 {
     public class CommandCreateCompanyHandler(AppDbContext context, IMapper mapper)
         : AbsCommandCreateEntityHandler<CommandCreateCompany, Company, CompanyDto>(context, mapper)

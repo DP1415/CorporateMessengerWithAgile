@@ -6,7 +6,7 @@ using Domain.Entity;
 namespace Application.Entity.Teams
 {
     public record TeamsGetAllQuery()
-        : AbsQueryEntity<Team, TeamDto>(
+        : AbsQueryGetAllEntity<Team, TeamDto>(
             [
                 new Include<Team, Project>(t => t.Project),
                 new Include<Team, ICollection<TeamMember>>(t => t.TeamMembers),

@@ -9,6 +9,7 @@ namespace ReactApp.Server.Controllers.api
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Tags("API / Employee")]
     public class EmployeeController(ISender sender) : ApiController(sender)
     {
         [HttpGet]

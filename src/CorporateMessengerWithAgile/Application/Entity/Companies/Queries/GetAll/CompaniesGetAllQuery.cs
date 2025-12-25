@@ -3,9 +3,9 @@ using Application.AbsQuery.Options;
 using Application.AbsQuery;
 using Domain.Entity;
 
-namespace Application.Entity.Companies
+namespace Application.Entity.Companies.Queries.GetAll
 {
-    public record CompaniesGetAllQuery() : AbsQueryEntity<Company, CompanyDto>
+    public record CompaniesGetAllQuery() : AbsQueryGetAllEntity<Company, CompanyDto>
     (
         [
             new Include<Company, ICollection<Employee>>(company => company.Employees),

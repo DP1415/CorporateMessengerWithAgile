@@ -9,6 +9,7 @@ namespace ReactApp.Server.Controllers.api
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Tags("API / KanbanBoardColumn")]
     public class KanbanBoardColumnController(ISender sender) : ApiController(sender)
     {
         [HttpGet]

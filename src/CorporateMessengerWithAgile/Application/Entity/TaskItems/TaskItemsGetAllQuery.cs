@@ -6,7 +6,7 @@ using Domain.Entity;
 namespace Application.Entity.TaskItems
 {
     public record TaskItemsGetAllQuery()
-        : AbsQueryEntity<TaskItem, TaskItemDto>(
+        : AbsQueryGetAllEntity<TaskItem, TaskItemDto>(
             [
                 new Include<TaskItem, Project>(t => t.Project),
                 new Include<TaskItem, Employee>(t => t.Author),

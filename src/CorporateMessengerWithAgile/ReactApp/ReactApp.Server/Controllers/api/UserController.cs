@@ -12,6 +12,7 @@ namespace ReactApp.Server.Controllers.api
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Tags("API / User")]
     public class UserController(ISender sender) : ApiController(sender)
     {
         [HttpGet]

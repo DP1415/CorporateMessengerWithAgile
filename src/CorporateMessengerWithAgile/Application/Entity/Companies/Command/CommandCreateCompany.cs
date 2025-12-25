@@ -2,7 +2,7 @@
 using Application.Dto;
 using Domain.Entity;
 
-namespace Application.Entity.Companies
+namespace Application.Entity.Companies.Command
 {
     public record CommandCreateCompany
     (

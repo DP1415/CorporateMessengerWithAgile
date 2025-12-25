@@ -9,6 +9,7 @@ namespace ReactApp.Server.Controllers.api
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Tags("API / PositionInCompany")]
     public class PositionInCompanyController(ISender sender) : ApiController(sender)
     {
         [HttpGet]

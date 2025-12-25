@@ -7,5 +7,5 @@ using Persistence;
 namespace Application.Entity.TaskItemInSprint_s
 {
     public class TaskItemsInSprintGetAllQueryHandler(AppDbContext context, IMapper mapper)
-        : AbsQueryEntityHandler<TaskItemsInSprintGetAllQuery, TaskItemInSprint, TaskItemInSprintDto>(context, mapper);
+        : AbsQueryGetAllEntityHandler<TaskItemsInSprintGetAllQuery, TaskItemInSprint, TaskItemInSprintDto>(context, mapper);
 }

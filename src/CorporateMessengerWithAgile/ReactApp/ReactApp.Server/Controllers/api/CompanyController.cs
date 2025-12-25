@@ -1,5 +1,6 @@
 ﻿using Application.Dto;
-using Application.Entity.Companies;
+using Application.Entity.Companies.Queries.GetAll;
+using Application.Entity.Companies.Command;
 using Domain.Result;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ namespace ReactApp.Server.Controllers.api
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Tags("API / Company")]
     public class CompanyController(ISender sender) : ApiController(sender)
     {
         [HttpGet]

@@ -9,6 +9,7 @@ namespace ReactApp.Server.Controllers.api
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Tags("API / Sprint")]
     public class SprintController(ISender sender) : ApiController(sender)
     {
         [HttpGet]

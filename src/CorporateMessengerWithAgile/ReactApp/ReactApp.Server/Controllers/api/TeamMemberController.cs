@@ -9,6 +9,7 @@ namespace ReactApp.Server.Controllers.api
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Tags("API / TeamMember")]
     public class TeamMemberController(ISender sender) : ApiController(sender)
     {
         [HttpGet]

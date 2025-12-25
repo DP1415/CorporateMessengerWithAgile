@@ -9,6 +9,7 @@ namespace ReactApp.Server.Controllers.api
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Tags("API / TaskItemInSprint")]
     public class TaskItemInSprintController(ISender sender) : ApiController(sender)
     {
         [HttpGet]

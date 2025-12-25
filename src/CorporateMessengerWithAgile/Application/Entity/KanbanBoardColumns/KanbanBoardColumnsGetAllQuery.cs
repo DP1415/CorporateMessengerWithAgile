@@ -6,7 +6,7 @@ using Domain.Entity;
 namespace Application.Entity.KanbanBoardColumns
 {
     public record KanbanBoardColumnsGetAllQuery()
-        : AbsQueryEntity<KanbanBoardColumn, KanbanBoardColumnDto>(
+        : AbsQueryGetAllEntity<KanbanBoardColumn, KanbanBoardColumnDto>(
             [
                 new Include<KanbanBoardColumn, Team>(col => col.Team)
             ]

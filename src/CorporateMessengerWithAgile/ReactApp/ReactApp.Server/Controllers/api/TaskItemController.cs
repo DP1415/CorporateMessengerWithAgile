@@ -9,6 +9,7 @@ namespace ReactApp.Server.Controllers.api
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Tags("API / TaskItem")]
     public class TaskItemController(ISender sender) : ApiController(sender)
     {
         [HttpGet]

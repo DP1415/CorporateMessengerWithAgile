@@ -4,8 +4,8 @@ using Domain.Entity;
 using AutoMapper;
 using Persistence;
 
-namespace Application.Entity.Companies
+namespace Application.Entity.Companies.Queries.GetAll
 {
     public class CompaniesGetAllQueryHandler(AppDbContext context, IMapper mapper)
-        : AbsQueryEntityHandler<CompaniesGetAllQuery, Company, CompanyDto>(context, mapper);
+        : AbsQueryGetAllEntityHandler<CompaniesGetAllQuery, Company, CompanyDto>(context, mapper);
 }
