@@ -9,7 +9,7 @@ using ReactApp.Server.Controllers.Abstract;
 namespace ReactApp.Server.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("cmwa/[controller]")]
     public class CompanyController(ISender sender) : ApiController(sender)
     {
         [HttpGet]

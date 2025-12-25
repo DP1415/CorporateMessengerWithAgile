@@ -8,8 +8,8 @@ using ReactApp.Server.Controllers.Abstract;
 namespace ReactApp.Server.Controllers.api
 {
     [ApiController]
-    [Route("api/[controller]")]
-    [Tags("API / TaskItem")]
+    [Route("cmwa/api/[controller]")]
+    [Tags("CMWA / API")]
     public class TaskItemController(ISender sender) : ApiController(sender)
     {
         [HttpGet]
