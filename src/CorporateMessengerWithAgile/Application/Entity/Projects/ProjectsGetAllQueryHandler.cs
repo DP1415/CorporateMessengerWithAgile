@@ -7,5 +7,5 @@ using Persistence;
 namespace Application.Entity.Projects
 {
     public class ProjectsGetAllQueryHandler(AppDbContext context, IMapper mapper)
-        : AbsQueryHandler<ProjectsGetAllQuery, Project, ProjectDto>(context, mapper);
+        : AbsQueryEntityHandler<ProjectsGetAllQuery, Project, ProjectDto>(context, mapper);
 }

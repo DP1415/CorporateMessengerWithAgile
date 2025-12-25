@@ -6,7 +6,7 @@ using Domain.Entity;
 namespace Application.Entity.PositionInCompany_s
 {
     public record PositionInCompaniesGetAllQuery()
-        : AbsQuery<PositionInCompany, PositionInCompanyDto>(
+        : AbsQueryEntity<PositionInCompany, PositionInCompanyDto>(
             [
                 new Include<PositionInCompany, Company>(p => p.Company),
                 new Include<PositionInCompany, ICollection<Employee>>(p => p.Employees)

@@ -7,5 +7,5 @@ using Persistence;
 namespace Application.Entity.Users.Queries.UsersGetAll
 {
     class UsersGetAllQueryHandler(AppDbContext context, IMapper mapper)
-        : AbsQueryHandler<UsersGetAllQuery, User, UserDto>(context, mapper);
+        : AbsQueryEntityHandler<UsersGetAllQuery, User, UserDto>(context, mapper);
 }

@@ -7,5 +7,5 @@ using Persistence;
 namespace Application.Entity.KanbanBoardColumns
 {
     public class KanbanBoardColumnsGetAllQueryHandler(AppDbContext context, IMapper mapper)
-        : AbsQueryHandler<KanbanBoardColumnsGetAllQuery, KanbanBoardColumn, KanbanBoardColumnDto>(context, mapper);
+        : AbsQueryEntityHandler<KanbanBoardColumnsGetAllQuery, KanbanBoardColumn, KanbanBoardColumnDto>(context, mapper);
 }

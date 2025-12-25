@@ -5,7 +5,7 @@ using Domain.Entity;
 
 namespace Application.Entity.Employees
 {
-    public record EmployeesGetAllQuery() : AbsQuery<Employee, EmployeeDto>
+    public record EmployeesGetAllQuery() : AbsQueryEntity<Employee, EmployeeDto>
         (
             [
                 new Include<Employee, Company>(e => e.Company),
