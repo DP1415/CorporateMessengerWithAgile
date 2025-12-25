@@ -1,9 +1,9 @@
 ﻿using Application.Dto;
-using Application.Query.Options;
+using Application.AbsQuery.Options;
 using Domain.Entity;
 using MediatR;
 
-namespace Application.Query
+namespace Application.AbsQuery
 {
     public abstract record AbsQuery<TEntity, TDto>
         (

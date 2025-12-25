@@ -1,6 +1,6 @@
 ﻿using Application.Dto;
-using Application.Query.Options;
-using Application.Query;
+using Application.AbsQuery.Options;
+using Application.AbsQuery;
 using Domain.Entity;
 
 namespace Application.Entity.PositionInCompany_s

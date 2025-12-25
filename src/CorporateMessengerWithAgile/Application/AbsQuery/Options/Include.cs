@@ -1,7 +1,7 @@
 ﻿using Domain.Entity;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Query.Options
+namespace Application.AbsQuery.Options
 {
     public class Include<TEntity, TProperty>(System.Linq.Expressions.Expression<Func<TEntity, TProperty>> includeExpression) : AbsOption<TEntity> where TEntity : BaseEntity
     {

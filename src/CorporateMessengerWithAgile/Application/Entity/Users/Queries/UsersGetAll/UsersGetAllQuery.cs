@@ -1,6 +1,6 @@
 ﻿using Application.Dto;
-using Application.Query;
-using Application.Query.Options;
+using Application.AbsQuery;
+using Application.AbsQuery.Options;
 using Domain.Entity;
 
 namespace Application.Entity.Users.Queries.UsersGetAll

@@ -1,6 +1,6 @@
 ﻿using Domain.Entity;
 
-namespace Application.Query.Options
+namespace Application.AbsQuery.Options
 {
     public class Take<TEntity>(int count) : AbsOption<TEntity> where TEntity : BaseEntity
     {

@@ -1,5 +1,5 @@
 ﻿using Application.Dto;
-using Application.Query;
+using Application.AbsQuery;
 using AutoMapper;
 using Domain.Entity;
 using Persistence;

@@ -1,12 +1,12 @@
 ﻿using Application.Dto;
-using Application.Query.Options;
+using Application.AbsQuery.Options;
 using AutoMapper;
 using Domain.Entity;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
-namespace Application.Query
+namespace Application.AbsQuery
 {
     public abstract class AbsQueryHandler<TQuery, TEntity, TDto> :
         IRequestHandler<TQuery, IEnumerable<TDto>>
