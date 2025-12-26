@@ -116,4 +116,5 @@ export interface CompanyGetByIdDto {
     projectDtos: ProjectDto[] | null;
     employeeDtos: EmployeeDto[] | null;
     positionInCompanyDtos: PositionInCompanyDto[] | null;
+    userDtos: UserDto[] | null;
 }

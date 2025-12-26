@@ -1,7 +1,7 @@
 ﻿import type { UUID, Result_T, CompanyDto, CompanyGetByIdDto } from "../models/typesdto";
 
 
-const API_BASE = 'https://localhost:7110/CMWA'; // Общий префикс
+const API_BASE = 'https://localhost:7110/cmwa'; // Общий префикс
 
 export const companyApi = {
     // Список компаний (базовый)

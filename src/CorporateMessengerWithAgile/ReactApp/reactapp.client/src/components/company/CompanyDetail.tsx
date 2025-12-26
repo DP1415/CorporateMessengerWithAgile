@@ -1,11 +1,22 @@
-﻿import type { CompanyGetByIdDto } from '../../models';
+﻿import type { CompanyGetByIdDto, PositionInCompanyDto, UserDto } from '../../models';
 
 interface CompanyDetailProps {
     data: CompanyGetByIdDto;
 }
 
 export default function CompanyDetail({ data }: CompanyDetailProps) {
-    const { companyDto, projectDtos, employeeDtos, positionInCompanyDtos } = data;
+    const { companyDto, projectDtos, employeeDtos, positionInCompanyDtos, userDtos } = data;
+
+    // Создаём мапы для быстрого поиска
+    const userMap = new Map<string, UserDto>();
+    userDtos?.forEach(user => {
+        if (user.id) userMap.set(user.id, user);
+    });
+
+    const positionMap = new Map<string, PositionInCompanyDto>();
+    positionInCompanyDtos?.forEach(pos => {
+        if (pos.id) positionMap.set(pos.id, pos);
+    });
 
     return (
         <div>
@@ -33,20 +44,35 @@ export default function CompanyDetail({ data }: CompanyDetailProps) {
                 </ul>
             ) : (
                 <p> Нет должностей</p>
-            )
-            }
+            )}
 
             <h3>Сотрудники</h3>
             {employeeDtos && employeeDtos.length > 0 ? (
                 <ul>
-                    {employeeDtos.map((emp) => (
-                        <li key={emp.id}>ID сотрудника: {emp.id}</li>
-                    ))}
+                    {employeeDtos.map((emp) => {
+                        const user = emp.userId ? userMap.get(emp.userId) : null;
+                        const position = emp.positionInCompanyId
+                            ? positionMap.get(emp.positionInCompanyId)
+                            : null;
+
+                        return (
+                            <li key={emp.id}>
+                                {/*<strong>ID:</strong> {emp.id}<br />*/}
+                                <strong>Имя:</strong> {user?.username || 'Не указано'}<br />
+                                <strong>Email:</strong> {user?.email || 'Не указан'}<br />
+                                <strong>Должность:</strong> {position?.title || 'Не назначена'}<br />
+                                {position?.description && (
+                                    <>
+                                        <strong>Описание должности:</strong> {position.description}<br />
+                                    </>
+                                )}
+                            </li>
+                        );
+                    })}
                 </ul>
             ) : (
                 <p>Нет сотрудников</p>
-            )
-            }
-        </div >
+            )}
+        </div>
     );
 }
