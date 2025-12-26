@@ -71,6 +71,7 @@ namespace ReactApp.Server
                     Email = Email.Create("john.doe@techsolutions.com").Value,
                     Username = Username.Create("johndoe").Value,
                     PasswordHashed = PasswordHashed.Create("Password123!").Value,
+                    PhoneNumber = PhoneNumber.Create("123456789").Value,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 },
@@ -80,6 +81,7 @@ namespace ReactApp.Server
                     Email = Email.Create("jane.smith@techsolutions.com").Value,
                     Username = Username.Create("janesmith").Value,
                     PasswordHashed = PasswordHashed.Create("Password123!").Value,
+                    PhoneNumber = PhoneNumber.Create("123456789").Value,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 },
@@ -89,6 +91,7 @@ namespace ReactApp.Server
                     Email = Email.Create("mike.johnson@innovative.com").Value,
                     Username = Username.Create("mikej").Value,
                     PasswordHashed = PasswordHashed.Create("Password123!").Value,
+                    PhoneNumber = PhoneNumber.Create("123456789").Value,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 }

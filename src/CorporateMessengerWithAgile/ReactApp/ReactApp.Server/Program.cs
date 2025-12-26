@@ -2,6 +2,7 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
+using Persistence;
 
 namespace ReactApp.Server
 {
@@ -20,8 +21,22 @@ namespace ReactApp.Server
             builder.Services.AddValidatorsFromAssembly(Application.DependencyInjection.Assembly);
             builder.Services.AddDbContext<Persistence.AppDbContext>(options => options.UseInMemoryDatabase("CorporateMessengerDb"));
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowFrontend", policy =>
+                {
+                    policy.WithOrigins("https://localhost:53418").AllowAnyHeader().AllowAnyMethod();
+                });
+            });
+
             var app = builder.Build();
 
+            using (var scope = app.Services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                SeedData.SeedDataFunc(context);
+            }
+            app.UseCors("AllowFrontend");
             app.UseStaticFiles();
             app.UseRouting();
             app.UseHttpsRedirection();
