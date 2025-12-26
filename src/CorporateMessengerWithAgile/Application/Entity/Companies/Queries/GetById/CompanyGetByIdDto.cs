@@ -6,6 +6,7 @@ namespace Application.Entity.Companies.Queries.GetById
             CompanyDto CompanyDto,
             List<ProjectDto> ProjectDtos,
             List<EmployeeDto> EmployeeDtos,
-            List<PositionInCompanyDto> PositionInCompanyDtos
+            List<PositionInCompanyDto> PositionInCompanyDtos,
+            List<UserDto> UserDtos
         );
 }

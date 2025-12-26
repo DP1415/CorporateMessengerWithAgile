@@ -9,6 +9,7 @@
                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
                 .ForMember(d => d.Email, opt => opt.MapFrom(s => s.Email.Value))
                 .ForMember(d => d.Username, opt => opt.MapFrom(s => s.Username.Value))
+                .ForMember(d => d.PhoneNumber, opt => opt.MapFrom(s => s.PhoneNumber.Value))
                 .ForMember(d => d.EmployeeIds, opt => opt.MapFrom(s => s.Employees.Select(e => e.Id).ToList()));
 
             // Company

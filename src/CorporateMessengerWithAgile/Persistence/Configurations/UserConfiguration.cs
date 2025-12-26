@@ -9,6 +9,7 @@ namespace Persistence.Configurations
             PropertyEmail(user => user.Email);
             PropertyUsername(user => user.Username);
             PropertyPasswordHashed(user => user.PasswordHashed);
+            PropertyPhoneNumber(user => user.PhoneNumber);
         }
     }
 }

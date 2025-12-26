@@ -18,7 +18,7 @@ namespace ReactApp.Server.Controllers
         ) => await Sender.Send(new CompaniesGetAllQuery(), cancellationToken);
 
         [HttpGet("{id:guid}")]
-        public async Task<Result<CompanyGetByIdDto>> Get(
+        public async Task<Result<CompanyGetByIdDto>> GetCompanyById(
             Guid id,
             CancellationToken cancellationToken = default
         ) => await Sender.Send(new CompanyGetByIdQuery(id), cancellationToken);

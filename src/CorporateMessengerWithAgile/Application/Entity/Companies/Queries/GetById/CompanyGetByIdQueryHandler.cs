@@ -15,9 +15,11 @@ namespace Application.Entity.Companies.Queries.GetById
         {
             Company? company = await _dbSet
                 .Include(c => c.Projects)
-                .Include(c => c.Employees)
+                .Include(c => c.Employees).ThenInclude(e => e.User)
                 .Include(c => c.Positions)
                 .FirstOrDefaultAsync(c => c.Id == request.Id, cancellationToken);
+
+            IEnumerable<User> users = company?.Employees.Where(e => e.User != null).Select(e => e.User) ?? [];
 
             return
                 company is null
@@ -27,7 +29,8 @@ namespace Application.Entity.Companies.Queries.GetById
                     CompanyDto: _mapper.Map<CompanyDto>(company),
                     ProjectDtos: _mapper.Map<List<ProjectDto>>(company.Projects),
                     EmployeeDtos: _mapper.Map<List<EmployeeDto>>(company.Employees),
-                    PositionInCompanyDtos: _mapper.Map<List<PositionInCompanyDto>>(company.Positions)
+                    PositionInCompanyDtos: _mapper.Map<List<PositionInCompanyDto>>(company.Positions),
+                    UserDtos: _mapper.Map<List<UserDto>>(users)
                 );
         }
     }
