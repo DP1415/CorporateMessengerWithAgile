@@ -2,7 +2,7 @@
 using Domain.Entity;
 using Persistence;
 
-namespace Application.Entity.Projects
+namespace Application.Entity.Projects.Command
 {
     public class CommandDeleteProjectHandler(AppDbContext context)
         : AbsCommandDeleteEntityByIdHandler<CommandDeleteProject, Project>(context);

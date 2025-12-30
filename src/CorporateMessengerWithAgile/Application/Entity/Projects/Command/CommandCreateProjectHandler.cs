@@ -6,7 +6,7 @@ using Domain.Result;
 using Domain.ValueObjects;
 using Persistence;
 
-namespace Application.Entity.Projects
+namespace Application.Entity.Projects.Command
 {
     public class CommandCreateProjectHandler(AppDbContext context, IMapper mapper)
         : AbsCommandCreateEntityHandler<CommandCreateProject, Project, ProjectDto>(context, mapper)

@@ -4,7 +4,7 @@ using AutoMapper;
 using Domain.Entity;
 using Persistence;
 
-namespace Application.Entity.Projects
+namespace Application.Entity.Projects.Queries.GetAll
 {
     public class ProjectsGetAllQueryHandler(AppDbContext context, IMapper mapper)
         : AbsQueryGetAllEntityHandler<ProjectsGetAllQuery, Project, ProjectDto>(context, mapper);

@@ -6,7 +6,7 @@ using Domain.Result;
 using Domain.ValueObjects;
 using Persistence;
 
-namespace Application.Entity.Projects
+namespace Application.Entity.Projects.Command
 {
     public class CommandUpdateProjectHandler(AppDbContext context, IMapper mapper)
         : AbsCommandUpdateEntityByIdHandler<CommandUpdateProject, Project, ProjectDto>(context, mapper)

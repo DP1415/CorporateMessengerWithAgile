@@ -3,7 +3,7 @@ using Application.AbsQuery.Options;
 using Application.AbsQuery;
 using Domain.Entity;
 
-namespace Application.Entity.Projects
+namespace Application.Entity.Projects.Queries.GetAll
 {
     public record ProjectsGetAllQuery()
         : AbsQueryGetAllEntity<Project, ProjectDto>(

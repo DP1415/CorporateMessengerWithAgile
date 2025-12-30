@@ -1,5 +1,6 @@
 ﻿using Application.Dto;
-using Application.Entity.Projects;
+using Application.Entity.Projects.Queries.GetAll;
+using Application.Entity.Projects.Command;
 using Domain.Result;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
