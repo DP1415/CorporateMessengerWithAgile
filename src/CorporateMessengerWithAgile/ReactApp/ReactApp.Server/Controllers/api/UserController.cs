@@ -10,10 +10,8 @@ using ReactApp.Server.Controllers.Abstract;
 
 namespace ReactApp.Server.Controllers.api
 {
-    [ApiController]
-    [Route("cmwa/api/[controller]")]
-    [Tags("CMWA / API")]
-    public class UserController(ISender sender) : ApiController(sender)
+    [Tags(ApiControllerBaseTag)]
+    public class UserController(ISender sender) : ApiControllerBase(sender)
     {
         [HttpGet]
         public async Task<IEnumerable<UserDto>> GetAll(

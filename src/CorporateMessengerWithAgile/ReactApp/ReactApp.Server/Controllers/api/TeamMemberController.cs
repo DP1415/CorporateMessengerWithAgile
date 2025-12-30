@@ -7,10 +7,8 @@ using ReactApp.Server.Controllers.Abstract;
 
 namespace ReactApp.Server.Controllers.api
 {
-    [ApiController]
-    [Route("cmwa/api/[controller]")]
-    [Tags("CMWA / API")]
-    public class TeamMemberController(ISender sender) : ApiController(sender)
+    [Tags(ApiControllerBaseTag)]
+    public class TeamMemberController(ISender sender) : ApiControllerBase(sender)
     {
         [HttpGet]
         public async Task<IEnumerable<TeamMemberDto>> GetAll(

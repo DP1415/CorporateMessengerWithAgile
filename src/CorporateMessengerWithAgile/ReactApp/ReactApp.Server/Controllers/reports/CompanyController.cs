@@ -6,13 +6,12 @@ using Domain.Result;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ReactApp.Server.Controllers.Abstract;
+using System.Reflection;
 
 namespace ReactApp.Server.Controllers.reports
 {
-    [ApiController]
-    [Route("cmwa/reports/[controller]")]
-    [Tags("CMWA / Reports")]
-    public class CompanyController(ISender sender) : ApiController(sender)
+    [Tags(ReportsControllerBaseTag)]
+    public class CompanyController(ISender sender) : ReportsControllerBase(sender)
     {
         [HttpGet]
         public async Task<IEnumerable<CompanyDto>> GetAll(

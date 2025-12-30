@@ -8,11 +8,8 @@ using ReactApp.Server.Controllers.Abstract;
 
 namespace ReactApp.Server.Controllers.reports
 {
-    [ApiController]
-    //[Route("cmwa/reports/Company/{companyid:guid}/Project")]
-    [Route("cmwa/reports/[controller]")]
-    [Tags("CMWA / Reports")]
-    public class ProjectController(ISender sender) : ApiController(sender)
+    [Tags(ReportsControllerBaseTag)]
+    public class ProjectController(ISender sender) : ReportsControllerBase(sender)
     {
         [HttpGet]
         public async Task<Result<ProjectGetByCompanyIdDto>> GetAll(
