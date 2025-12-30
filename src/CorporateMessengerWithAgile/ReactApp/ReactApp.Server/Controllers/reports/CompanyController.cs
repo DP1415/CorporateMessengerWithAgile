@@ -1,15 +1,17 @@
 ﻿using Application.Dto;
 using Application.Entity.Companies.Queries.GetAll;
 using Application.Entity.Companies.Queries.GetById;
+using Application.Entity.Projects.Queries.GetByCompanyId;
 using Domain.Result;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ReactApp.Server.Controllers.Abstract;
 
-namespace ReactApp.Server.Controllers
+namespace ReactApp.Server.Controllers.reports
 {
     [ApiController]
-    [Route("cmwa/[controller]")]
+    [Route("cmwa/reports/[controller]")]
+    [Tags("CMWA / Reports")]
     public class CompanyController(ISender sender) : ApiController(sender)
     {
         [HttpGet]
@@ -17,10 +19,17 @@ namespace ReactApp.Server.Controllers
             CancellationToken cancellationToken = default
         ) => await Sender.Send(new CompaniesGetAllQuery(), cancellationToken);
 
-        [HttpGet("{id:guid}")]
+        [HttpGet("{companyId:guid}")]
         public async Task<Result<CompanyGetByIdDto>> GetCompanyById(
-            Guid id,
+            Guid companyId,
             CancellationToken cancellationToken = default
-        ) => await Sender.Send(new CompanyGetByIdQuery(id), cancellationToken);
+        ) => await Sender.Send(new CompanyGetByIdQuery(companyId), cancellationToken);
+
+
+        [HttpGet("{companyId:guid}/Project")]
+        public async Task<Result<ProjectGetByCompanyIdDto>> GetAll(
+            Guid companyId,
+            CancellationToken cancellationToken = default
+        ) => await Sender.Send(new ProjectGetByCompanyIdQuery(companyId), cancellationToken);
     }
 }
