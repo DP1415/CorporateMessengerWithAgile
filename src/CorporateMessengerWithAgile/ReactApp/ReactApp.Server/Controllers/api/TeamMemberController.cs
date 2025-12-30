@@ -1,36 +1,22 @@
 ﻿using Application.Dto;
 using Application.Entity.TeamMembers;
-using Domain.Result;
+using Domain.Entity;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using ReactApp.Server.Controllers.Abstract;
 
 namespace ReactApp.Server.Controllers.api
 {
     [Tags(ApiControllerBaseTag)]
-    public class TeamMemberController(ISender sender) : ApiControllerBase(sender)
-    {
-        [HttpGet]
-        public async Task<IEnumerable<TeamMemberDto>> GetAll(
-            CancellationToken cancellationToken = default) =>
-            await Sender.Send(new TeamMembersGetAllQuery(), cancellationToken);
-
-        [HttpPost]
-        public async Task<Result<TeamMemberDto>> Create(
-            [FromBody] CommandCreateTeamMember command,
-            CancellationToken cancellationToken = default) =>
-            await Sender.Send(command, cancellationToken);
-
-        [HttpDelete("{id}")]
-        public async Task<Result> Delete(
-            [FromRoute] Guid id,
-            CancellationToken cancellationToken = default) =>
-            await Sender.Send(new CommandDeleteTeamMember(id), cancellationToken);
-
-        [HttpPut]
-        public async Task<Result<TeamMemberDto>> Change(
-            [FromBody] CommandUpdateTeamMember command,
-            CancellationToken cancellationToken = default) =>
-            await Sender.Send(command, cancellationToken);
-    }
+    public class TeamMemberController(ISender sender) : ApiControllerBase
+        <
+            TeamMember,
+            TeamMemberDto,
+            TeamMembersGetAllQuery,
+            CommandCreateTeamMember,
+            CommandUpdateTeamMember,
+            CommandDeleteTeamMember
+        >(
+            sender,
+            id => new CommandDeleteTeamMember(id)
+        );
 }

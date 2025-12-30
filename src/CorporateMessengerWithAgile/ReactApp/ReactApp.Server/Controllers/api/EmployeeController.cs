@@ -1,36 +1,22 @@
 ﻿using Application.Dto;
 using Application.Entity.Employees;
-using Domain.Result;
+using Domain.Entity;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using ReactApp.Server.Controllers.Abstract;
 
 namespace ReactApp.Server.Controllers.api
 {
     [Tags(ApiControllerBaseTag)]
-    public class EmployeeController(ISender sender) : ApiControllerBase(sender)
-    {
-        [HttpGet]
-        public async Task<IEnumerable<EmployeeDto>> GetAll(
-            CancellationToken cancellationToken = default
-        ) => await Sender.Send(new EmployeesGetAllQuery(), cancellationToken);
-
-        [HttpPost]
-        public async Task<Result<EmployeeDto>> Create(
-            [FromBody] CommandCreateEmployee command,
-            CancellationToken cancellationToken = default
-        ) => await Sender.Send(command, cancellationToken);
-
-        [HttpDelete("{id}")]
-        public async Task<Result> Delete(
-            [FromRoute] Guid id,
-            CancellationToken cancellationToken = default
-        ) => await Sender.Send(new CommandDeleteEmployee(id), cancellationToken);
-
-        [HttpPut]
-        public async Task<Result<EmployeeDto>> Change(
-            [FromBody] CommandUpdateEmployee command,
-            CancellationToken cancellationToken = default
-        ) => await Sender.Send(command, cancellationToken);
-    }
+    public class EmployeeController(ISender sender) : ApiControllerBase
+        <
+            Employee,
+            EmployeeDto,
+            EmployeesGetAllQuery,
+            CommandCreateEmployee,
+            CommandUpdateEmployee,
+            CommandDeleteEmployee
+        >(
+            sender,
+            id => new CommandDeleteEmployee(id)
+        );
 }

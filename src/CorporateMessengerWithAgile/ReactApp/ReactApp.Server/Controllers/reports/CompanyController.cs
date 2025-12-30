@@ -6,7 +6,6 @@ using Domain.Result;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ReactApp.Server.Controllers.Abstract;
-using System.Reflection;
 
 namespace ReactApp.Server.Controllers.reports
 {

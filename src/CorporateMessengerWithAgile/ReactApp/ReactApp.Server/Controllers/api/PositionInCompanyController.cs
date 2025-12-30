@@ -1,36 +1,22 @@
 ﻿using Application.Dto;
 using Application.Entity.PositionInCompany_s;
-using Domain.Result;
+using Domain.Entity;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using ReactApp.Server.Controllers.Abstract;
 
 namespace ReactApp.Server.Controllers.api
 {
     [Tags(ApiControllerBaseTag)]
-    public class PositionInCompanyController(ISender sender) : ApiControllerBase(sender)
-    {
-        [HttpGet]
-        public async Task<IEnumerable<PositionInCompanyDto>> GetAll(
-            CancellationToken cancellationToken = default) =>
-            await Sender.Send(new PositionInCompaniesGetAllQuery(), cancellationToken);
-
-        [HttpPost]
-        public async Task<Result<PositionInCompanyDto>> Create(
-            [FromBody] CommandCreatePositionInCompany command,
-            CancellationToken cancellationToken = default) =>
-            await Sender.Send(command, cancellationToken);
-
-        [HttpDelete("{id}")]
-        public async Task<Result> Delete(
-            [FromRoute] Guid id,
-            CancellationToken cancellationToken = default) =>
-            await Sender.Send(new CommandDeletePositionInCompany(id), cancellationToken);
-
-        [HttpPut]
-        public async Task<Result<PositionInCompanyDto>> Change(
-            [FromBody] CommandUpdatePositionInCompany command,
-            CancellationToken cancellationToken = default) =>
-            await Sender.Send(command, cancellationToken);
-    }
+    public class PositionInCompanyController(ISender sender) : ApiControllerBase
+        <
+            PositionInCompany,
+            PositionInCompanyDto,
+            PositionInCompaniesGetAllQuery,
+            CommandCreatePositionInCompany,
+            CommandUpdatePositionInCompany,
+            CommandDeletePositionInCompany
+        >(
+            sender,
+            id => new CommandDeletePositionInCompany(id)
+        );
 }

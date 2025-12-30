@@ -1,6 +1,4 @@
-﻿using Application.Dto;
-using Application.Entity.Companies.Queries.GetAll;
-using Application.Entity.Projects.Queries.GetByCompanyId;
+﻿using Application.Entity.Projects.Queries.GetByCompanyId;
 using Domain.Result;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

@@ -1,37 +1,23 @@
 ﻿using Application.Dto;
-using Application.Entity.Projects.Queries.GetAll;
 using Application.Entity.Projects.Command;
-using Domain.Result;
+using Application.Entity.Projects.Queries.GetAll;
+using Domain.Entity;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using ReactApp.Server.Controllers.Abstract;
 
 namespace ReactApp.Server.Controllers.api
 {
     [Tags(ApiControllerBaseTag)]
-    public class ProjectController(ISender sender) : ApiControllerBase(sender)
-    {
-        [HttpGet]
-        public async Task<IEnumerable<ProjectDto>> GetAll(
-            CancellationToken cancellationToken = default) =>
-            await Sender.Send(new ProjectsGetAllQuery(), cancellationToken);
-
-        [HttpPost]
-        public async Task<Result<ProjectDto>> Create(
-            [FromBody] CommandCreateProject command,
-            CancellationToken cancellationToken = default) =>
-            await Sender.Send(command, cancellationToken);
-
-        [HttpDelete("{id}")]
-        public async Task<Result> Delete(
-            [FromRoute] Guid id,
-            CancellationToken cancellationToken = default) =>
-            await Sender.Send(new CommandDeleteProject(id), cancellationToken);
-
-        [HttpPut]
-        public async Task<Result<ProjectDto>> Change(
-            [FromBody] CommandUpdateProject command,
-            CancellationToken cancellationToken = default) =>
-            await Sender.Send(command, cancellationToken);
-    }
+    public class ProjectController(ISender sender) : ApiControllerBase
+        <
+            Project,
+            ProjectDto,
+            ProjectsGetAllQuery,
+            CommandCreateProject,
+            CommandUpdateProject,
+            CommandDeleteProject
+        >(
+            sender,
+            id => new CommandDeleteProject(id)
+        );
 }

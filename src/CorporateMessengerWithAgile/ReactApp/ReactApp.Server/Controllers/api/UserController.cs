@@ -3,37 +3,23 @@ using Application.Entity.Users.Commands.UserChange;
 using Application.Entity.Users.Commands.UserCreate;
 using Application.Entity.Users.Commands.UserDelete;
 using Application.Entity.Users.Queries.UsersGetAll;
-using Domain.Result;
+using Domain.Entity;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using ReactApp.Server.Controllers.Abstract;
 
 namespace ReactApp.Server.Controllers.api
 {
     [Tags(ApiControllerBaseTag)]
-    public class UserController(ISender sender) : ApiControllerBase(sender)
-    {
-        [HttpGet]
-        public async Task<IEnumerable<UserDto>> GetAll(
-            CancellationToken cancellationToken = default
-            ) => await Sender.Send(new UsersGetAllQuery(), cancellationToken);
-
-        [HttpPost]
-        public async Task<Result<UserDto>> Create(
-            [FromBody] CommandCreateUser command,
-            CancellationToken cancellationToken = default
-            ) => await Sender.Send(command, cancellationToken);
-
-        [HttpDelete("{id}")]
-        public async Task<Result> Delete(
-            [FromRoute] Guid id,
-            CancellationToken cancellationToken = default
-            ) => await Sender.Send(new CommandDeleteUser(id), cancellationToken);
-
-        [HttpPut]
-        public async Task<Result<UserDto>> Change(
-            [FromBody] CommandUpdateUser command,
-            CancellationToken cancellationToken = default
-            ) => await Sender.Send(command, cancellationToken);
-    }
+    public class UserController(ISender sender) : ApiControllerBase
+        <
+            User,
+            UserDto,
+            UsersGetAllQuery,
+            CommandCreateUser,
+            CommandUpdateUser,
+            CommandDeleteUser
+        >(
+            sender,
+            id => new CommandDeleteUser(id)
+        );
 }

@@ -1,36 +1,22 @@
 ﻿using Application.Dto;
 using Application.Entity.Sprints;
-using Domain.Result;
+using Domain.Entity;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using ReactApp.Server.Controllers.Abstract;
 
 namespace ReactApp.Server.Controllers.api
 {
     [Tags(ApiControllerBaseTag)]
-    public class SprintController(ISender sender) : ApiControllerBase(sender)
-    {
-        [HttpGet]
-        public async Task<IEnumerable<SprintDto>> GetAll(
-            CancellationToken cancellationToken = default) =>
-            await Sender.Send(new SprintsGetAllQuery(), cancellationToken);
-
-        [HttpPost]
-        public async Task<Result<SprintDto>> Create(
-            [FromBody] CommandCreateSprint command,
-            CancellationToken cancellationToken = default) =>
-            await Sender.Send(command, cancellationToken);
-
-        [HttpDelete("{id}")]
-        public async Task<Result> Delete(
-            [FromRoute] Guid id,
-            CancellationToken cancellationToken = default) =>
-            await Sender.Send(new CommandDeleteSprint(id), cancellationToken);
-
-        [HttpPut]
-        public async Task<Result<SprintDto>> Change(
-            [FromBody] CommandUpdateSprint command,
-            CancellationToken cancellationToken = default) =>
-            await Sender.Send(command, cancellationToken);
-    }
+    public class SprintController(ISender sender) : ApiControllerBase
+        <
+            Sprint,
+            SprintDto,
+            SprintsGetAllQuery,
+            CommandCreateSprint,
+            CommandUpdateSprint,
+            CommandDeleteSprint
+        >(
+            sender,
+            id => new CommandDeleteSprint(id)
+        );
 }
