@@ -4,14 +4,9 @@
 /// Базовый класс для объектов-значений (Value Objects) в Domain-Driven Design.
 /// Объекты-значения идентифицируются по их свойствам, а не по идентификатору.
 /// </summary>
-public abstract class BaseValueObject<TValue> : IEquatable<BaseValueObject<TValue>>
+public abstract class BaseValueObject<TValue>(TValue value) : IEquatable<BaseValueObject<TValue>>
 {
-    public TValue Value { get; protected set; }
-
-    protected BaseValueObject(TValue value)
-    {
-        Value = value;
-    }
+    public TValue Value { get; protected set; } = value;
 
     /// <summary>
     /// Возвращает значения всех свойств объекта-значения.
