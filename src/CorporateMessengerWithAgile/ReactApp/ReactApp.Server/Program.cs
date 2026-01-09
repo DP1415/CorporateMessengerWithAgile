@@ -1,8 +1,5 @@
-
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi;
-using Persistence;
 
 namespace ReactApp.Server
 {
@@ -13,6 +10,7 @@ namespace ReactApp.Server
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllers();
+            builder.Services.AddAuth(builder.Configuration);
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -33,13 +31,14 @@ namespace ReactApp.Server
 
             using (var scope = app.Services.CreateScope())
             {
-                var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                var context = scope.ServiceProvider.GetRequiredService<Persistence.AppDbContext>();
                 SeedData.SeedDataFunc(context);
             }
             app.UseCors("AllowFrontend");
             app.UseStaticFiles();
             app.UseRouting();
             app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             if (app.Environment.IsDevelopment())
