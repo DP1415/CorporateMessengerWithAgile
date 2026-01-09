@@ -14,10 +14,10 @@ namespace Application.Entity.TaskItems
         public override Result<TaskItem> Create(CommandCreateTaskItem request)
         {
             var title = Title.Create(request.Title);
-            if (title.IsFailure) return title.Exception;
+            if (title.IsFailure) return title.Error;
 
             var description = Text.Create(request.Description);
-            if (description.IsFailure) return description.Exception;
+            if (description.IsFailure) return description.Error;
 
             var taskItem = new TaskItem
             {

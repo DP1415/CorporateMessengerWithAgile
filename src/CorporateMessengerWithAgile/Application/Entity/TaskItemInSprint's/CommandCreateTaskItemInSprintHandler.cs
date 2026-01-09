@@ -14,7 +14,7 @@ namespace Application.Entity.TaskItemInSprint_s
         public override Result<TaskItemInSprint> Create(CommandCreateTaskItemInSprint request)
         {
             var description = Text.Create(request.Description);
-            if (description.IsFailure) return description.Exception;
+            if (description.IsFailure) return description.Error;
 
             var taskItemInSprint = new TaskItemInSprint
             {

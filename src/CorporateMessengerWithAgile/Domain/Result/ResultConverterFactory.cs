@@ -32,7 +32,7 @@ namespace Domain.Result
                 writer.WriteStartObject();
                 writer.WriteBoolean("isSuccess", value.IsSuccess);
                 if (value.IsSuccess) writer.WriteNull("exception");
-                else writer.WriteString("exception", value.Exception.Message);
+                else writer.WriteString("exception", value.Error.Message);
                 writer.WriteEndObject();
             }
         }
@@ -55,7 +55,7 @@ namespace Domain.Result
                 else
                 {
                     writer.WriteNull("value");
-                    writer.WriteString("exception", value.Exception.Message);
+                    writer.WriteString("exception", value.Error.Message);
                 }
                 writer.WriteEndObject();
             }

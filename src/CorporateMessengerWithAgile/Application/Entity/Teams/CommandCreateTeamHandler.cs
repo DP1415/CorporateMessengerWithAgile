@@ -14,7 +14,7 @@ namespace Application.Entity.Teams
         public override Result<Team> Create(CommandCreateTeam request)
         {
             var title = Title.Create(request.Title);
-            if (title.IsFailure) return title.Exception;
+            if (title.IsFailure) return title.Error;
 
             var team = new Team
             {

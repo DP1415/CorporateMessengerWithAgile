@@ -14,13 +14,13 @@ namespace Application.Entity.Users.Commands.UserCreate
         public override Result<User> Create(CommandCreateUser request)
         {
             var username = Username.Create(request.UserName);
-            if (username.IsFailure) return username.Exception;
+            if (username.IsFailure) return username.Error;
 
             var email = Email.Create(request.Email);
-            if (email.IsFailure) return email.Exception;
+            if (email.IsFailure) return email.Error;
 
             var passwordhashed = PasswordHashed.Create(request.Password);
-            if (passwordhashed.IsFailure) return passwordhashed.Exception;
+            if (passwordhashed.IsFailure) return passwordhashed.Error;
 
             var user = new User
             {

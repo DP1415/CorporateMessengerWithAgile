@@ -14,7 +14,7 @@ namespace Application.Entity.KanbanBoardColumns
         public override Result<KanbanBoardColumn> Create(CommandCreateKanbanBoardColumn request)
         {
             var title = Title.Create(request.Title);
-            if (title.IsFailure) return title.Exception;
+            if (title.IsFailure) return title.Error;
 
             var column = new KanbanBoardColumn
             {

@@ -16,7 +16,7 @@ namespace Application.Entity.Teams
             if (request.Title is not null)
             {
                 var title = Title.Create(request.Title);
-                if (title.IsFailure) return title.Exception;
+                if (title.IsFailure) return title.Error;
                 entity.Title = title;
             }
 

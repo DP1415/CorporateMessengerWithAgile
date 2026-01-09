@@ -14,10 +14,10 @@ namespace Application.Entity.PositionInCompany_s
         public override Result<PositionInCompany> Create(CommandCreatePositionInCompany request)
         {
             var title = Title.Create(request.Title);
-            if (title.IsFailure) return title.Exception;
+            if (title.IsFailure) return title.Error;
 
             var description = Text.Create(request.Description);
-            if (description.IsFailure) return description.Exception;
+            if (description.IsFailure) return description.Error;
 
             var position = new PositionInCompany
             {

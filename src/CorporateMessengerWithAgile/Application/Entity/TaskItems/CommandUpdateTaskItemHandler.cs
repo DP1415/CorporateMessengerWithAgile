@@ -16,14 +16,14 @@ namespace Application.Entity.TaskItems
             if (request.Title is not null)
             {
                 var title = Title.Create(request.Title);
-                if (title.IsFailure) return title.Exception;
+                if (title.IsFailure) return title.Error;
                 entity.Title = title;
             }
 
             if (request.Description is not null)
             {
                 var description = Text.Create(request.Description);
-                if (description.IsFailure) return description.Exception;
+                if (description.IsFailure) return description.Error;
                 entity.Description = description;
             }
 

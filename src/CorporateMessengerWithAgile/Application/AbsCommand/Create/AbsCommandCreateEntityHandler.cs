@@ -16,7 +16,7 @@ namespace Application.AbsCommand.Create
         public override async Task<Result<TDto>> Handle(TCommand request, CancellationToken cancellationToken)
         {
             Result<TEntity> entity = Create(request);
-            if (entity.IsFailure) return entity.Exception;
+            if (entity.IsFailure) return entity.Error;
 
             await _dbSet.AddAsync(entity, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);

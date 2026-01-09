@@ -16,10 +16,10 @@ namespace Application.AbsCommand.Update
         public override async Task<Result<TDto>> Handle(TCommand request, CancellationToken cancellationToken)
         {
             TEntity? entity = await GetEntity(request, cancellationToken);
-            if (entity == null) return new Exception($"{typeof(TEntity).Name} not found");
+            if (entity == null) return new Error($"{typeof(TEntity).Name} not found", $"{typeof(TEntity).Name} not found");
 
             Result<TEntity> updateResult = Update(entity, request);
-            if (updateResult.IsFailure) return updateResult.Exception;
+            if (updateResult.IsFailure) return updateResult.Error;
 
             _dbSet.Update(entity);
             await _context.SaveChangesAsync(cancellationToken);

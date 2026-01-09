@@ -1,6 +1,6 @@
 ﻿namespace Domain.Result.CustomExceptions
 {
-    public class InvalidResultStateException(string code, string message) : CustomException(code, message)
+    public class InvalidResultStateException(string code, string message) : Error(code, message)
     {
         public static InvalidResultStateException CannotAccessValueOnFailure()
             => new("Result.CannotAccessValueOnFailure", "Не возможно получить доступ к свойству Value для неудачного результата.");

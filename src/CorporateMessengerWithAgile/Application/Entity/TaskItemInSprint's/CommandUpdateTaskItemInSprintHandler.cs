@@ -19,7 +19,7 @@ namespace Application.Entity.TaskItemInSprint_s
             if (request.Description is not null)
             {
                 var description = Text.Create(request.Description);
-                if (description.IsFailure) return description.Exception;
+                if (description.IsFailure) return description.Error;
                 entity.Description = description;
             }
 

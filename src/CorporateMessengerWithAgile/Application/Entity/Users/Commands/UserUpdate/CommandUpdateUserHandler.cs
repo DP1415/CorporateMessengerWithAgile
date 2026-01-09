@@ -16,21 +16,21 @@ namespace Application.Entity.Users.Commands.UserChange
             if (request.UserName is not null)
             {
                 var username = Username.Create(request.UserName);
-                if (username.IsFailure) return username.Exception;
+                if (username.IsFailure) return username.Error;
                 entity.Username = username;
             }
 
             if (request.Email is not null)
             {
                 var email = Email.Create(request.Email);
-                if (email.IsFailure) return email.Exception;
+                if (email.IsFailure) return email.Error;
                 entity.Email = email;
             }
 
             if (request.Password is not null)
             {
                 var passwordhashed = PasswordHashed.Create(request.Password);
-                if (passwordhashed.IsFailure) return passwordhashed.Exception;
+                if (passwordhashed.IsFailure) return passwordhashed.Error;
                 entity.PasswordHashed = passwordhashed;
             }
 

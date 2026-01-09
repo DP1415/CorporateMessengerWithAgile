@@ -14,7 +14,7 @@ namespace Application.Entity.Companies.Command
         public override Result<Company> Create(CommandCreateCompany request)
         {
             var title = Title.Create(request.Title);
-            if (title.IsFailure) return title.Exception;
+            if (title.IsFailure) return title.Error;
 
             var company = new Company
             {

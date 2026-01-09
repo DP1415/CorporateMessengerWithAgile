@@ -1,5 +1,4 @@
-﻿using Domain.Result.CustomExceptions;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Domain.Result
 {
@@ -10,30 +9,29 @@ namespace Domain.Result
         [JsonIgnore]
         public bool IsFailure => !IsSuccess;
 
-        private readonly Exception? _exception;
+        private readonly Error? _error;
 
-        [JsonIgnore]
-        public Exception Exception
+        public Error Error
         {
             get
             {
-                if (IsSuccess) throw InvalidResultStateException.CannotAccessExceptionOnSuccess();
-                return _exception!;
+                if (IsSuccess) throw new Exception("Result.CannotAccessExceptionOnSuccess. Не возможно получить доступ к свойству Exception при успешном результате.");
+                return _error!;
             }
         }
 
-        protected internal Result(bool isSuccess, Exception exception)
+        protected internal Result(bool isSuccess, Error error)
         {
             IsSuccess = isSuccess;
-            _exception = exception;
+            _error = error;
         }
 
         public static Result Success() => new(true, null!);
-        public static Result Failure(Exception exception) => new(false, exception);
+        public static Result Failure(Error error) => new(false, error);
         public static Result<T> Success<T>(T value) => new(true, null!, value);
-        public static Result<T> Failure<T>(Exception exception) => new(false, exception, default!);
+        public static Result<T> Failure<T>(Error error) => new(false, error, default!);
 
-        public static implicit operator Result(Exception exception) => Failure(exception);
-        public static implicit operator Exception(Result result) => result.Exception;
+        public static implicit operator Result(Error error) => Failure(error);
+        public static implicit operator Exception(Result result) => new(result.Error.Code);
     }
 }
