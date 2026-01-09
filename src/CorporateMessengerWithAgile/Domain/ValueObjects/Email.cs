@@ -18,11 +18,11 @@ namespace Domain.ValueObjects
 
         public static Result<Email> Create(string value)
         {
-            if (string.IsNullOrWhiteSpace(value)) return DomainException.EmailExp.Empty;
-            if (value.Length > MAX_LENGTH) return DomainException.EmailExp.TooLong;
-            if (value.Length < MIN_LENGTH) return DomainException.EmailExp.TooShort;
+            if (string.IsNullOrWhiteSpace(value)) return DomainErrors.EmailError.Empty;
+            if (value.Length > MAX_LENGTH) return DomainErrors.EmailError.TooLong;
+            if (value.Length < MIN_LENGTH) return DomainErrors.EmailError.TooShort;
 
-            if (!IsValidFormat(value)) return DomainException.EmailExp.InvalidFormat;
+            if (!IsValidFormat(value)) return DomainErrors.EmailError.InvalidFormat;
 
             return new Email(value);
         }

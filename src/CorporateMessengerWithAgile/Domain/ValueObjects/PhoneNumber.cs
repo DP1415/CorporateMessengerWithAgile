@@ -23,9 +23,9 @@ namespace Domain.ValueObjects
         {
             if (string.IsNullOrWhiteSpace(phoneNumber)) return CreateDefault();
             string cleanedNumber = Regex.Replace(phoneNumber, @"[^0-9+]", "");
-            if (string.IsNullOrWhiteSpace(cleanedNumber)) return DomainException.PhoneNumberExp.Empty;
-            if (cleanedNumber.Length > MAX_LENGTH) return DomainException.PhoneNumberExp.TooLong;
-            if (cleanedNumber.Length < MIN_LENGTH) return DomainException.PhoneNumberExp.TooShort;
+            if (string.IsNullOrWhiteSpace(cleanedNumber)) return DomainErrors.PhoneNumberError.Empty;
+            if (cleanedNumber.Length > MAX_LENGTH) return DomainErrors.PhoneNumberError.TooLong;
+            if (cleanedNumber.Length < MIN_LENGTH) return DomainErrors.PhoneNumberError.TooShort;
             return new PhoneNumber(cleanedNumber);
         }
         public static PhoneNumber CreateDefault() { return new PhoneNumber(); }
