@@ -1,5 +1,4 @@
 ﻿using Domain.Result;
-using Domain.Result.CustomExceptions;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.RegularExpressions;
 

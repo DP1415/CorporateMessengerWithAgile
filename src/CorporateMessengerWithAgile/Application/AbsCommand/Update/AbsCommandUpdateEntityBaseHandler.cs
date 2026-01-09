@@ -2,7 +2,6 @@
 using AutoMapper;
 using Domain.Entity;
 using Domain.Result;
-using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.AbsCommand.Update
@@ -16,7 +15,7 @@ namespace Application.AbsCommand.Update
         public override async Task<Result<TDto>> Handle(TCommand request, CancellationToken cancellationToken)
         {
             TEntity? entity = await GetEntity(request, cancellationToken);
-            if (entity == null) return new Error($"{typeof(TEntity).Name} not found", $"{typeof(TEntity).Name} not found");
+            if (entity == null) return ApplicationErrors.EntityError.NotFound(typeof(TEntity).Name);
 
             Result<TEntity> updateResult = Update(entity, request);
             if (updateResult.IsFailure) return updateResult.Error;

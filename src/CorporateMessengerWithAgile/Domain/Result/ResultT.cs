@@ -1,4 +1,4 @@
-﻿using Domain.Result.CustomExceptions;
+﻿using Domain.Result.CustomErrors;
 using System.Text.Json.Serialization;
 
 namespace Domain.Result

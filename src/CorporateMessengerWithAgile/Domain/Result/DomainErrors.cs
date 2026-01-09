@@ -1,4 +1,4 @@
-﻿namespace Domain.Result.CustomExceptions
+﻿namespace Domain.Result
 {
     public class DomainErrors
     {

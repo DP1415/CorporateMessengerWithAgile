@@ -13,7 +13,7 @@ namespace Application.AbsCommand.Delete
         public override async Task<Result> Handle(TCommand request, CancellationToken cancellationToken)
         {
             TEntity? entity = await _dbSet.FirstOrDefaultAsync(e => e.Id == request.Id, cancellationToken);
-            if (entity == null) return new Error($"{typeof(TEntity).Name} not found", $"{typeof(TEntity).Name} not found");
+            if (entity == null) return ApplicationErrors.EntityError.NotFound(typeof(TEntity).Name);
 
             _dbSet.Remove(entity);
             await _context.SaveChangesAsync(cancellationToken);

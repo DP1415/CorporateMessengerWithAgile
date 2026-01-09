@@ -2,7 +2,6 @@
 using AutoMapper;
 using Domain.Entity;
 using Domain.Result;
-using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.AbsCommand.Create
