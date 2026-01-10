@@ -3,11 +3,9 @@ using System.Text.Json.Serialization;
 
 namespace Domain.Result
 {
-    [JsonConverter(typeof(ResultConverterFactory))]
     public class Result
     {
         public bool IsSuccess { get; init; }
-        [JsonIgnore]
         public bool IsFailure => !IsSuccess;
 
         private readonly Error? _error;

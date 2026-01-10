@@ -1,7 +1,6 @@
 ﻿using Application.Dto;
 using Application.Entity.Users.Commands.Login;
 using Application.Entity.Users.Commands.UserCreate;
-using Domain.Result;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ReactApp.Server.Controllers.Abstract;

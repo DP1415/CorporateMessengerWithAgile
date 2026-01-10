@@ -3,7 +3,6 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Domain.Result
 {
-    [JsonConverter(typeof(ResultConverterFactory))]
     public class Result<T> : Result
     {
         private readonly T? _value;

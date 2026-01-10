@@ -4,7 +4,6 @@ using Application.AbsCommand.Update;
 using Application.AbsQuery;
 using Application.Dto;
 using Domain.Entity;
-using Domain.Result;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,21 +37,21 @@ namespace ReactApp.Server.Controllers.Abstract
             ) => await Sender.Send(new TCommandGetAll(), cancellationToken);
 
         [HttpPost]
-        public async Task<Result<TEntityDto>> Create(
+        public async Task<ActionResult<TEntityDto>> Create(
             [FromBody] TCommandCreate command,
             CancellationToken cancellationToken = default
-            ) => await Sender.Send(command, cancellationToken);
+            ) => (await Sender.Send(command, cancellationToken)).ToActionResult();
 
         [HttpPut]
-        public async Task<Result<TEntityDto>> Update(
+        public async Task<ActionResult<TEntityDto>> Update(
             [FromBody] TCommandUpdate command,
             CancellationToken cancellationToken = default
-            ) => await Sender.Send(command, cancellationToken);
+            ) => (await Sender.Send(command, cancellationToken)).ToActionResult();
 
         [HttpDelete("{id}")]
-        public async Task<Result> Delete(
+        public async Task<ActionResult> Delete(
             [FromRoute] Guid id,
             CancellationToken cancellationToken = default
-            ) => await Sender.Send(deleteCommandFactory(id), cancellationToken);
+            ) => (await Sender.Send(deleteCommandFactory(id), cancellationToken)).ToActionResult();
     }
 }
