@@ -23,7 +23,7 @@ namespace Application.Entity.Companies.Queries.GetById
 
             return
                 company is null
-                ? new Error($"Company with ID {request.Id} not found", $"Company with ID {request.Id} not found")
+                ? ApplicationErrors.CompanyError.NotFound(request.Id)
                 : new CompanyGetByIdDto
                 (
                     CompanyDto: _mapper.Map<CompanyDto>(company),

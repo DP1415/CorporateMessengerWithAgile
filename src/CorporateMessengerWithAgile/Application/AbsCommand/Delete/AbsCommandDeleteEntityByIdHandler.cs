@@ -1,5 +1,6 @@
 ﻿using Domain.Entity;
 using Domain.Result;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -18,7 +19,7 @@ namespace Application.AbsCommand.Delete
             _dbSet.Remove(entity);
             await _context.SaveChangesAsync(cancellationToken);
 
-            return Result.Success();
+            return Result.Success(StatusCodes.Status204NoContent);
         }
     }
 }

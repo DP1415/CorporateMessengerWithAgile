@@ -3,7 +3,6 @@ using Application.Entity.Users.Commands.Login;
 using Application.Entity.Users.Commands.UserCreate;
 using Domain.Result;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ReactApp.Server.Controllers.Abstract;
 
@@ -13,16 +12,16 @@ namespace ReactApp.Server.Controllers
     public class AuthController(ISender sender) : AbstractController(sender)
     {
         [HttpPost("Register")]
-        public async Task<Result<UserDto>> Register(
+        public async Task<ActionResult<UserDto>> Register(
             [FromBody] CommandCreateUser commandCreateUser,
             CancellationToken cancellationToken = default
-        ) => await Sender.Send(commandCreateUser, cancellationToken);
+        ) => (await Sender.Send(commandCreateUser, cancellationToken)).ToActionResult();
 
 
         [HttpPost("Login")]
-        public async Task<Result<CommandLoginUserOutput>> Login(
+        public async Task<ActionResult<CommandLoginUserOutput>> Login(
             [FromBody] CommandLoginUser commandCreateUser,
             CancellationToken cancellationToken = default
-        ) => await Sender.Send(commandCreateUser, cancellationToken);
+        ) => (await Sender.Send(commandCreateUser, cancellationToken)).ToActionResult();
     }
 }

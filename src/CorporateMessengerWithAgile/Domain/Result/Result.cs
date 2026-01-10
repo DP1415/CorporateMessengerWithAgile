@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization;
 
 namespace Domain.Result
 {
@@ -20,18 +21,26 @@ namespace Domain.Result
             }
         }
 
-        protected internal Result(bool isSuccess, Error error)
+        public int StatusCode { get; protected set; }
+
+        protected internal Result(bool isSuccess, Error error, int statusCode)
         {
             IsSuccess = isSuccess;
             _error = error;
+            StatusCode = statusCode;
         }
 
-        public static Result Success() => new(true, null!);
-        public static Result Failure(Error error) => new(false, error);
-        public static Result<T> Success<T>(T value) => new(true, null!, value);
-        public static Result<T> Failure<T>(Error error) => new(false, error, default!);
+        public static Result Success(int statusCode) => new(true, null!, statusCode);
+        public static Result Failure(Error error) => new(false, error, error.StatusCode);
+        public static Result<T> Success<T>(T value, int statusCode) => new(true, null!, statusCode, value);
+        public static Result<T> Failure<T>(Error error) => new(false, error, error.StatusCode, default!);
 
         public static implicit operator Result(Error error) => Failure(error);
-        public static implicit operator Exception(Result result) => new(result.Error.Code);
+
+        public Result SetStatusCode(int statusCode)
+        {
+            StatusCode = statusCode;
+            return this;
+        }
     }
 }

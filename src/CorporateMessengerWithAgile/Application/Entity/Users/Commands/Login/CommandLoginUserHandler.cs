@@ -1,7 +1,6 @@
 ﻿using Application.AbsCommand;
 using Application.Dto;
 using AutoMapper;
-using Domain;
 using Domain.Result;
 using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +24,7 @@ namespace Application.Entity.Users.Commands.Login
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Username.Value == username.Value.Value, cancellationToken);
 
             if (user == null || !user.PasswordHashed.Equals(passwordhashed.Value))
-                return new Error("Invalid username or password", "Invalid username or password");
+                return ApplicationErrors.AuthenticationError.Invalid;
 
             string token = jwtProvider.GenerateToken(user);
             return new CommandLoginUserOutput(token, _mapper.Map<UserDto>(user));
