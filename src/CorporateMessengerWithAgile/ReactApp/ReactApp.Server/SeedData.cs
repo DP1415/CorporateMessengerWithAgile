@@ -6,13 +6,12 @@ namespace ReactApp.Server
 {
     internal static class SeedData
     {
-
         internal static void SeedDataFunc(AppDbContext context)
         {
             // Создаем компании
             var company1 = new Company
             {
-                Id = Guid.NewGuid(),
+                Id = Guid.Parse("11111111-1111-1111-1111-111111111111"),
                 Title = Title.Create("Tech Solutions Inc.").Value,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
@@ -20,7 +19,7 @@ namespace ReactApp.Server
 
             var company2 = new Company
             {
-                Id = Guid.NewGuid(),
+                Id = Guid.Parse("22222222-2222-2222-2222-222222222222"),
                 Title = Title.Create("Innovative Projects LLC").Value,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
@@ -33,7 +32,7 @@ namespace ReactApp.Server
             {
                 new PositionInCompany
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("33333333-3333-3333-3333-333333333331"),
                     CompanyId = company1.Id,
                     Title = Title.Create("Software Developer").Value,
                     Description = Text.Create("Разработчик программного обеспечения").Value,
@@ -42,7 +41,7 @@ namespace ReactApp.Server
                 },
                 new PositionInCompany
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("33333333-3333-3333-3333-333333333332"),
                     CompanyId = company1.Id,
                     Title = Title.Create("Project Manager").Value,
                     Description = Text.Create("Менеджер проектов").Value,
@@ -51,7 +50,7 @@ namespace ReactApp.Server
                 },
                 new PositionInCompany
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("33333333-3333-3333-3333-333333333333"),
                     CompanyId = company2.Id,
                     Title = Title.Create("Team Lead").Value,
                     Description = Text.Create("Руководитель команды").Value,
@@ -62,12 +61,11 @@ namespace ReactApp.Server
 
             context.PositionsInCompany.AddRange(positions);
 
-            // Создаем пользователей
             var users = new[]
             {
                 new User
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("44444444-4444-4444-4444-444444444441"),
                     Email = Email.Create("john.doe@techsolutions.com").Value,
                     Username = Username.Create("johndoe").Value,
                     PasswordHashed = PasswordHashed.Create("Password123!").Value,
@@ -78,21 +76,23 @@ namespace ReactApp.Server
                 },
                 new User
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("44444444-4444-4444-4444-444444444442"),
                     Email = Email.Create("jane.smith@techsolutions.com").Value,
                     Username = Username.Create("janesmith").Value,
                     PasswordHashed = PasswordHashed.Create("Password123!").Value,
                     PhoneNumber = PhoneNumber.Create("123456789").Value,
+                    Role = "User",
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 },
                 new User
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("44444444-4444-4444-4444-444444444443"),
                     Email = Email.Create("mike.johnson@innovative.com").Value,
                     Username = Username.Create("mikej").Value,
                     PasswordHashed = PasswordHashed.Create("Password123!").Value,
                     PhoneNumber = PhoneNumber.Create("123456789").Value,
+                    Role = "User",
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 }
@@ -105,7 +105,7 @@ namespace ReactApp.Server
             {
                 new Employee
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("55555555-5555-5555-5555-555555555551"),
                     CompanyId = company1.Id,
                     PositionInCompanyId = positions[0].Id,
                     UserId = users[0].Id,
@@ -114,7 +114,7 @@ namespace ReactApp.Server
                 },
                 new Employee
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("55555555-5555-5555-5555-555555555552"),
                     CompanyId = company1.Id,
                     PositionInCompanyId = positions[1].Id,
                     UserId = users[1].Id,
@@ -123,7 +123,7 @@ namespace ReactApp.Server
                 },
                 new Employee
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("55555555-5555-5555-5555-555555555553"),
                     CompanyId = company2.Id,
                     PositionInCompanyId = positions[2].Id,
                     UserId = users[2].Id,
@@ -139,7 +139,7 @@ namespace ReactApp.Server
             {
                 new Project
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("66666666-6666-6666-6666-666666666661"),
                     CompanyId = company1.Id,
                     Title = Title.Create("Corporate Messenger Development").Value,
                     CreatedAt = DateTime.UtcNow,
@@ -147,7 +147,7 @@ namespace ReactApp.Server
                 },
                 new Project
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("66666666-6666-6666-6666-666666666662"),
                     CompanyId = company1.Id,
                     Title = Title.Create("Mobile App Redesign").Value,
                     CreatedAt = DateTime.UtcNow,
@@ -162,7 +162,7 @@ namespace ReactApp.Server
             {
                 new Team
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("77777777-7777-7777-7777-777777777771"),
                     ProjectId = projects[0].Id,
                     Title = Title.Create("Backend Team").Value,
                     StandardSprintDuration = 14,
@@ -171,7 +171,7 @@ namespace ReactApp.Server
                 },
                 new Team
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("77777777-7777-7777-7777-777777777772"),
                     ProjectId = projects[0].Id,
                     Title = Title.Create("Frontend Team").Value,
                     StandardSprintDuration = 14,
@@ -187,7 +187,7 @@ namespace ReactApp.Server
             {
                 new TeamMember
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("88888888-8888-8888-8888-888888888881"),
                     EmployeeId = employees[0].Id,
                     TeamId = teams[0].Id,
                     CreatedAt = DateTime.UtcNow,
@@ -195,7 +195,7 @@ namespace ReactApp.Server
                 },
                 new TeamMember
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("88888888-8888-8888-8888-888888888882"),
                     EmployeeId = employees[1].Id,
                     TeamId = teams[0].Id,
                     CreatedAt = DateTime.UtcNow,
@@ -210,7 +210,7 @@ namespace ReactApp.Server
             {
                 new Sprint
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("99999999-9999-9999-9999-999999999991"),
                     TeamId = teams[0].Id,
                     DateStart = DateTime.UtcNow.AddDays(-14),
                     DateEnd = DateTime.UtcNow,
@@ -219,7 +219,7 @@ namespace ReactApp.Server
                 },
                 new Sprint
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("99999999-9999-9999-9999-999999999992"),
                     TeamId = teams[0].Id,
                     DateStart = DateTime.UtcNow,
                     DateEnd = DateTime.UtcNow.AddDays(14),
@@ -235,7 +235,7 @@ namespace ReactApp.Server
             {
                 new TaskItem
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAA1"),
                     ProjectId = projects[0].Id,
                     AuthorId = employees[1].Id,
                     ResponsibleId = employees[0].Id,
@@ -249,7 +249,7 @@ namespace ReactApp.Server
                 },
                 new TaskItem
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAA2"),
                     ProjectId = projects[0].Id,
                     AuthorId = employees[1].Id,
                     ResponsibleId = employees[0].Id,
@@ -270,7 +270,7 @@ namespace ReactApp.Server
             {
                 new TaskItemInSprint
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("BBBBBBBB-BBBB-BBBB-BBBB-BBBBBBBBBBB1"),
                     TaskItemId = taskItems[0].Id,
                     SprintId = sprints[1].Id,
                     TaskStatus = TaskItemStatus.Status1,
@@ -287,7 +287,7 @@ namespace ReactApp.Server
             {
                 new KanbanBoardColumn
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("CCCCCCCC-CCCC-CCCC-CCCC-CCCCCCCCCCC1"),
                     TeamId = teams[0].Id,
                     TaskStatus = TaskItemStatus.Status1,
                     PositionOnBoard = 1,
@@ -297,7 +297,7 @@ namespace ReactApp.Server
                 },
                 new KanbanBoardColumn
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("CCCCCCCC-CCCC-CCCC-CCCC-CCCCCCCCCCC2"),
                     TeamId = teams[0].Id,
                     TaskStatus = TaskItemStatus.Status2,
                     PositionOnBoard = 2,
@@ -307,7 +307,7 @@ namespace ReactApp.Server
                 },
                 new KanbanBoardColumn
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("CCCCCCCC-CCCC-CCCC-CCCC-CCCCCCCCCCC3"),
                     TeamId = teams[0].Id,
                     TaskStatus = TaskItemStatus.Status2,
                     PositionOnBoard = 3,
