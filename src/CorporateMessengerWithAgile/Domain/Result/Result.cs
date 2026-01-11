@@ -1,7 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using System.Text.Json.Serialization;
-
-namespace Domain.Result
+﻿namespace Domain.Result
 {
     public class Result
     {
