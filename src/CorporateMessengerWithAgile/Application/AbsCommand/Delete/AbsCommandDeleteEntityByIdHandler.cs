@@ -7,10 +7,12 @@ using Persistence;
 namespace Application.AbsCommand.Delete
 {
     abstract public class AbsCommandDeleteEntityByIdHandler<TCommand, TEntity>(AppDbContext context)
-        : AbsCommandOverAnEntityHandler<TCommand, TEntity, Result>(context, null!)
+        : AbsCommandHandler<TCommand, Result>(context, null!)
         where TCommand : AbsCommandDeleteEntityById<TEntity>
         where TEntity : BaseEntity
     {
+        protected readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
+
         public override async Task<Result> Handle(TCommand request, CancellationToken cancellationToken)
         {
             TEntity? entity = await _dbSet.FirstOrDefaultAsync(e => e.Id == request.Id, cancellationToken);

@@ -7,5 +7,5 @@ namespace Application.AbsCommand.Delete
         (
             Guid Id
         )
-        : AbsCommandOverAnEntity<TEntity, Result> where TEntity : BaseEntity;
+        : AbsCommand<Result> where TEntity : BaseEntity;
 }

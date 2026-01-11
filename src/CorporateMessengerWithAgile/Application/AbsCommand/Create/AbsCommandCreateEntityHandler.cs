@@ -2,16 +2,19 @@
 using AutoMapper;
 using Domain.Entity;
 using Domain.Result;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.AbsCommand.Create
 {
     abstract public class AbsCommandCreateEntityHandler<TCommand, TEntity, TDto>(AppDbContext context, IMapper mapper)
-        : AbsCommandOverAnEntityHandler<TCommand, TEntity, Result<TDto>>(context, mapper)
+        : AbsCommandHandler<TCommand, Result<TDto>>(context, mapper)
         where TCommand : AbsCommandCreateEntity<TEntity, TDto>
         where TEntity : BaseEntity
         where TDto : BaseDto
     {
+        protected readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
+
         public override async Task<Result<TDto>> Handle(TCommand request, CancellationToken cancellationToken)
         {
             Result<TEntity> entity = Create(request);

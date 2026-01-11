@@ -4,7 +4,7 @@ using Domain.Result;
 
 namespace Application.AbsCommand.Create
 {
-    public abstract record AbsCommandCreateEntity<TEntity, TDto> : AbsCommandOverAnEntity<TEntity, Result<TDto>>
+    public abstract record AbsCommandCreateEntity<TEntity, TDto> : AbsCommand<Result<TDto>>
         where TEntity : BaseEntity
         where TDto : BaseDto;
 }
