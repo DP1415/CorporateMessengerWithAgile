@@ -34,6 +34,11 @@ namespace Application.Entity.Users.Commands.UserChange
                 entity.PasswordHashed = passwordhashed;
             }
 
+            if (request.Role is not null)
+            {
+                entity.Role = request.Role;
+            }
+
             return entity;
         }
     }

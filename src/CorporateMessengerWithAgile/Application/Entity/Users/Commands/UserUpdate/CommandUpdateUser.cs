@@ -9,7 +9,8 @@ namespace Application.Entity.Users.Commands.UserChange
             Guid Id,
             string? UserName,
             string? Email,
-            string? Password
+            string? Password,
+            string? Role
         )
         : AbsCommandUpdateEntityById<User, UserDto>(Id);
 }

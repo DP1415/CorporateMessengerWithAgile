@@ -26,7 +26,8 @@ namespace Application.Entity.Users.Commands.UserCreate
             {
                 Username = username,
                 Email = email,
-                PasswordHashed = passwordhashed
+                PasswordHashed = passwordhashed,
+                Role = request.Role
             };
             return user;
         }

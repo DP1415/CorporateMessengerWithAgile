@@ -6,10 +6,12 @@ using Application.Dto;
 using Domain.Entity;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ReactApp.Server.Controllers.Abstract
 {
     [Route("cmwa/api/[controller]")]
+    [Authorize(Roles = "Admin")]
     public abstract class ApiControllerBase<
             TEntity,
             TEntityDto,

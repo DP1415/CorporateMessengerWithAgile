@@ -8,6 +8,7 @@ namespace Domain.Entity
         public Username Username { get; set; } = null!;
         public PasswordHashed PasswordHashed { get; set; } = null!;
         public PhoneNumber PhoneNumber { get; set; } = null!;
+        public string Role { get; set; } = null!;
 
         public ICollection<Employee> Employees { get; set; } = [];
 

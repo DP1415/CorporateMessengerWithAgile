@@ -10,6 +10,10 @@ namespace Persistence.Configurations
             PropertyUsername(user => user.Username);
             PropertyPasswordHashed(user => user.PasswordHashed);
             PropertyPhoneNumber(user => user.PhoneNumber);
+
+            builder.Property(user => user.Role)
+                .IsRequired()
+                .HasMaxLength(50);
         }
     }
 }

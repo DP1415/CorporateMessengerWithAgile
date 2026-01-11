@@ -19,7 +19,8 @@ namespace Infrastructure.Authentication
         {
             Claim[] payload = [
                 new ("sub", user.Id.ToString()),
-                new ("email", user.Email.Value)
+                new ("email", user.Email.Value),
+                new ("role", user.Role)
             ];
 
             SecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecretKey));

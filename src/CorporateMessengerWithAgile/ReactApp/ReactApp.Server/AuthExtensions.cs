@@ -29,6 +29,13 @@ namespace ReactApp.Server
             services.AddScoped<Application.IJwtProvider, Infrastructure.Authentication.JwtProvider>();
             services.Configure<Infrastructure.Authentication.JwtProviderSettings>(jwtSettings);
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("UserOnly", policy => policy.RequireRole("User"));
+                options.AddPolicy("UserOrAdmin", policy => policy.RequireRole("User", "Admin"));
+            });
+
             return services;
         }
     }

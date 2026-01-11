@@ -8,7 +8,8 @@ namespace Application.Entity.Users.Commands.UserCreate
         (
             string UserName,
             string Email,
-            string Password
+            string Password,
+            string Role
         )
         : AbsCommandCreateEntity<User, UserDto>;
 }

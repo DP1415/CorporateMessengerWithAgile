@@ -72,6 +72,7 @@ namespace ReactApp.Server
                     Username = Username.Create("johndoe").Value,
                     PasswordHashed = PasswordHashed.Create("Password123!").Value,
                     PhoneNumber = PhoneNumber.Create("123456789").Value,
+                    Role = "Admin",
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 },
