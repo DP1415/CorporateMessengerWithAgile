@@ -7,5 +7,5 @@ using Persistence;
 namespace Application.Entity.Employees.Queries.EmployeesGetAll
 {
     public class EmployeesGetAllQueryHandler(AppDbContext context, IMapper mapper)
-        : AbsQueryGetAllEntityHandler<EmployeesGetAllQuery, Employee, EmployeeDto>(context, mapper);
+        : AbsQueryEntityWithOptionsHandler<EmployeesGetAllQuery, Employee, EmployeeDto>(context, mapper);
 }

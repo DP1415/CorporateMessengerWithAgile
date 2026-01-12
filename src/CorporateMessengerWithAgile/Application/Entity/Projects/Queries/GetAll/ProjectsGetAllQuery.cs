@@ -6,7 +6,7 @@ using Domain.Entity;
 namespace Application.Entity.Projects.Queries.GetAll
 {
     public record ProjectsGetAllQuery()
-        : AbsQueryGetAllEntity<Project, ProjectDto>(
+        : AbsQueryEntityWithOptions<Project, ProjectDto>(
             [
                 new Include<Project, Company>(p => p.Company),
                 new Include<Project, ICollection<TaskItem>>(p => p.TaskItems),

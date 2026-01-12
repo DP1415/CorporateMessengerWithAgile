@@ -7,5 +7,5 @@ using Persistence;
 namespace Application.Entity.Teams.Queries.TeamsGetAll
 {
     public class TeamsGetAllQueryHandler(AppDbContext context, IMapper mapper)
-        : AbsQueryGetAllEntityHandler<TeamsGetAllQuery, Team, TeamDto>(context, mapper);
+        : AbsQueryEntityWithOptionsHandler<TeamsGetAllQuery, Team, TeamDto>(context, mapper);
 }

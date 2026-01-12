@@ -5,7 +5,7 @@ using Domain.Entity;
 
 namespace Application.Entity.Companies.Queries.GetAll
 {
-    public record CompaniesGetAllQuery() : AbsQueryGetAllEntity<Company, CompanyDto>
+    public record CompaniesGetAllQuery() : AbsQueryEntityWithOptions<Company, CompanyDto>
     (
         [
             new Include<Company, ICollection<Employee>>(company => company.Employees),

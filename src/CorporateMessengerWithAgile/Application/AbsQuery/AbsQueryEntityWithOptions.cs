@@ -4,7 +4,7 @@ using Domain.Entity;
 
 namespace Application.AbsQuery
 {
-    public abstract record AbsQueryGetAllEntity<TEntity, TDto>
+    public abstract record AbsQueryEntityWithOptions<TEntity, TDto>
         (
             AbsOption<TEntity>[]? Options = null
         )

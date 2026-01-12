@@ -26,7 +26,7 @@ namespace ReactApp.Server.Controllers.Abstract
         : AbstractController(sender)
         where TEntity : BaseEntity
         where TEntityDto : BaseDto
-        where TCommandGetAll : AbsQueryGetAllEntity<TEntity, TEntityDto>, new()
+        where TCommandGetAll : AbsQueryEntityWithOptions<TEntity, TEntityDto>, new()
         where TCommandCreate : AbsCommandCreateEntity<TEntity, TEntityDto>
         where TCommandUpdate : AbsCommandUpdateEntityById<TEntity, TEntityDto>
         where TCommandDelete : AbsCommandDeleteEntityById<TEntity>

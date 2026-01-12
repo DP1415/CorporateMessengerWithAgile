@@ -7,9 +7,9 @@ using Persistence;
 
 namespace Application.AbsQuery
 {
-    public abstract class AbsQueryGetAllEntityHandler<TQuery, TEntity, TDto>(AppDbContext context, IMapper mapper)
+    public abstract class AbsQueryEntityWithOptionsHandler<TQuery, TEntity, TDto>(AppDbContext context, IMapper mapper)
         : AbsQueryHandler<TQuery, IEnumerable<TDto>>(context, mapper)
-        where TQuery : AbsQueryGetAllEntity<TEntity, TDto>
+        where TQuery : AbsQueryEntityWithOptions<TEntity, TDto>
         where TEntity : BaseEntity
         where TDto : BaseDto
     {

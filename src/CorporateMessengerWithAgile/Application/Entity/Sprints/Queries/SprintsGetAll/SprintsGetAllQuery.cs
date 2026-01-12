@@ -6,7 +6,7 @@ using Domain.Entity;
 namespace Application.Entity.Sprints.Queries.SprintsGetAll
 {
     public record SprintsGetAllQuery()
-        : AbsQueryGetAllEntity<Sprint, SprintDto>(
+        : AbsQueryEntityWithOptions<Sprint, SprintDto>(
             [
                 new Include<Sprint, Team>(s => s.Team),
                 new Include<Sprint, ICollection<TaskItem>>(s => s.TaskItems),
