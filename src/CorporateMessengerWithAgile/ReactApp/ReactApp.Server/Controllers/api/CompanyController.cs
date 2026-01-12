@@ -1,5 +1,7 @@
 ﻿using Application.Dto;
-using Application.Entity.Companies.Command;
+using Application.Entity.Companies.Command.CompanyCreate;
+using Application.Entity.Companies.Command.CompanyDelete;
+using Application.Entity.Companies.Command.CompanyUpdate;
 using Application.Entity.Companies.Queries.GetAll;
 using Domain.Entity;
 using MediatR;

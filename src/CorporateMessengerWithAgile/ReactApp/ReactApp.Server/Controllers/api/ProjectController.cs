@@ -1,5 +1,7 @@
 ﻿using Application.Dto;
-using Application.Entity.Projects.Command;
+using Application.Entity.Projects.Command.ProjectCreate;
+using Application.Entity.Projects.Command.ProjectDelete;
+using Application.Entity.Projects.Command.ProjectUpdate;
 using Application.Entity.Projects.Queries.GetAll;
 using Domain.Entity;
 using MediatR;

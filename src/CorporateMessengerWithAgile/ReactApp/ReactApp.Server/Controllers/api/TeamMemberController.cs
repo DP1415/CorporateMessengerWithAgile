@@ -1,5 +1,8 @@
 ﻿using Application.Dto;
-using Application.Entity.TeamMembers;
+using Application.Entity.TeamMembers.Commands.TeamMemberCreate;
+using Application.Entity.TeamMembers.Commands.TeamMemberDelete;
+using Application.Entity.TeamMembers.Commands.TeamMemberUpdate;
+using Application.Entity.TeamMembers.Queries.TeamMembersGetAll;
 using Domain.Entity;
 using MediatR;
 using ReactApp.Server.Controllers.Abstract;

@@ -1,5 +1,8 @@
 ﻿using Application.Dto;
-using Application.Entity.TaskItemInSprint_s;
+using Application.Entity.TaskItemInSprints.Commands.TaskItemInSprintCreate;
+using Application.Entity.TaskItemInSprints.Commands.TaskItemInSprintDelete;
+using Application.Entity.TaskItemInSprints.Commands.TaskItemInSprintUpdate;
+using Application.Entity.TaskItemInSprints.Queries.TaskItemsInSprintGetAll;
 using Domain.Entity;
 using MediatR;
 using ReactApp.Server.Controllers.Abstract;

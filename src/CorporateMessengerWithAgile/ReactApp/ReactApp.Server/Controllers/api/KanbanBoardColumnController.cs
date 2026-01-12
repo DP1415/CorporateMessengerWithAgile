@@ -1,5 +1,8 @@
 ﻿using Application.Dto;
-using Application.Entity.KanbanBoardColumns;
+using Application.Entity.KanbanBoardColumns.Commands.KanbanBoardColumnCreate;
+using Application.Entity.KanbanBoardColumns.Commands.KanbanBoardColumnDelete;
+using Application.Entity.KanbanBoardColumns.Commands.KanbanBoardColumnUpdate;
+using Application.Entity.KanbanBoardColumns.Queries.KanbanBoardColumnsGetAll;
 using Domain.Entity;
 using MediatR;
 using ReactApp.Server.Controllers.Abstract;
