@@ -7,7 +7,7 @@ using ReactApp.Server.Controllers.Abstract;
 
 namespace ReactApp.Server.Controllers
 {
-    [Route("cmwa/api/[controller]")]
+    [Route("cmwa/[controller]")]
     public class AuthController(ISender sender) : AbstractController(sender)
     {
         [HttpPost("Register")]
