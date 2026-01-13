@@ -6,7 +6,7 @@ using Domain.Result;
 using Domain.ValueObjects;
 using Persistence;
 
-namespace Application.Entity.Users.Commands.UserRegister
+namespace Application.Entity.Users.Commands.Register
 {
     public class CommandRegisterUserHandler(AppDbContext context, IMapper mapper)
         : AbsCommandHandler<CommandRegisterUser, Result<UserDto>>(context, mapper)
@@ -33,7 +33,7 @@ namespace Application.Entity.Users.Commands.UserRegister
             _context.Users.Add(user);
             await _context.SaveChangesAsync(cancellationToken);
 
-            return _mapper.Map<UserDto>(user);
+            return Result.Success(_mapper.Map<UserDto>(user), 201);
         }
     }
 }

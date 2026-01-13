@@ -1,9 +1,8 @@
 using Application.AbsCommand;
 using Application.Dto;
-using Domain.Entity;
 using Domain.Result;
 
-namespace Application.Entity.Users.Commands.UserRegister
+namespace Application.Entity.Users.Commands.Register
 {
     public record CommandRegisterUser
         (
