@@ -8,7 +8,7 @@ export abstract class AbstractController {
     protected readonly headers: HeadersInit;
 
     constructor(endpoint: string, headers: HeadersInit = {}) {
-        this.baseUrl = new URL(endpoint, API_BASE_URL).toString();
+        this.baseUrl = API_BASE_URL + endpoint;
         this.headers = {
             'Content-Type': 'application/json',
             ...headers
@@ -16,7 +16,7 @@ export abstract class AbstractController {
     }
 
     protected async request<T>(endpoint: string, options: RequestInit = {}): Promise<Result<T>> {
-        const url = new URL(endpoint, this.baseUrl).toString();
+        const url = this.baseUrl + endpoint;
         const config: RequestInit = {
             ...options,
             headers: {
@@ -45,8 +45,8 @@ export abstract class AbstractController {
             const appError = new AppError('Network.Error', errorMessage, 0);
             result = Result.failure<T>(appError);
         }
-        if (result.isFailure) console.error(result);
-        else console.log(result);
+        if (result.isFailure) console.error(url, result.error);
+        else console.log(url, result.value);
         return result;
     }
 
