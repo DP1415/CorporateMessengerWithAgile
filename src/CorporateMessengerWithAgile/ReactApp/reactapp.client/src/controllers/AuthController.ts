@@ -1,3 +1,4 @@
+// src/controllers/AuthController.ts
 import { AbstractController } from './AbstractController';
 import { UserDto, Result } from '../models';
 

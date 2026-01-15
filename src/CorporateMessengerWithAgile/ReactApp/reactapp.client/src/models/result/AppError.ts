@@ -1,3 +1,4 @@
+// src/models/result/AppError.ts
 export class AppError {
     public readonly code: string;
     public readonly message: string;

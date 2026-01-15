@@ -1,3 +1,4 @@
+// src/models/index.ts
 // Экспорт интерфейсов и типов
 export type { IGuid } from "./IGuid";
 export { Guid } from "./Guid";

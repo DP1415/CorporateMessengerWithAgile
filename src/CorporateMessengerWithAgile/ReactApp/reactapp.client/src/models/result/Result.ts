@@ -1,3 +1,4 @@
+// src/models/result/Result.ts
 import { AppError } from './AppError';
 
 export class Result<T = void> {
