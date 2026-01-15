@@ -1,20 +1,30 @@
-import { Result as ResultGeneric } from "./ResultGeneric";
-import { Error as AppError } from "./Error";
+import { AppError } from './AppError';
 
-// Для совместимости создаем alias для необобщенного результата
-export type ResultVoid = ResultGeneric<void>;
-export { ResultGeneric as Result };
+export class Result<T = void> {
+    private readonly _isSuccess: boolean;
+    private readonly _error?: AppError;
+    private readonly _value?: T;
 
-export class ResultFactory {
-    static success<T>(value?: T): ResultGeneric<T> {
-        return ResultGeneric.success(value);
+    protected constructor(isSuccess: boolean, error?: AppError, value?: T) {
+        this._isSuccess = isSuccess;
+        this._error = error;
+        this._value = value;
     }
 
-    static failure<T = void>(error: AppError): ResultGeneric<T> {
-        return ResultGeneric.failure(error);
+    get isSuccess(): boolean { return this._isSuccess; }
+    get isFailure(): boolean { return !this._isSuccess; }
+
+    get error(): AppError {
+        if (this._isSuccess) throw new Error('Result.CannotAccessExceptionOnSuccess. Не возможно получить доступ к свойству error при успешном результате.');
+        return this._error!;
+    }
+    get value(): T {
+        if (!this._isSuccess) throw new Error('Result.CannotAccessValueOnFailure. Не возможно получить доступ к свойству value для неудачного результата.');
+        return this._value!;
     }
 
-    static ok(): ResultGeneric<void> {
-        return ResultGeneric.ok();
-    }
+    static Success(): Result { return new Result(true, undefined, undefined); }
+    static Failure(error: AppError): Result { return new Result(false, error, undefined); }
+    static SuccessWith<T>(value: T): Result<T> { return new Result(true, undefined, value); }
+    static FailureWith<T>(error: AppError): Result<T> { return new Result(false, error, undefined as T); }
 }

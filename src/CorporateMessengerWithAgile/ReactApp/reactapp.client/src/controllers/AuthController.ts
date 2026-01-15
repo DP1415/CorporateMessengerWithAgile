@@ -1,6 +1,5 @@
 import { AbstractController } from './AbstractController';
-import { Result } from '../models/result/ResultGeneric';
-import { UserDto } from '../models/entity/UserDto';
+import { UserDto, Result } from '../models';
 
 interface LoginRequest {
     username: string;
@@ -19,15 +18,13 @@ interface LoginResponse {
 }
 
 export class AuthController extends AbstractController {
-    constructor() {
-        super('/Auth');
-    }
+    constructor() { super('/Auth'); }
 
-    async login(credentials: LoginRequest): Promise<Result<LoginResponse>> {
+    async Login(credentials: LoginRequest): Promise<Result<LoginResponse>> {
         return this.post<LoginResponse>('/Login', credentials);
     }
 
-    async register(userData: RegisterRequest): Promise<Result<UserDto>> {
+    async Register(userData: RegisterRequest): Promise<Result<UserDto>> {
         return this.post<UserDto>('/Register', userData);
     }
 }

@@ -12,6 +12,5 @@
     <Folder Include="src\components\" />
     <Folder Include="src\controllers\" />
     <Folder Include="src\models\entity\" />
-    <Folder Include="src\models\result\" />
   </ItemGroup>
 </Project>

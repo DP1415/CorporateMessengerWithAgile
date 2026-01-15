@@ -1,5 +1,4 @@
-import { Result } from "../models/result/ResultGeneric";
-import { Error as AppError } from "../models/result/Error";
+import { AppError, Result } from "../models";
 
 const API_BASE_URL: string = 'https://localhost:5018/cmwa';
 
@@ -28,22 +27,19 @@ export abstract class AbstractController {
         try {
             const response = await fetch(url, config);
             if (response.ok) {
-                if (response.status === 204) result = Result.success(undefined as T);
-                else {
-                    const data: T = await response.json();
-                    result = Result.success(data);
-                }
+                const data: T = await response.json();
+                result = Result.SuccessWith<T>(data);
             }
             else {
                 const errorBody = await response.json().catch(() => ({}));
                 const { code = 'Unknown.Error', message = 'Произошла неизвестная ошибка' } = errorBody;
                 const error = new AppError(code, message, response.status);
-                result = Result.failure<T>(error);
+                result = Result.FailureWith<T>(error);
             }
         } catch (error: unknown) {
             const errorMessage = error instanceof Error ? error.message : 'Произошла ошибка сети';
             const appError = new AppError('Network.Error', errorMessage, 0);
-            result = Result.failure<T>(appError);
+            result = Result.FailureWith<T>(appError);
         }
         if (result.isFailure) console.error(url, result.error);
         else console.log(url, result.value);

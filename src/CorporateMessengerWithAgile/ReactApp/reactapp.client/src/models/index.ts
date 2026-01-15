@@ -18,7 +18,5 @@ export { TeamDto } from "./entity/TeamDto";
 export { TeamMemberDto } from "./entity/TeamMemberDto";
 
 // Экспорт результатов и ошибок
-export { Error } from "./result/Error";
-export { Result } from "./result/ResultGeneric";
-export type { ResultVoid } from "./result/Result";
-export { ResultFactory } from "./result/Result";
+export { AppError } from "./result/AppError";
+export { Result } from "./result/Result";
