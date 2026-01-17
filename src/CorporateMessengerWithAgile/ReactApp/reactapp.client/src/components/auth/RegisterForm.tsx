@@ -34,7 +34,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
         <div className="auth-form">
             <h2>Регистрация</h2>
             <form onSubmit={handleSubmit}>
-                <div className="form-group">
+                <div className="auth-form-group">
                     <label htmlFor="reg-username">Имя пользователя:</label>
                     <input
                         type="text"
@@ -44,7 +44,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
                         required
                     />
                 </div>
-                <div className="form-group">
+                <div className="auth-form-group">
                     <label htmlFor="reg-email">Email:</label>
                     <input
                         type="email"
@@ -54,7 +54,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
                         required
                     />
                 </div>
-                <div className="form-group">
+                <div className="auth-form-group">
                     <label htmlFor="reg-password">Пароль:</label>
                     <input
                         type="password"

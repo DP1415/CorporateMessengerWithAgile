@@ -1,0 +1,31 @@
+﻿/* src/AuthForm.css */
+
+.auth-form {
+    width: 600px;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    text-align: left;
+}
+
+.auth-form-group {
+    margin-bottom: 15px;
+}
+
+    .auth-form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .auth-form-group input {
+        width: 100%;
+        padding: 8px;
+        background-color: transparent;
+        border-bottom: 1px solid #646cff;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        box-sizing: border-box;
+        font-family: "Cascadia Mono";
+    }

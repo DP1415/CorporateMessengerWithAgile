@@ -35,7 +35,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, initialUsername }) => 
         <div className="auth-form">
             <h2>Вход в профиль</h2>
             <form onSubmit={handleSubmit}>
-                <div className="form-group">
+                <div className="auth-form-group">
                     <label htmlFor="username">Имя пользователя:</label>
                     <input
                         type="text"
@@ -45,7 +45,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, initialUsername }) => 
                         required
                     />
                 </div>
-                <div className="form-group">
+                <div className="auth-form-group">
                     <label htmlFor="password">Пароль:</label>
                     <input
                         type="password"
