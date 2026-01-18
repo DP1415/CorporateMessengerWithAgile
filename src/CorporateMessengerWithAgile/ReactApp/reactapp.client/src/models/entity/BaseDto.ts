@@ -1,3 +1,4 @@
+// src/models/entity/BaseDto.ts
 import { Guid } from "../Guid";
 
 export abstract class BaseDto {

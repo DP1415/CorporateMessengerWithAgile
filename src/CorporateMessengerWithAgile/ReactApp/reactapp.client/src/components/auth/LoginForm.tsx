@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { AuthController } from '../../controllers';
 import { AppError, UserDto } from '../../models';
 import { useNavigate } from 'react-router-dom';
+import styles from './AuthForm.module.css';
 
 
 interface LoginFormProps {
@@ -30,12 +31,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, initialUsername }) => 
             setError(result.error);
         }
     };
-
     return (
-        <div className="auth-form">
+        <div className={styles.authForm}>
             <h2>Вход в профиль</h2>
             <form onSubmit={handleSubmit}>
-                <div className="auth-form-group">
+                <div className={styles.authFormGroup}>
                     <label htmlFor="username">Имя пользователя:</label>
                     <input
                         type="text"
@@ -45,7 +45,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, initialUsername }) => 
                         required
                     />
                 </div>
-                <div className="auth-form-group">
+                <div className={styles.authFormGroup}>
                     <label htmlFor="password">Пароль:</label>
                     <input
                         type="password"
@@ -57,13 +57,14 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, initialUsername }) => 
                 </div>
                 <button type="submit">Войти</button>
                 {error && (
-                    <div className="error-message" role="alert">
+                    <div className={styles.errorMessage} role="alert">
                         {error.message}
                     </div>
                 )}
             </form>
         </div>
     );
+
 };
 
 export default LoginForm;

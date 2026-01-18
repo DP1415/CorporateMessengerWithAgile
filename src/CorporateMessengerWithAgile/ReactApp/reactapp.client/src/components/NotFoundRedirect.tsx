@@ -1,4 +1,5 @@
 // src/components/NotFoundRedirect.tsx
+import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { UserDto } from '../models/entity/UserDto';
 

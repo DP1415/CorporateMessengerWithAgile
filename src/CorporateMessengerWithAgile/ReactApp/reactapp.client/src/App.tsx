@@ -1,8 +1,8 @@
 // src/App.tsx
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { UserDto } from './models/entity/UserDto';
-import { WelcomePage, LoginForm, RegisterForm, UserLayout, ProtectedRoute } from './components';
+import { WelcomePage, LoginForm, RegisterForm, UserLayout, ProtectedRoute, NotFoundRedirect } from './components';
 import ProfilePage from './components/user/ProfilePage';
 
 const App: React.FC = () => {
@@ -69,24 +69,11 @@ const App: React.FC = () => {
                         <Route path="profile" element={<ProfilePage />} />
                     </Route>
 
-                    {/* Обработка несуществующих маршрутов */}
-                    <Route
-                        path="*"
-                        element={<NotFoundRedirect authUser={authUser} authChecked={authChecked} />}
-                    />
+                    <Route path="*" element={<NotFoundRedirect authUser={authUser} authChecked={authChecked} />} />
                 </Routes>
             </div>
         </Router>
     );
 };
-
-// Компонент для редиректа при 404
-function NotFoundRedirect({ authUser, authChecked }: {
-    authUser: { token: string; user: UserDto } | null;
-    authChecked: boolean;
-}) {
-    if (!authChecked) return <div>Загрузка...</div>;
-    return authUser ? <Navigate to="/" replace /> : <Navigate to="/welcome" replace />;
-}
 
 export default App;

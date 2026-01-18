@@ -1,4 +1,5 @@
 // src/components/ProtectedRoute.tsx
+import React from 'react';
 import { Navigate } from 'react-router-dom';
 import type { ReactNode } from 'react';
 import { UserDto } from '../models/entity/UserDto';

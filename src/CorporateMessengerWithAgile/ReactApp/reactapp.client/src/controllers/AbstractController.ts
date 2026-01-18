@@ -33,12 +33,12 @@ export abstract class AbstractController {
             }
             else {
                 const errorBody = await response.json().catch(() => ({}));
-                const { code = 'Unknown.Error', message = 'Произошла неизвестная ошибка' } = errorBody;
+                const { code = 'Unknown.Error', message = 'РћС€РёР±РєР° РїСЂРё РѕР±СЂР°Р±РѕС‚РєРµ Р·Р°РїСЂРѕСЃР°' } = errorBody;
                 const error = new AppError(code, message, response.status);
                 result = Result.FailureWith<T>(error);
             }
         } catch (error: unknown) {
-            const errorMessage = error instanceof Error ? error.message : 'Произошла ошибка сети';
+            const errorMessage = error instanceof Error ? error.message : 'РћС€РёР±РєР° СЃРµС‚Рё';
             const appError = new AppError('Network.Error', errorMessage, 0);
             result = Result.FailureWith<T>(appError);
         }

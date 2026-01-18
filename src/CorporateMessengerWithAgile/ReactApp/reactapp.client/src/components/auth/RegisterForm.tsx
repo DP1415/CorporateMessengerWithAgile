@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { AuthController } from '../../controllers/AuthController';
 import { AppError, UserDto } from '../../models';
 import { useNavigate } from 'react-router-dom';
+import styles from './AuthForm.module.css';
 
 interface RegisterFormProps {
     onSuccess: (userData: UserDto) => void;
@@ -29,12 +30,11 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
             setError(result.error);
         }
     };
-
     return (
-        <div className="auth-form">
+        <div className={styles.authForm}>
             <h2>Регистрация</h2>
             <form onSubmit={handleSubmit}>
-                <div className="auth-form-group">
+                <div className={styles.authFormGroup}>
                     <label htmlFor="reg-username">Имя пользователя:</label>
                     <input
                         type="text"
@@ -44,7 +44,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
                         required
                     />
                 </div>
-                <div className="auth-form-group">
+                <div className={styles.authFormGroup}>
                     <label htmlFor="reg-email">Email:</label>
                     <input
                         type="email"
@@ -54,7 +54,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
                         required
                     />
                 </div>
-                <div className="auth-form-group">
+                <div className={styles.authFormGroup}>
                     <label htmlFor="reg-password">Пароль:</label>
                     <input
                         type="password"
@@ -66,7 +66,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
                 </div>
                 <button type="submit">Зарегистрироваться</button>
                 {error && (
-                    <div className="error-message" role="alert">
+                    <div className={styles.errorMessage} role="alert">
                         {error.message}
                     </div>
                 )}

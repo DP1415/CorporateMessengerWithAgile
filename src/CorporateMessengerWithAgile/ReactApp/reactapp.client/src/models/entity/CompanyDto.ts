@@ -1,3 +1,4 @@
+// src/models/entity/CompanyDto.ts
 import { BaseDto } from "./BaseDto";
 import { Guid } from "../Guid";
 

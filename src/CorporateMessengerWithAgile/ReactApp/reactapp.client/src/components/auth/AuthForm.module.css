@@ -1,24 +1,24 @@
-﻿/* src/AuthForm.css */
+/* src/components/auth/AuthForm.module.css */
 
-.auth-form {
-    width: 600px;
+.authForm {
+    width: 100%;
     max-width: 400px;
     margin: 0 auto;
     padding: 2rem 1.5rem;
     text-align: left;
 }
 
-.auth-form-group {
+.authFormGroup {
     margin-bottom: 15px;
 }
 
-    .auth-form-group label {
+    .authFormGroup label {
         display: block;
         margin-bottom: 5px;
         font-weight: bold;
     }
 
-    .auth-form-group input {
+    .authFormGroup input {
         width: 100%;
         padding: 8px;
         background-color: transparent;
@@ -29,3 +29,11 @@
         box-sizing: border-box;
         font-family: "Cascadia Mono";
     }
+
+.errorMessage {
+    color: red;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #ffe6e6;
+    border-radius: 4px;
+}
