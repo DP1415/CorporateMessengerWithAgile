@@ -2,7 +2,7 @@
 import { AbstractController } from './AbstractController';
 import { type UserDto, UserDtoSchema } from '../models/entity/UserDto';
 import { Result, AppError } from '../models';
-import { validateWithSchema } from '../utils/validation'; // ← импорт утилиты
+import { validateWithSchema } from '../utils/validation';
 
 interface LoginRequest {
     username: string;
@@ -26,7 +26,7 @@ export class AuthController extends AbstractController {
     }
 
     async Login(credentials: LoginRequest): Promise<Result<LoginResponse>> {
-        const result = await this.post('/Login', credentials);
+        const result = await this.request('POST', '/Login', credentials);
         if (result.isFailure) {
             return result as Result<LoginResponse>;
         }
@@ -52,7 +52,7 @@ export class AuthController extends AbstractController {
     }
 
     async Register(userData: RegisterRequest): Promise<Result<UserDto>> {
-        const result = await this.post('/Register', userData);
+        const result = await this.request('POST', '/Register', userData);
         if (result.isFailure) {
             return result as Result<UserDto>;
         }

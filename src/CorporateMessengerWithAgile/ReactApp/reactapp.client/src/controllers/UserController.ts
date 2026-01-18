@@ -1,5 +1,5 @@
 // src/controllers/UserController.ts
-import { AbstractController } from './AbstractController';
+import { AuthenticatedController } from './AuthenticatedController';
 import {
     type EmployeeWithCompanyAndPositionDto,
     EmployeeWithCompanyAndPositionDtoSchema,
@@ -9,13 +9,13 @@ import {
 import { validateWithSchema } from '../utils/validation';
 import { AppError } from '../models/result/AppError';
 
-export class UserController extends AbstractController {
+export class UserController extends AuthenticatedController {
     constructor() {
         super('/User');
     }
 
     async getEmployeesByUserId(id: Guid): Promise<Result<EmployeeWithCompanyAndPositionDto[]>> {
-        const result = await this.get(`/${id}/employees`);
+        const result = await this.request('GET', `/${id}/employees`);
         if (result.isFailure) {
             return result as Result<EmployeeWithCompanyAndPositionDto[]>;
         }
