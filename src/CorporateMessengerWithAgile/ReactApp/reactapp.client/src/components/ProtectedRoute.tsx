@@ -5,15 +5,19 @@ import type { ReactNode } from 'react';
 import { type UserDto } from '../models/entity/UserDto';
 
 interface ProtectedRouteProps {
-    element: ReactNode;
+    children: ReactNode;
     authUser: { token: string; user: UserDto } | null;
     authChecked: boolean;
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element, authUser, authChecked }) => {
-    if (!authChecked) { return <div>Проверка сессии...</div>; }
-    if (!authUser) { return <Navigate to="/login" replace />; }
-    return element;
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, authUser, authChecked }) => {
+    if (!authChecked) {
+        return <div>Проверка сессии...</div>;
+    }
+    if (!authUser) {
+        return <Navigate to="/login" replace />;
+    }
+    return <>{children}</>;
 };
 
 export default ProtectedRoute;

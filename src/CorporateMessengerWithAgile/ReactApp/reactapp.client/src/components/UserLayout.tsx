@@ -6,9 +6,15 @@ import styles from './UserLayout.module.css';
 
 interface UserLayoutProps {
     authUser: { token: string; user: UserDto };
+    onLogout: () => void;
 }
 
-const UserLayout: React.FC<UserLayoutProps> = ({ authUser }) => {
+export interface UserLayoutContext {
+    authUser: { token: string; user: UserDto };
+    onLogout: () => void;
+}
+
+const UserLayout: React.FC<UserLayoutProps> = ({ authUser, onLogout }) => {
     return (
         <div className={styles.userHomeLayout}>
             <aside className={styles.sidebar}>
@@ -21,7 +27,7 @@ const UserLayout: React.FC<UserLayoutProps> = ({ authUser }) => {
             </aside>
 
             <main className={styles.mainContent}>
-                <Outlet context={{ authUser }} />
+                <Outlet context={{ authUser, onLogout }} />
             </main>
         </div>
     );

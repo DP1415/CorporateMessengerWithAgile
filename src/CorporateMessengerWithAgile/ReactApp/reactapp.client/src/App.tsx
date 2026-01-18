@@ -34,6 +34,12 @@ const App: React.FC = () => {
         setInitialUsername(userData.username);
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('authUser');
+        setAuthUser(null);
+    };
+
     return (
         <Router>
             <div className="App">
@@ -43,11 +49,10 @@ const App: React.FC = () => {
                     <Route path="/register" element={<RegisterForm onSuccess={handleRegisterSuccess} />} />
 
                     <Route path="/" element={
-                        <ProtectedRoute
-                            authUser={authUser}
-                            authChecked={authChecked}
-                            element={<UserLayout authUser={authUser!} />}
-                        />}>
+                        <ProtectedRoute authUser={authUser} authChecked={authChecked}>
+                            <UserLayout authUser={authUser!} onLogout={handleLogout} />
+                        </ProtectedRoute>
+                    }>
                         <Route
                             index
                             element={

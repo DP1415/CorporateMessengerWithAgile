@@ -1,14 +1,10 @@
 // src/components/user/ProfilePage.tsx
 import React from 'react';
 import { useOutletContext } from 'react-router-dom';
-import { type UserDto } from '../../models/entity/UserDto';
-
-interface UserLayoutContext {
-    authUser: { token: string; user: UserDto };
-}
+import type { UserLayoutContext } from '../UserLayout';
 
 const ProfilePage: React.FC = () => {
-    const { authUser } = useOutletContext<UserLayoutContext>();
+    const { authUser, onLogout } = useOutletContext<UserLayoutContext>();
     const { user } = authUser;
 
     return (
@@ -20,6 +16,10 @@ const ProfilePage: React.FC = () => {
                 <p><strong>Роль:</strong> {user.role}</p>
                 <p><strong>Телефон:</strong> {user.phoneNumber || 'Не указан'}</p>
             </div>
+
+            <button onClick={onLogout}>
+                Выйти
+            </button>
         </div>
     );
 };
