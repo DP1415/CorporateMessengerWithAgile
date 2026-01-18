@@ -1,24 +1,13 @@
 // src/models/entity/SprintDto.ts
-import { BaseDto } from "./BaseDto";
-import { Guid } from "../Guid";
+import { z } from 'zod';
+import { BaseDtoSchema } from './BaseDto';
+import { GuidSchema } from '../Guid';
 
-export class SprintDto extends BaseDto {
-    public teamId: Guid;
-    public dateStart: Date;
-    public dateEnd: Date;
-    public taskItemIds: Guid[];
+export const SprintDtoSchema = BaseDtoSchema.extend({
+    teamId: GuidSchema,
+    dateStart: z.coerce.date(),
+    dateEnd: z.coerce.date(),
+    taskItemIds: z.array(GuidSchema).optional(),
+});
 
-    constructor(
-        id: Guid,
-        teamId: Guid,
-        dateStart: Date,
-        dateEnd: Date,
-        taskItemIds: Guid[]
-    ) {
-        super(id);
-        this.teamId = teamId;
-        this.dateStart = dateStart;
-        this.dateEnd = dateEnd;
-        this.taskItemIds = taskItemIds;
-    }
-}
+export type SprintDto = z.infer<typeof SprintDtoSchema>;

@@ -1,24 +1,13 @@
 // src/models/entity/PositionInCompanyDto.ts
-import { BaseDto } from "./BaseDto";
-import { Guid } from "../Guid";
+import { z } from 'zod';
+import { BaseDtoSchema } from './BaseDto';
+import { GuidSchema } from '../Guid';
 
-export class PositionInCompanyDto extends BaseDto {
-    public companyId: Guid;
-    public title: string;
-    public description: string;
-    public employeeIds: Guid[];
+export const PositionInCompanyDtoSchema = BaseDtoSchema.extend({
+    companyId: GuidSchema,
+    title: z.string().min(1),
+    description: z.string(),
+    employeeIds: z.array(GuidSchema).optional(),
+});
 
-    constructor(
-        id: Guid,
-        companyId: Guid,
-        title: string,
-        description: string,
-        employeeIds: Guid[]
-    ) {
-        super(id);
-        this.companyId = companyId;
-        this.title = title;
-        this.description = description;
-        this.employeeIds = employeeIds;
-    }
-}
+export type PositionInCompanyDto = z.infer<typeof PositionInCompanyDtoSchema>;

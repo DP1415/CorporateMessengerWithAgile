@@ -1,10 +1,9 @@
 // src/models/entity/BaseDto.ts
-import { Guid } from "../Guid";
+import { z } from 'zod';
+import { GuidSchema } from '../Guid';
 
-export abstract class BaseDto {
-    public id: Guid;
+export const BaseDtoSchema = z.object({
+    id: GuidSchema,
+});
 
-    constructor(id: Guid) {
-        this.id = id;
-    }
-}
+export type BaseDto = z.infer<typeof BaseDtoSchema>;

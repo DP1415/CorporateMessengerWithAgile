@@ -1,24 +1,13 @@
 // src/models/entity/CompanyDto.ts
-import { BaseDto } from "./BaseDto";
-import { Guid } from "../Guid";
+import { z } from 'zod';
+import { BaseDtoSchema } from './BaseDto';
+import { GuidSchema } from '../Guid';
 
-export class CompanyDto extends BaseDto {
-    public title: string;
-    public employeeIds: Guid[];
-    public positionIds: Guid[];
-    public projectIds: Guid[];
+export const CompanyDtoSchema = BaseDtoSchema.extend({
+    title: z.string().min(1),
+    employeeIds: z.array(GuidSchema).optional(),
+    positionIds: z.array(GuidSchema).optional(),
+    projectIds: z.array(GuidSchema).optional(),
+});
 
-    constructor(
-        id: Guid,
-        title: string,
-        employeeIds: Guid[],
-        positionIds: Guid[],
-        projectIds: Guid[]
-    ) {
-        super(id);
-        this.title = title;
-        this.employeeIds = employeeIds;
-        this.positionIds = positionIds;
-        this.projectIds = projectIds;
-    }
-}
+export type CompanyDto = z.infer<typeof CompanyDtoSchema>;

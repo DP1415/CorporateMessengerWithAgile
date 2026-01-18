@@ -1,24 +1,13 @@
 // src/models/entity/TaskItemInSprintDto.ts
-import { BaseDto } from "./BaseDto";
-import { Guid } from "../Guid";
+import { z } from 'zod';
+import { BaseDtoSchema } from './BaseDto';
+import { GuidSchema } from '../Guid';
 
-export class TaskItemInSprintDto extends BaseDto {
-    public taskItemId: Guid;
-    public sprintId: Guid;
-    public taskStatus: string;
-    public description: string;
+export const TaskItemInSprintDtoSchema = BaseDtoSchema.extend({
+    taskItemId: GuidSchema,
+    sprintId: GuidSchema,
+    taskStatus: z.string().min(1),
+    description: z.string(),
+});
 
-    constructor(
-        id: Guid,
-        taskItemId: Guid,
-        sprintId: Guid,
-        taskStatus: string,
-        description: string
-    ) {
-        super(id);
-        this.taskItemId = taskItemId;
-        this.sprintId = sprintId;
-        this.taskStatus = taskStatus;
-        this.description = description;
-    }
-}
+export type TaskItemInSprintDto = z.infer<typeof TaskItemInSprintDtoSchema>;

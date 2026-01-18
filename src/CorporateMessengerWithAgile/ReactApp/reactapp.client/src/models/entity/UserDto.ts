@@ -1,27 +1,14 @@
 // src/models/entity/UserDto.ts
-import { BaseDto } from "./BaseDto";
-import { Guid } from "../Guid";
+import { z } from 'zod';
+import { BaseDtoSchema } from './BaseDto';
+import { GuidSchema } from '../Guid';
 
-export class UserDto extends BaseDto {
-    public email: string;
-    public username: string;
-    public phoneNumber: string;
-    public role: string;
-    public employeeIds: Guid[];
+export const UserDtoSchema = BaseDtoSchema.extend({
+    email: z.email(),
+    username: z.string().min(1),
+    phoneNumber: z.string().nullable().optional(),
+    role: z.string().min(1),
+    employeeIds: z.array(GuidSchema).optional(),
+});
 
-    constructor(
-        id: Guid,
-        email: string,
-        username: string,
-        phoneNumber: string,
-        role: string,
-        employeeIds: Guid[]
-    ) {
-        super(id);
-        this.email = email;
-        this.username = username;
-        this.phoneNumber = phoneNumber;
-        this.role = role;
-        this.employeeIds = employeeIds;
-    }
-}
+export type UserDto = z.infer<typeof UserDtoSchema>;

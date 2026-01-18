@@ -1,28 +1,16 @@
 // src/models/entity/EmployeeWithCompanyAndPositionDto.ts
-import { BaseDto } from "./BaseDto";
-import { Guid } from "../Guid";
-import { CompanyDto } from "./CompanyDto";
-import { PositionInCompanyDto } from "./PositionInCompanyDto";
-import { UserDto } from "./UserDto";
-import { TeamMemberDto } from "./TeamMemberDto";
+import { z } from 'zod';
+import { BaseDtoSchema } from './BaseDto';
+import { CompanyDtoSchema } from './CompanyDto';
+import { PositionInCompanyDtoSchema } from './PositionInCompanyDto';
+import { UserDtoSchema } from './UserDto';
+import { TeamMemberDtoSchema } from './TeamMemberDto';
 
-export class EmployeeWithCompanyAndPositionDto extends BaseDto {
-    public company: CompanyDto;
-    public positionInCompany: PositionInCompanyDto;
-    public user: UserDto;
-    public teamMembers: TeamMemberDto[];
+export const EmployeeWithCompanyAndPositionDtoSchema = BaseDtoSchema.extend({
+    company: CompanyDtoSchema,
+    positionInCompany: PositionInCompanyDtoSchema,
+    user: UserDtoSchema,
+    teamMembers: z.array(TeamMemberDtoSchema).optional(),
+});
 
-    constructor(
-        id: Guid,
-        company: CompanyDto,
-        positionInCompany: PositionInCompanyDto,
-        user: UserDto,
-        teamMembers: TeamMemberDto[]
-    ) {
-        super(id);
-        this.company = company;
-        this.positionInCompany = positionInCompany;
-        this.user = user;
-        this.teamMembers = teamMembers;
-    }
-}
+export type EmployeeWithCompanyAndPositionDto = z.infer<typeof EmployeeWithCompanyAndPositionDtoSchema>;

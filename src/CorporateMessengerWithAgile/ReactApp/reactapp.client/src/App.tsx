@@ -1,7 +1,8 @@
 // src/App.tsx
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { UserDto } from './models/entity/UserDto';
+import { type UserDto, UserDtoSchema } from './models/entity/UserDto';
+import { loadFromStorage, saveToStorage } from './utils/storage';
 import { WelcomePage, LoginForm, RegisterForm, UserLayout, ProtectedRoute, NotFoundRedirect } from './components';
 import ProfilePage from './components/user/ProfilePage';
 
@@ -12,24 +13,21 @@ const App: React.FC = () => {
 
     useEffect(() => {
         const token = localStorage.getItem('accessToken');
-        const userStr = localStorage.getItem('authUser');
-        if (token && userStr) {
-            try {
-                const user = JSON.parse(userStr) as UserDto;
+        const user = loadFromStorage('authUser', UserDtoSchema);
+        if (token && user) {
+            setTimeout(() => {
                 setAuthUser({ token, user });
-            } catch {
-                console.error('Failed to parse stored user data');
-                localStorage.removeItem('accessToken');
-                localStorage.removeItem('authUser');
-            }
+            }, 0);
         }
-        setAuthChecked(true);
+        setTimeout(() => {
+            setAuthChecked(true);
+        }, 0);
     }, []);
 
     const handleAuthSuccess = (userData: { token: string; user: UserDto }) => {
         setAuthUser(userData);
         localStorage.setItem('accessToken', userData.token);
-        localStorage.setItem('authUser', JSON.stringify(userData.user));
+        saveToStorage('authUser', userData.user);
     };
 
     const handleRegisterSuccess = (userData: UserDto) => {
@@ -45,24 +43,20 @@ const App: React.FC = () => {
                     <Route path="/register" element={<RegisterForm onSuccess={handleRegisterSuccess} />} />
 
                     <Route path="/" element={
-                        <ProtectedRoute authUser={authUser} authChecked={authChecked} element={<UserLayout authUser={authUser!} />}
-                        />}
-                    >
+                        <ProtectedRoute
+                            authUser={authUser}
+                            authChecked={authChecked}
+                            element={<UserLayout authUser={authUser!} />}
+                        />}>
                         <Route
                             index
                             element={
                                 <div>
-                                    <p>Это ваша домашняя страница</p>
-                                    <div>
-                                        <h3>Информация о пользователе:</h3>
-                                        <p>Email: {authUser?.user.email}</p>
-                                        <p>Имя пользователя: {authUser?.user.username}</p>
-                                        <p>Роль: {authUser?.user.role}</p>
-                                        <p>Номер телефона: {authUser?.user.phoneNumber}</p>
-                                    </div>
-                                    <div>
-                                        <p>Здесь будет отображаться персонализированный контент</p>
-                                    </div>
+                                    <p>Домашняя страница</p>
+                                    <p>Email: {authUser?.user.email}</p>
+                                    <p>Имя пользователя: {authUser?.user.username}</p>
+                                    <p>Роль: {authUser?.user.role}</p>
+                                    <p>Номер телефона: {authUser?.user.phoneNumber}</p>
                                 </div>
                             }
                         />

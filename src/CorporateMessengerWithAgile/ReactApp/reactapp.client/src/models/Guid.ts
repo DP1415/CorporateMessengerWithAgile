@@ -1,46 +1,21 @@
-import type { IGuid } from "./IGuid";
+// src/models/Guid.ts
+import { z } from 'zod';
 
-const GUID_REGEX: RegExp = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+export type Guid = string;
 
-export class Guid implements IGuid {
-    private _value: string;
+const UUID_V4_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
-    public get value(): string { return this._value; }
+export const GuidSchema = z.string().regex(UUID_V4_REGEX, {
+    message: "Invalid GUID format",
+});
 
-    private constructor(value: string, skipValidation: boolean = false) {
-        if (skipValidation) {
-            this._value = value;
-        } else {
-            if (typeof value !== 'string' || !GUID_REGEX.test(value)) {
-                throw new Error("Invalid GUID format");
-            }
-            this._value = value.toLowerCase();
-        }
-    }
-
-    static newGuid(): Guid {
-        const guid: string = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
-            /[xy]/g,
-            (c: string): string => {
-                const r: number = (Math.random() * 16) | 0;
-                const v: number = c === 'x' ? r : (r & 0x3) | 0x8;
-                return v.toString(16);
-            }
-        );
-        return new Guid(guid, true);
-    }
-
-    static isValid(value: unknown): boolean {
-        return typeof value === 'string' && GUID_REGEX.test(value);
-    }
-
-    public equals(other: unknown): boolean {
-        if (other === null || other === undefined) {
-            return false;
-        }
-        if (!(other instanceof Guid)) {
-            return false;
-        }
-        return this._value === other._value;
-    }
-}
+///**
+// * Генерация нового GUID (если нужно на фронтенде)
+// */
+//export const newGuid = (): Guid => {
+//    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+//        const r = (Math.random() * 16) | 0;
+//        const v = c === 'x' ? r : (r & 0x3) | 0x8;
+//        return v.toString(16);
+//    });
+//};

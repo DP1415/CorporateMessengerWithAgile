@@ -1,23 +1,19 @@
 // src/models/index.ts
-// Экспорт интерфейсов и типов
-export type { IGuid } from "./IGuid";
-export { Guid } from "./Guid";
+export { GuidSchema, type Guid } from "./Guid";
+export { BaseDtoSchema, type BaseDto } from "./entity/BaseDto";
 
-// Экспорт DTO
-export { BaseDto } from "./entity/BaseDto";
-export { UserDto } from "./entity/UserDto";
-export { CompanyDto } from "./entity/CompanyDto";
-export { PositionInCompanyDto } from "./entity/PositionInCompanyDto";
-export { EmployeeDto } from "./entity/EmployeeDto";
-export { EmployeeWithCompanyAndPositionDto } from "./entity/EmployeeWithCompanyAndPositionDto";
-export { KanbanBoardColumnDto } from "./entity/KanbanBoardColumnDto";
-export { ProjectDto } from "./entity/ProjectDto";
-export { SprintDto } from "./entity/SprintDto";
-export { TaskItemDto } from "./entity/TaskItemDto";
-export { TaskItemInSprintDto } from "./entity/TaskItemInSprintDto";
-export { TeamDto } from "./entity/TeamDto";
-export { TeamMemberDto } from "./entity/TeamMemberDto";
+export { UserDtoSchema, type UserDto } from "./entity/UserDto";
+export { CompanyDtoSchema, type CompanyDto } from "./entity/CompanyDto";
+export { PositionInCompanyDtoSchema, type PositionInCompanyDto } from "./entity/PositionInCompanyDto";
+export { EmployeeDtoSchema, type EmployeeDto } from "./entity/EmployeeDto";
+export { EmployeeWithCompanyAndPositionDtoSchema, type EmployeeWithCompanyAndPositionDto } from "./entity/EmployeeWithCompanyAndPositionDto";
+export { KanbanBoardColumnDtoSchema, type KanbanBoardColumnDto } from "./entity/KanbanBoardColumnDto";
+export { ProjectDtoSchema, type ProjectDto } from "./entity/ProjectDto";
+export { SprintDtoSchema, type SprintDto } from "./entity/SprintDto";
+export { TaskItemDtoSchema, type TaskItemDto } from "./entity/TaskItemDto";
+export { TaskItemInSprintDtoSchema, type TaskItemInSprintDto } from "./entity/TaskItemInSprintDto";
+export { TeamDtoSchema, type TeamDto } from "./entity/TeamDto";
+export { TeamMemberDtoSchema, type TeamMemberDto } from "./entity/TeamMemberDto";
 
-// Экспорт результатов и ошибок
 export { AppError } from "./result/AppError";
 export { Result } from "./result/Result";

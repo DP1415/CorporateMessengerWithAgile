@@ -1,6 +1,8 @@
 // src/controllers/AuthController.ts
 import { AbstractController } from './AbstractController';
-import { UserDto, Result } from '../models';
+import { type UserDto, UserDtoSchema } from '../models/entity/UserDto';
+import { Result, AppError } from '../models';
+import { validateWithSchema } from '../utils/validation'; // ← импорт утилиты
 
 interface LoginRequest {
     username: string;
@@ -19,13 +21,42 @@ interface LoginResponse {
 }
 
 export class AuthController extends AbstractController {
-    constructor() { super('/Auth'); }
+    constructor() {
+        super('/Auth');
+    }
 
     async Login(credentials: LoginRequest): Promise<Result<LoginResponse>> {
-        return this.post<LoginResponse>('/Login', credentials);
+        const result = await this.post('/Login', credentials);
+        if (result.isFailure) {
+            return result as Result<LoginResponse>;
+        }
+
+        const value = result.value;
+
+        if (typeof value !== 'object' || value === null) {
+            return Result.FailureWith(new AppError('Validation.Error', 'Response is not an object', -1));
+        }
+
+        const valueObj = value as Record<string, unknown>;
+
+        if (typeof valueObj.token !== 'string') {
+            return Result.FailureWith(new AppError('Validation.Error', 'Missing or invalid token', -1));
+        }
+
+        const userResult = validateWithSchema(UserDtoSchema, valueObj.user);
+        if (userResult.isFailure) {
+            return Result.FailureWith<LoginResponse>(userResult.error);
+        }
+
+        return Result.SuccessWith({ token: valueObj.token, user: userResult.value });
     }
 
     async Register(userData: RegisterRequest): Promise<Result<UserDto>> {
-        return this.post<UserDto>('/Register', userData);
+        const result = await this.post('/Register', userData);
+        if (result.isFailure) {
+            return result as Result<UserDto>;
+        }
+
+        return validateWithSchema(UserDtoSchema, result.value);
     }
 }

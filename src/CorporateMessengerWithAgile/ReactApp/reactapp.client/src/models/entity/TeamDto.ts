@@ -1,30 +1,15 @@
 // src/models/entity/TeamDto.ts
-import { BaseDto } from "./BaseDto";
-import { Guid } from "../Guid";
+import { z } from 'zod';
+import { BaseDtoSchema } from './BaseDto';
+import { GuidSchema } from '../Guid';
 
-export class TeamDto extends BaseDto {
-    public projectId: Guid;
-    public title: string;
-    public standardSprintDuration: number;
-    public teamMemberIds: Guid[];
-    public sprintIds: Guid[];
-    public kanbanBoardColumnIds: Guid[];
+export const TeamDtoSchema = BaseDtoSchema.extend({
+    projectId: GuidSchema,
+    title: z.string().min(1),
+    standardSprintDuration: z.number(),
+    teamMemberIds: z.array(GuidSchema).optional(),
+    sprintIds: z.array(GuidSchema).optional(),
+    kanbanBoardColumnIds: z.array(GuidSchema).optional(),
+});
 
-    constructor(
-        id: Guid,
-        projectId: Guid,
-        title: string,
-        standardSprintDuration: number,
-        teamMemberIds: Guid[],
-        sprintIds: Guid[],
-        kanbanBoardColumnIds: Guid[]
-    ) {
-        super(id);
-        this.projectId = projectId;
-        this.title = title;
-        this.standardSprintDuration = standardSprintDuration;
-        this.teamMemberIds = teamMemberIds;
-        this.sprintIds = sprintIds;
-        this.kanbanBoardColumnIds = kanbanBoardColumnIds;
-    }
-}
+export type TeamDto = z.infer<typeof TeamDtoSchema>;

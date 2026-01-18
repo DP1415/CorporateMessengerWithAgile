@@ -1,18 +1,11 @@
 // src/models/entity/TeamMemberDto.ts
-import { BaseDto } from "./BaseDto";
-import { Guid } from "../Guid";
+import { z } from 'zod';
+import { BaseDtoSchema } from './BaseDto';
+import { GuidSchema } from '../Guid';
 
-export class TeamMemberDto extends BaseDto {
-    public employeeId: Guid;
-    public teamId: Guid;
+export const TeamMemberDtoSchema = BaseDtoSchema.extend({
+    employeeId: GuidSchema,
+    teamId: GuidSchema,
+});
 
-    constructor(
-        id: Guid,
-        employeeId: Guid,
-        teamId: Guid
-    ) {
-        super(id);
-        this.employeeId = employeeId;
-        this.teamId = teamId;
-    }
-}
+export type TeamMemberDto = z.infer<typeof TeamMemberDtoSchema>;

@@ -1,14 +1,14 @@
 // src/components/user/ProfilePage.tsx
 import React from 'react';
 import { useOutletContext } from 'react-router-dom';
-import { UserDto } from '../../models/entity/UserDto';
+import { type UserDto } from '../../models/entity/UserDto';
 
-interface UserHomeContext {
+interface UserLayoutContext {
     authUser: { token: string; user: UserDto };
 }
 
 const ProfilePage: React.FC = () => {
-    const { authUser } = useOutletContext<UserHomeContext>();
+    const { authUser } = useOutletContext<UserLayoutContext>();
     const { user } = authUser;
 
     return (

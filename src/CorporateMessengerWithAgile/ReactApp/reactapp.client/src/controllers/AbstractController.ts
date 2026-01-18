@@ -14,9 +14,12 @@ export abstract class AbstractController {
             ...headers
         };
     }
-
-    protected async request<T>(endpoint: string, options: RequestInit = {}): Promise<Result<T>> {
+    private async request(endpoint: string, options: RequestInit = {}): Promise<Result<unknown>> {
         const url = this.baseUrl + endpoint;
+        const method = options.method || 'GET';
+
+        console.log(`[API] ${method} -> ${url}`); // ✅ Логируем начало запроса
+
         const config: RequestInit = {
             ...options,
             headers: {
@@ -24,50 +27,67 @@ export abstract class AbstractController {
                 ...options.headers
             }
         };
-        let result: Result<T>;
+
+        let response: Response;
+
         try {
-            const response = await fetch(url, config);
-            if (response.ok) {
-                const data: T = await response.json();
-                result = Result.SuccessWith<T>(data);
-            }
-            else {
-                const errorBody = await response.json().catch(() => ({}));
-                const { code = 'Unknown.Error', message = 'Ошибка при обработке запроса' } = errorBody;
-                const error = new AppError(code, message, response.status);
-                result = Result.FailureWith<T>(error);
-            }
+            response = await fetch(url, config);
         } catch (error: unknown) {
             const errorMessage = error instanceof Error ? error.message : 'Ошибка сети';
-            const appError = new AppError('Network.Error', errorMessage, 0);
-            result = Result.FailureWith<T>(appError);
+            console.error(`[API] Network Error at ${url}:`, errorMessage); // ✅ Логируем ошибку сети
+            const appError = new AppError('Network.Error', errorMessage, -1);
+            return Result.FailureWith(appError);
         }
-        if (result.isFailure) console.error(url, result.error);
-        else console.log(url, result.value);
-        return result;
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log(`[API] Success ${response.status} <- ${url}`, data); // ✅ Логируем успешный ответ
+            return Result.SuccessWith(data);
+        }
+
+        const errorBody = await response.json().catch(() => ({}));
+        const { code = 'Unknown.Error', message = 'Ошибка при обработке запроса' } = errorBody;
+        const error = new AppError(code, message, response.status);
+
+        console.error(`[API] Failed ${response.status} <- ${url}`, errorBody); // ✅ Логируем ошибку сервера
+        return Result.FailureWith(error);
     }
 
-    protected get<T>(endpoint: string, headers: HeadersInit = {}): Promise<Result<T>> {
-        return this.request<T>(endpoint, { method: 'GET', headers });
+    protected get(endpoint: string, headers: HeadersInit = {}): Promise<Result<unknown>> {
+        return this.request(
+            endpoint,
+            {
+                method: 'GET',
+                headers
+            });
     }
 
-    protected post<T>(endpoint: string, body?: unknown, headers: HeadersInit = {}): Promise<Result<T>> {
-        return this.request<T>(endpoint, {
-            method: 'POST',
-            headers,
-            body: body != null ? JSON.stringify(body) : undefined
-        });
+    protected post(endpoint: string, body?: unknown, headers: HeadersInit = {}): Promise<Result<unknown>> {
+        return this.request(
+            endpoint,
+            {
+                method: 'POST',
+                headers,
+                body: body != null ? JSON.stringify(body) : undefined
+            });
     }
 
-    protected put<T>(endpoint: string, body?: unknown, headers: HeadersInit = {}): Promise<Result<T>> {
-        return this.request<T>(endpoint, {
-            method: 'PUT',
-            headers,
-            body: body != null ? JSON.stringify(body) : undefined
-        });
+    protected put(endpoint: string, body?: unknown, headers: HeadersInit = {}): Promise<Result<unknown>> {
+        return this.request(
+            endpoint,
+            {
+                method: 'PUT',
+                headers,
+                body: body != null ? JSON.stringify(body) : undefined
+            });
     }
 
-    protected delete<T>(endpoint: string, headers: HeadersInit = {}): Promise<Result<T>> {
-        return this.request<T>(endpoint, { method: 'DELETE', headers });
+    protected delete(endpoint: string, headers: HeadersInit = {}): Promise<Result<unknown>> {
+        return this.request(
+            endpoint,
+            {
+                method: 'DELETE',
+                headers
+            });
     }
 }

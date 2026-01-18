@@ -1,14 +1,14 @@
 // src/components/UserLayout.tsx
 import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
-import { UserDto } from '../models/entity/UserDto';
+import { type UserDto } from '../models/entity/UserDto';
 import styles from './UserLayout.module.css';
 
-interface UserHomePageProps {
+interface UserLayoutProps {
     authUser: { token: string; user: UserDto };
 }
 
-const UserLayout: React.FC<UserHomePageProps> = ({ authUser }) => {
+const UserLayout: React.FC<UserLayoutProps> = ({ authUser }) => {
     return (
         <div className={styles.userHomeLayout}>
             <aside className={styles.sidebar}>

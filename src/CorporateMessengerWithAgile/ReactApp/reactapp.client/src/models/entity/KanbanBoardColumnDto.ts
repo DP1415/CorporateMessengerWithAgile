@@ -1,24 +1,13 @@
 // src/models/entity/KanbanBoardColumnDto.ts
-import { BaseDto } from "./BaseDto";
-import { Guid } from "../Guid";
+import { z } from 'zod';
+import { BaseDtoSchema } from './BaseDto';
+import { GuidSchema } from '../Guid';
 
-export class KanbanBoardColumnDto extends BaseDto {
-    public teamId: Guid;
-    public taskStatus: string;
-    public positionOnBoard: number;
-    public title: string;
+export const KanbanBoardColumnDtoSchema = BaseDtoSchema.extend({
+    teamId: GuidSchema,
+    taskStatus: z.string().min(1),
+    positionOnBoard: z.number(),
+    title: z.string().min(1),
+});
 
-    constructor(
-        id: Guid,
-        teamId: Guid,
-        taskStatus: string,
-        positionOnBoard: number,
-        title: string
-    ) {
-        super(id);
-        this.teamId = teamId;
-        this.taskStatus = taskStatus;
-        this.positionOnBoard = positionOnBoard;
-        this.title = title;
-    }
-}
+export type KanbanBoardColumnDto = z.infer<typeof KanbanBoardColumnDtoSchema>;
