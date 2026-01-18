@@ -2,7 +2,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { UserDto } from './models/entity/UserDto';
-import { WelcomePage, LoginForm, RegisterForm, UserHomePage, ProtectedRoute } from './components';
+import { WelcomePage, LoginForm, RegisterForm, UserHomePage, ProtectedRoute, NotFoundRedirect } from './components';
 
 const App: React.FC = () => {
     const [authUser, setAuthUser] = useState<{ token: string; user: UserDto } | null>(null);
@@ -40,11 +40,11 @@ const App: React.FC = () => {
         <Router>
             <div className="App">
                 <Routes>
-                    <Route path="/" element={<WelcomePage />} />
+                    <Route path="/welcome" element={<WelcomePage />} />
                     <Route path="/login" element={<LoginForm onSuccess={handleAuthSuccess} initialUsername={initialUsername} />} />
                     <Route path="/register" element={<RegisterForm onSuccess={handleRegisterSuccess} />} />
                     <Route
-                        path="/:username"
+                        path="/"
                         element={
                             <ProtectedRoute
                                 authUser={authUser}
@@ -53,7 +53,7 @@ const App: React.FC = () => {
                             />
                         }
                     />
-                    <Route path="*" element={<Navigate to="/" replace />} />
+                    <Route path="*" element={<NotFoundRedirect authUser={authUser} authChecked={authChecked} />} />
                 </Routes>
             </div>
         </Router >

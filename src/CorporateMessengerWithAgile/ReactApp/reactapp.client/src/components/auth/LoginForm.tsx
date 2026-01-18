@@ -25,7 +25,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, initialUsername }) => 
 
         if (result.isSuccess) {
             onSuccess(result.value);
-            navigate(`/${result.value.user.username}`);
+            navigate('/');
         } else {
             setError(result.error);
         }
