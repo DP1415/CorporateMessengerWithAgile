@@ -8,7 +8,7 @@ interface NotFoundRedirectProps {
 }
 
 const NotFoundRedirect: React.FC<NotFoundRedirectProps> = ({ authUser, authChecked }) => {
-    if (!authChecked) { return <div>Загрузка...</div>; }
+    if (!authChecked) { return <div>Р—Р°РіСЂСѓР·РєР°...</div>; }
     if (authUser) { return <Navigate to="/" replace />; }
     return <Navigate to="/welcome" replace />;
 };

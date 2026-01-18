@@ -1,8 +1,9 @@
-﻿// src/App.tsx
+// src/App.tsx
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { UserDto } from './models/entity/UserDto';
-import { WelcomePage, LoginForm, RegisterForm, UserHomePage, ProtectedRoute, NotFoundRedirect } from './components';
+import { WelcomePage, LoginForm, RegisterForm, UserLayout, ProtectedRoute } from './components';
+import ProfilePage from './components/user/ProfilePage';
 
 const App: React.FC = () => {
     const [authUser, setAuthUser] = useState<{ token: string; user: UserDto } | null>(null);
@@ -25,7 +26,6 @@ const App: React.FC = () => {
         setAuthChecked(true);
     }, []);
 
-
     const handleAuthSuccess = (userData: { token: string; user: UserDto }) => {
         setAuthUser(userData);
         localStorage.setItem('accessToken', userData.token);
@@ -43,21 +43,50 @@ const App: React.FC = () => {
                     <Route path="/welcome" element={<WelcomePage />} />
                     <Route path="/login" element={<LoginForm onSuccess={handleAuthSuccess} initialUsername={initialUsername} />} />
                     <Route path="/register" element={<RegisterForm onSuccess={handleRegisterSuccess} />} />
+
+                    <Route path="/" element={
+                        <ProtectedRoute authUser={authUser} authChecked={authChecked} element={<UserLayout authUser={authUser!} />}
+                        />}
+                    >
+                        <Route
+                            index
+                            element={
+                                <div>
+                                    <p>Это ваша домашняя страница</p>
+                                    <div>
+                                        <h3>Информация о пользователе:</h3>
+                                        <p>Email: {authUser?.user.email}</p>
+                                        <p>Имя пользователя: {authUser?.user.username}</p>
+                                        <p>Роль: {authUser?.user.role}</p>
+                                        <p>Номер телефона: {authUser?.user.phoneNumber}</p>
+                                    </div>
+                                    <div>
+                                        <p>Здесь будет отображаться персонализированный контент</p>
+                                    </div>
+                                </div>
+                            }
+                        />
+                        <Route path="profile" element={<ProfilePage />} />
+                    </Route>
+
+                    {/* Обработка несуществующих маршрутов */}
                     <Route
-                        path="/"
-                        element={
-                            <ProtectedRoute
-                                authUser={authUser}
-                                authChecked={authChecked}
-                                element={<UserHomePage authUser={authUser!} />}
-                            />
-                        }
+                        path="*"
+                        element={<NotFoundRedirect authUser={authUser} authChecked={authChecked} />}
                     />
-                    <Route path="*" element={<NotFoundRedirect authUser={authUser} authChecked={authChecked} />} />
                 </Routes>
             </div>
-        </Router >
+        </Router>
     );
 };
+
+// Компонент для редиректа при 404
+function NotFoundRedirect({ authUser, authChecked }: {
+    authUser: { token: string; user: UserDto } | null;
+    authChecked: boolean;
+}) {
+    if (!authChecked) return <div>Загрузка...</div>;
+    return authUser ? <Navigate to="/" replace /> : <Navigate to="/welcome" replace />;
+}
 
 export default App;
