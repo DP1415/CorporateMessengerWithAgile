@@ -7,9 +7,10 @@ const CompanyPage: React.FC = () => {
     const { companyTitle } = useParams<{ companyTitle: string }>();
     const { workplaces } = useOutletContext<UserLayoutContext>();
 
-    if (!workplaces) return <></>;
+    if (!workplaces) return <div>Загрузка...</div>;
 
-    const workplace = workplaces.find(w => w.company.title === companyTitle);
+    const decodedCompanyTitle = decodeURIComponent(companyTitle || '');
+    const workplace = workplaces.find(w => w.company.title === decodedCompanyTitle);
     if (!workplace) return <div>Компания не найдена</div>;
 
     return (

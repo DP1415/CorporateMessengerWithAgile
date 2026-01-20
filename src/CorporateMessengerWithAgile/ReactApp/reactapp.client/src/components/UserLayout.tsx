@@ -54,7 +54,7 @@ const UserLayout: React.FC<UserLayoutProps> = ({ authUser }) => {
                                 workplaces.map(
                                     w => (
                                         <li key={w.company.id}>
-                                            <Link to={`/company/${w.company.title}`}>{w.company.title}</Link>
+                                            <Link to={`/company/${encodeURIComponent(w.company.title)}`}>{w.company.title}</Link>
                                         </li>
                                     )
                                 )
