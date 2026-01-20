@@ -3,8 +3,16 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { type UserDto, UserDtoSchema } from './models/entity/UserDto';
 import { loadFromStorage, saveToStorage } from './utils/storage';
-import { WelcomePage, LoginForm, RegisterForm, UserLayout, ProtectedRoute, NotFoundRedirect } from './components';
-import ProfilePage from './components/user/ProfilePage';
+import {
+    WelcomePage,
+    LoginForm,
+    RegisterForm,
+    ProtectedRoute,
+    UserLayout,
+    ProfilePage,
+    CompanyPage,
+    NotFoundRedirect
+} from './components';
 
 const App: React.FC = () => {
     const [authUser, setAuthUser] = useState<{ token: string; user: UserDto } | null>(null);
@@ -40,6 +48,16 @@ const App: React.FC = () => {
         setAuthUser(null);
     };
 
+    const homeElement = (
+        <div>
+            <p>Домашняя страница</p>
+            <p>Email: {authUser?.user.email}</p>
+            <p>Имя пользователя: {authUser?.user.username}</p>
+            <p>Роль: {authUser?.user.role}</p>
+            <p>Номер телефона: {authUser?.user.phoneNumber}</p>
+        </div>
+    )
+
     return (
         <Router>
             <div className="App">
@@ -53,19 +71,9 @@ const App: React.FC = () => {
                             <UserLayout authUser={authUser!} />
                         </ProtectedRoute>
                     }>
-                        <Route
-                            index
-                            element={
-                                <div>
-                                    <p>Домашняя страница</p>
-                                    <p>Email: {authUser?.user.email}</p>
-                                    <p>Имя пользователя: {authUser?.user.username}</p>
-                                    <p>Роль: {authUser?.user.role}</p>
-                                    <p>Номер телефона: {authUser?.user.phoneNumber}</p>
-                                </div>
-                            }
-                        />
+                        <Route index element={homeElement} />
                         <Route path="/profile" element={<ProfilePage onLogout={handleLogout} />} />
+                        <Route path="/company/:companyTitle" element={<CompanyPage />} />
                     </Route>
 
                     <Route path="*" element={<NotFoundRedirect authUser={authUser} authChecked={authChecked} />} />

@@ -16,16 +16,16 @@ export class UserController extends AuthenticatedController {
         const result = await this.request('GET', `/${id}/employees`);
 
         if (result.isFailure) return result as Result<WorkplaceDto[]>;
-        if (!Array.isArray(result.value)) return Result.FailureWith(new AppError('Validation.Error', 'Expected array of employees', -1));
+        if (!Array.isArray(result.value)) return Result.FailureWith(new AppError('Validation.Error', 'Expected array of workplaces', -1));
 
-        const validatedEmployees: WorkplaceDto[] = [];
+        const validatedWorkplaces: WorkplaceDto[] = [];
         for (const item of result.value) {
             const validatedItem = validateWithSchema(WorkplaceSchema, item);
             if (validatedItem.isFailure) {
                 return Result.FailureWith<WorkplaceDto[]>(validatedItem.error);
             }
-            validatedEmployees.push(validatedItem.value);
+            validatedWorkplaces.push(validatedItem.value);
         }
-        return Result.SuccessWith(validatedEmployees);
+        return Result.SuccessWith(validatedWorkplaces);
     }
 }
