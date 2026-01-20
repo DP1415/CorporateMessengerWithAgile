@@ -1,16 +1,14 @@
-// src/models/entity/EmployeeWithCompanyAndPositionDto.ts
+// src/models/entity/WorkplaceDto.ts
 import { z } from 'zod';
 import { BaseDtoSchema } from './BaseDto';
 import { CompanyDtoSchema } from './CompanyDto';
 import { PositionInCompanyDtoSchema } from './PositionInCompanyDto';
-import { UserDtoSchema } from './UserDto';
 import { TeamMemberDtoSchema } from './TeamMemberDto';
 
-export const EmployeeWithCompanyAndPositionDtoSchema = BaseDtoSchema.extend({
+export const WorkplaceSchema = BaseDtoSchema.extend({
     company: CompanyDtoSchema,
     positionInCompany: PositionInCompanyDtoSchema,
-    user: UserDtoSchema,
     teamMembers: z.array(TeamMemberDtoSchema).optional(),
 });
 
-export type EmployeeWithCompanyAndPositionDto = z.infer<typeof EmployeeWithCompanyAndPositionDtoSchema>;
+export type WorkplaceDto = z.infer<typeof WorkplaceSchema>;
