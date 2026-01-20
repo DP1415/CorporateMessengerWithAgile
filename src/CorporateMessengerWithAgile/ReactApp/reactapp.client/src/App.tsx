@@ -50,7 +50,7 @@ const App: React.FC = () => {
 
                     <Route path="/" element={
                         <ProtectedRoute authUser={authUser} authChecked={authChecked}>
-                            <UserLayout authUser={authUser!} onLogout={handleLogout} />
+                            <UserLayout authUser={authUser!} />
                         </ProtectedRoute>
                     }>
                         <Route
@@ -65,7 +65,7 @@ const App: React.FC = () => {
                                 </div>
                             }
                         />
-                        <Route path="profile" element={<ProfilePage />} />
+                        <Route path="/profile" element={<ProfilePage onLogout={handleLogout} />} />
                     </Route>
 
                     <Route path="*" element={<NotFoundRedirect authUser={authUser} authChecked={authChecked} />} />
