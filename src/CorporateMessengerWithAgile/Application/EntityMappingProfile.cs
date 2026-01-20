@@ -1,4 +1,4 @@
-﻿namespace Application
+namespace Application
 {
     public class EntityMappingProfile : AutoMapper.Profile
     {
@@ -29,8 +29,7 @@
                 .ForMember(d => d.UserId, opt => opt.MapFrom(s => s.UserId))
                 .ForMember(d => d.TeamMemberIds, opt => opt.MapFrom(s => s.TeamMembers.Select(tm => tm.Id).ToList()));
 
-            // EmployeeWithCompanyAndPosition
-            CreateMap<Domain.Entity.Employee, Dto.EmployeeWithCompanyAndPositionDto>()
+            CreateMap<Domain.Entity.Employee, Dto.WorkplaceDto>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
                 .ForMember(d => d.Company, opt => opt.MapFrom(s => s.Company))
                 .ForMember(d => d.PositionInCompany, opt => opt.MapFrom(s => s.PositionInCompany))

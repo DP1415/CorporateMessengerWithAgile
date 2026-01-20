@@ -1,4 +1,4 @@
-﻿using Application.Dto;
+using Application.Dto;
 using Application.Entity.Employees.Queries.EmployeeGetByUserId;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -12,7 +12,7 @@ namespace ReactApp.Server.Controllers
     {
         [Authorize]
         [HttpGet("{id}/employees")]
-        public async Task<IEnumerable<EmployeeWithCompanyAndPositionDto>> GetEmployeesByUserId(
+        public async Task<IEnumerable<WorkplaceDto>> GetEmployeesByUserId(
             [FromRoute] Guid id,
             CancellationToken cancellationToken = default
         ) => await Sender.Send(new EmployeeGetByUserIdQuery(id), cancellationToken);

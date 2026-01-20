@@ -7,9 +7,5 @@ using Persistence;
 namespace Application.Entity.Employees.Queries.EmployeeGetByUsername
 {
     public class EmployeeGetByUsernameQueryHandler(AppDbContext context, IMapper mapper)
-        : AbsQueryEntityWithOptionsHandler<
-            EmployeeGetByUsernameQuery,
-            Employee,
-            EmployeeWithCompanyAndPositionDto
-            >(context, mapper);
+        : AbsQueryEntityWithOptionsHandler<EmployeeGetByUsernameQuery, Employee, WorkplaceDto>(context, mapper);
 }
