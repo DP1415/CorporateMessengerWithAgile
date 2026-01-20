@@ -4,6 +4,7 @@ import { Outlet, Link } from 'react-router-dom';
 import { UserController } from '../controllers';
 import styles from './UserLayout.module.css';
 import type { Result, UserDto, WorkplaceDto } from '../models';
+import { AppError } from '../models';
 
 interface UserLayoutProps {
     authUser: { token: string; user: UserDto };
@@ -12,25 +13,26 @@ interface UserLayoutProps {
 export interface UserLayoutContext {
     authUser: { token: string; user: UserDto };
     workplaces: WorkplaceDto[];
-    loadingCompanies: boolean;
+    loadingWorkplaces: boolean;
 }
 
 const UserLayout: React.FC<UserLayoutProps> = ({ authUser }) => {
     const [workplaces, setWorkplaces] = useState<WorkplaceDto[] | null>(null);
-    const [loadingCompanies, setLoadingCompanies] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const [loadingWorkplaces, setLoadingWorkplaces] = useState(true);
+    const [workplacesError, setWorkplacesError] = useState<AppError | null>(null);
 
     useEffect(() => {
         const fetchCompanies = async () => {
             const controller = new UserController();
             const result: Result<WorkplaceDto[]> = await controller.getWorkplaces(authUser.user.id);
             if (result.isFailure) {
-                setError(result.error?.message || 'Не удалось загрузить компании');
+                setWorkplaces(null)
+                setWorkplacesError(result.error);
             } else {
                 setWorkplaces(result.value);
-                setError(null);
+                setWorkplacesError(null);
             }
-            setLoadingCompanies(false);
+            setLoadingWorkplaces(false);
         };
         fetchCompanies();
     }, [authUser.user.id]);
@@ -46,10 +48,10 @@ const UserLayout: React.FC<UserLayoutProps> = ({ authUser }) => {
                         <li className={styles.menuHeader}>Компании</li>
 
                         {
-                            loadingCompanies ? (
+                            loadingWorkplaces ? (
                                 <li>Загрузка...</li>
-                            ) : error ? (
-                                <li>Ошибка: {error}</li>
+                            ) : workplacesError ? (
+                                <li>Ошибка: {workplacesError?.message}</li>
                             ) : workplaces && workplaces.length > 0 ? (
                                 workplaces.map(
                                     w => (
@@ -67,7 +69,7 @@ const UserLayout: React.FC<UserLayoutProps> = ({ authUser }) => {
             </aside>
 
             <main className={styles.mainContent}>
-                <Outlet context={{ authUser, workplaces, loadingCompanies }} />
+                <Outlet context={{ authUser, workplaces, loadingWorkplaces }} />
             </main>
         </div>
     );
