@@ -7,6 +7,7 @@ export { CompanyDtoSchema, type CompanyDto } from "./entity/CompanyDto";
 export { PositionInCompanyDtoSchema, type PositionInCompanyDto } from "./entity/PositionInCompanyDto";
 export { EmployeeDtoSchema, type EmployeeDto } from "./entity/EmployeeDto";
 export { WorkplaceSchema, type WorkplaceDto } from "./entity/WorkplaceDto";
+export { EmployeeProjectsAndTeamsDtoSchema, type EmployeeProjectsAndTeamsDto } from "./entity/EmployeeProjectsAndTeamsDto";
 export { KanbanBoardColumnDtoSchema, type KanbanBoardColumnDto } from "./entity/KanbanBoardColumnDto";
 export { ProjectDtoSchema, type ProjectDto } from "./entity/ProjectDto";
 export { SprintDtoSchema, type SprintDto } from "./entity/SprintDto";

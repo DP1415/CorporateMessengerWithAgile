@@ -4,7 +4,9 @@ import {
     type WorkplaceDto,
     WorkplaceSchema,
     type Guid,
-    Result
+    Result,
+    type EmployeeProjectsAndTeamsDto,
+    EmployeeProjectsAndTeamsDtoSchema
 } from '../models';
 import { validateWithSchema } from '../utils/validation';
 import { AppError } from '../models/result/AppError';
@@ -27,5 +29,18 @@ export class UserController extends AuthenticatedController {
             validatedWorkplaces.push(validatedItem.value);
         }
         return Result.SuccessWith(validatedWorkplaces);
+    }
+
+    async getProjectsAndTeams(employeeId: Guid): Promise<Result<EmployeeProjectsAndTeamsDto>> {
+        const result = await this.request('GET', `/${employeeId}/projects-and-teams`);
+
+        if (result.isFailure) return result as Result<EmployeeProjectsAndTeamsDto>;
+
+        const validatedData = validateWithSchema(EmployeeProjectsAndTeamsDtoSchema, result.value);
+        if (validatedData.isFailure) {
+            return Result.FailureWith<EmployeeProjectsAndTeamsDto>(validatedData.error);
+        }
+
+        return Result.SuccessWith(validatedData.value);
     }
 }
