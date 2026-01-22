@@ -1,46 +1,44 @@
 // src/controllers/UserController.ts
 import { AuthenticatedController } from './AuthenticatedController';
 import {
-    type WorkplaceDto,
-    WorkplaceSchema,
     type Guid,
     Result,
-    type EmployeeProjectsAndTeamsDto,
-    EmployeeProjectsAndTeamsDtoSchema
+    type WorkplaceDto,
+    WorkplaceSchema,
+    type ProjectWithTeamsDto,
+    ProjectWithTeamsDtoSchema
 } from '../models';
 import { validateWithSchema } from '../utils/validation';
 import { AppError } from '../models/result/AppError';
+import type z from 'zod';
 
 export class UserController extends AuthenticatedController {
     constructor() { super('/User'); }
 
-    async getWorkplaces(id: Guid): Promise<Result<WorkplaceDto[]>> {
-        const result = await this.request('GET', `/${id}/employees`);
-
-        if (result.isFailure) return result as Result<WorkplaceDto[]>;
-        if (!Array.isArray(result.value)) return Result.FailureWith(new AppError('Validation.Error', 'Expected array of workplaces', -1));
-
-        const validatedWorkplaces: WorkplaceDto[] = [];
-        for (const item of result.value) {
-            const validatedItem = validateWithSchema(WorkplaceSchema, item);
-            if (validatedItem.isFailure) {
-                return Result.FailureWith<WorkplaceDto[]>(validatedItem.error);
-            }
-            validatedWorkplaces.push(validatedItem.value);
+    protected convertToArray<T>(arrayData: unknown, schema: z.ZodType<T>): Result<T[]> {
+        if (!Array.isArray(arrayData)) {
+            return Result.FailureWith(new AppError('Validation.Error', 'Expected array of workplaces', -1));
         }
-        return Result.SuccessWith(validatedWorkplaces);
+        const validatedData: T[] = [];
+        for (const item of arrayData) {
+            const validatedItem = validateWithSchema(schema, item);
+            if (validatedItem.isFailure) {
+                return Result.FailureWith<T[]>(validatedItem.error);
+            }
+            validatedData.push(validatedItem.value);
+        }
+        return Result.SuccessWith(validatedData);
     }
 
-    async getProjectsAndTeams(employeeId: Guid): Promise<Result<EmployeeProjectsAndTeamsDto>> {
+    async getWorkplaces(id: Guid): Promise<Result<WorkplaceDto[]>> {
+        const result = await this.request('GET', `/${id}/employees`);
+        if (result.isFailure) return result as Result<WorkplaceDto[]>;
+        return this.convertToArray<WorkplaceDto>(result.value, WorkplaceSchema);
+    }
+
+    async getProjectsAndTeams(employeeId: Guid): Promise<Result<ProjectWithTeamsDto[]>> {
         const result = await this.request('GET', `/${employeeId}/projects-and-teams`);
-
-        if (result.isFailure) return result as Result<EmployeeProjectsAndTeamsDto>;
-
-        const validatedData = validateWithSchema(EmployeeProjectsAndTeamsDtoSchema, result.value);
-        if (validatedData.isFailure) {
-            return Result.FailureWith<EmployeeProjectsAndTeamsDto>(validatedData.error);
-        }
-
-        return Result.SuccessWith(validatedData.value);
+        if (result.isFailure) return result as Result<ProjectWithTeamsDto[]>;
+        return this.convertToArray<ProjectWithTeamsDto>(result.value, ProjectWithTeamsDtoSchema);
     }
 }

@@ -20,7 +20,7 @@ namespace ReactApp.Server.Controllers
 
         [Authorize]
         [HttpGet("{employeeId}/projects-and-teams")]
-        public async Task<EmployeeProjectsAndTeamsDto> GetProjectsAndTeamsByEmployeeId(
+        public async Task<ProjectWithTeams[]> GetProjectsAndTeamsByEmployeeId(
             [FromRoute] Guid employeeId,
             CancellationToken cancellationToken = default
         ) => await Sender.Send(new EmployeeGetProjectsAndTeamsQuery(employeeId), cancellationToken);

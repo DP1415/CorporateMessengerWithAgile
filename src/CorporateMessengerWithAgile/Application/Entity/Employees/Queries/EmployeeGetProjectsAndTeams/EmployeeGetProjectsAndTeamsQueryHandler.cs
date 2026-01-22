@@ -2,16 +2,15 @@ using Application.AbsQuery;
 using Application.Dto;
 using AutoMapper;
 using Domain.Entity;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Entity.Employees.Queries.EmployeeGetProjectsAndTeams
 {
     public class EmployeeGetProjectsAndTeamsQueryHandler(AppDbContext context, IMapper mapper)
-        : AbsQueryEntityHandler<EmployeeGetProjectsAndTeamsQuery, TeamMember, EmployeeProjectsAndTeamsDto>(context, mapper)
+        : AbsQueryEntityHandler<EmployeeGetProjectsAndTeamsQuery, TeamMember, ProjectWithTeams[]>(context, mapper)
     {
-        public override async Task<EmployeeProjectsAndTeamsDto> Handle(
+        public override async Task<ProjectWithTeams[]> Handle(
             EmployeeGetProjectsAndTeamsQuery request,
             CancellationToken cancellationToken)
         {
@@ -22,15 +21,22 @@ namespace Application.Entity.Employees.Queries.EmployeeGetProjectsAndTeams
                     .ThenInclude(t => t.Project)
                 .ToArrayAsync(cancellationToken);
 
-            Team[] teams = [.. teamMembers.Select(tm => tm.Team)];
+            if (teamMembers.Length == 0) return [];
 
-            Project[] projects = [.. teams.Select(t => t.Project)];
+            Dictionary<Guid, List<Team>> teamsByProject = teamMembers
+                .GroupBy(tm => tm.Team.Project.Id)
+                .ToDictionary(g => g.Key, g => g.Select(tm => tm.Team).ToList());
 
-            return new EmployeeProjectsAndTeamsDto
-            {
-                Teams = _mapper.Map<List<TeamDto>>(teams),
-                Projects = _mapper.Map<List<ProjectDto>>(projects)
-            };
+            ProjectWithTeams[] result = new ProjectWithTeams[teamsByProject.Count];
+
+            int index = 0;
+            foreach (KeyValuePair<Guid, List<Team>> group in teamsByProject)
+                result[index++] = new(
+                    _mapper.Map<ProjectDto>(group.Value[0].Project),
+                    _mapper.Map<TeamDto[]>(group.Value)
+                );
+
+            return result;
         }
     }
 }

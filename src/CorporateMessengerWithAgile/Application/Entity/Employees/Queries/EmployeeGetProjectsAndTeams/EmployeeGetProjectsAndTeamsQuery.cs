@@ -1,5 +1,4 @@
 using Application.AbsQuery;
-using Application.Dto;
 using Domain.Entity;
 
 namespace Application.Entity.Employees.Queries.EmployeeGetProjectsAndTeams
@@ -8,5 +7,5 @@ namespace Application.Entity.Employees.Queries.EmployeeGetProjectsAndTeams
         (
             Guid EmployeeId
         )
-        : AbsQueryEntity<TeamMember, EmployeeProjectsAndTeamsDto>;
+        : AbsQueryEntity<TeamMember, ProjectWithTeams[]>;
 }
