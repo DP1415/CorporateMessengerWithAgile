@@ -44,24 +44,20 @@ const UserLayout: React.FC<UserLayoutProps> = ({ authUser }) => {
                     <ul>
                         <li><Link to="/">Главная</Link></li>
                         <li><Link to="/profile">Профиль</Link></li>
-
-                        <li className={styles.menuHeader}>Компании</li>
-
                         {
-                            loadingWorkplaces ? (
-                                <li>Загрузка...</li>
-                            ) : workplacesError ? (
-                                <li>Ошибка: {workplacesError?.message}</li>
-                            ) : workplaces && workplaces.length > 0 ? (
-                                workplaces.map(
-                                    w => (
-                                        <li key={w.company.id}>
-                                            <Link to={`/company/${encodeURIComponent(w.company.title)}`}>{w.company.title}</Link>
-                                        </li>
-                                    )
-                                )
-                            ) : (
-                                <li>Нет доступных компаний</li>
+                            workplaces && workplaces.length > 0 && (
+                                <>
+                                    <li className={styles.menuHeader}>Компании</li>
+                                    {workplaces.map(
+                                        w => (
+                                            <li key={w.company.id}>
+                                                <Link to={getCompanyRoute(w.company.title)}>
+                                                    {w.company.title}
+                                                </Link>
+                                            </li>
+                                        )
+                                    )}
+                                </>
                             )
                         }
                     </ul>
@@ -69,10 +65,23 @@ const UserLayout: React.FC<UserLayoutProps> = ({ authUser }) => {
             </aside>
 
             <main className={styles.mainContent}>
-                <Outlet context={{ authUser, workplaces, loadingWorkplaces }} />
+                {
+                    loadingWorkplaces ? (
+                        <p>Загрузка данных...</p>
+                    ) : (
+                        <>
+                            {workplacesError && <p>Не удалось загрузить рабочие места: {workplacesError.message}</p>}
+                            <Outlet context={{ authUser, workplaces, loadingWorkplaces }} />
+                        </>
+                    )
+                }
             </main>
         </div>
     );
 };
 
 export default UserLayout;
+
+const getCompanyRoute = (companyTitle: string): string => {
+    return `/company/${encodeURIComponent(companyTitle)}`;
+};
