@@ -1,6 +1,7 @@
 using Application.Dto;
 using Application.Entity.Employees.Queries.EmployeeGetByUserId;
 using Application.Entity.Employees.Queries.EmployeeGetProjectsAndTeams;
+using Application.Entity.Teams.Queries.TeamGetByIdWithDetails;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,5 +25,12 @@ namespace ReactApp.Server.Controllers
             [FromRoute] Guid employeeId,
             CancellationToken cancellationToken = default
         ) => await Sender.Send(new EmployeeGetProjectsAndTeamsQuery(employeeId), cancellationToken);
+
+        [Authorize]
+        [HttpGet("teams/{teamId}/")]
+        public async Task<ActionResult<TeamDetailsDto>> GetTeamDetails(
+            [FromRoute] Guid teamId,
+            CancellationToken cancellationToken = default
+        ) => (await Sender.Send(new TeamGetByIdWithDetailsQuery(teamId), cancellationToken)).ToActionResult();
     }
 }

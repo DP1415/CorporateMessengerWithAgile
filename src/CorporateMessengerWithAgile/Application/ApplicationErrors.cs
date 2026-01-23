@@ -1,4 +1,4 @@
-﻿using Domain.Result;
+using Domain.Result;
 using Microsoft.AspNetCore.Http;
 
 namespace Application
@@ -20,7 +20,13 @@ namespace Application
         public class CompanyError
         {
             public static CompanyNotFound NotFound(Guid id) => new(id);
-            public record CompanyNotFound(Guid id) : Error("Company.NotFound", $"Компания с ID {id} не найдена", StatusCodes.Status404NotFound);
+            public record CompanyNotFound(Guid Id) : Error("Company.NotFound", $"Компания с ID {Id} не найдена", StatusCodes.Status404NotFound);
+        }
+
+        public class TeamError
+        {
+            public static TeamNotFound NotFound(Guid id) => new(id);
+            public record TeamNotFound(Guid Id) : Error("Team.NotFound", $"Команда с ID {Id} не найдена", StatusCodes.Status404NotFound);
         }
     }
 }
