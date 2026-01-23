@@ -6,7 +6,9 @@ import {
     type WorkplaceDto,
     WorkplaceSchema,
     type ProjectWithTeamsDto,
-    ProjectWithTeamsDtoSchema
+    ProjectWithTeamsDtoSchema,
+    type TeamDetailsDto,
+    TeamDetailsDtoSchema
 } from '../models';
 import { validateWithSchema } from '../utils/validation';
 import { AppError } from '../models/result/AppError';
@@ -30,8 +32,8 @@ export class UserController extends AuthenticatedController {
         return Result.SuccessWith(validatedData);
     }
 
-    async getWorkplaces(id: Guid): Promise<Result<WorkplaceDto[]>> {
-        const result = await this.request('GET', `/${id}/employees`);
+    async getWorkplaces(userId: Guid): Promise<Result<WorkplaceDto[]>> {
+        const result = await this.request('GET', `/${userId}/employees`);
         if (result.isFailure) return result as Result<WorkplaceDto[]>;
         return this.convertToArray<WorkplaceDto>(result.value, WorkplaceSchema);
     }
@@ -40,5 +42,11 @@ export class UserController extends AuthenticatedController {
         const result = await this.request('GET', `/${employeeId}/projects-and-teams`);
         if (result.isFailure) return result as Result<ProjectWithTeamsDto[]>;
         return this.convertToArray<ProjectWithTeamsDto>(result.value, ProjectWithTeamsDtoSchema);
+    }
+
+    async getTeamDetails(teamId: Guid): Promise<Result<TeamDetailsDto>> {
+        const result = await this.request('GET', `/teams/${teamId}`);
+        if (result.isFailure) return result as Result<TeamDetailsDto>;
+        return validateWithSchema(TeamDetailsDtoSchema, result.value);
     }
 }

@@ -15,6 +15,7 @@ export { TaskItemDtoSchema, type TaskItemDto } from "./entity/TaskItemDto";
 export { TaskItemInSprintDtoSchema, type TaskItemInSprintDto } from "./entity/TaskItemInSprintDto";
 export { TeamDtoSchema, type TeamDto } from "./entity/TeamDto";
 export { TeamMemberDtoSchema, type TeamMemberDto } from "./entity/TeamMemberDto";
+export { TeamDetailsDtoSchema, type TeamDetailsDto } from "./entity/TeamDetailsDto";
 
 export { AppError } from "./result/AppError";
 export { Result } from "./result/Result";
