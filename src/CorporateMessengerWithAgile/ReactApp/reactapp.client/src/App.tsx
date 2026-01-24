@@ -11,7 +11,9 @@ import {
     UserLayout,
     ProfilePage,
     CompanyPage,
-    NotFoundRedirect
+    NotFoundRedirect,
+    ProjectPage,
+    TeamPage
 } from './components';
 
 const App: React.FC = () => {
@@ -74,6 +76,9 @@ const App: React.FC = () => {
                         <Route index element={homeElement} />
                         <Route path="/profile" element={<ProfilePage onLogout={handleLogout} />} />
                         <Route path="/company/:companyTitle" element={<CompanyPage />} />
+                        <Route path="/company/:companyTitle/project/:projectTitle" element={<ProjectPage />} />
+                        <Route path="/company/:companyTitle/project/:projectTitle/team/:teamTitle" element={<TeamPage />} />
+
                     </Route>
 
                     <Route path="*" element={<NotFoundRedirect authUser={authUser} authChecked={authChecked} />} />

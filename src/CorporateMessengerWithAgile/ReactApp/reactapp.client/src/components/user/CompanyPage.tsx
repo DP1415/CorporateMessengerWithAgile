@@ -1,9 +1,16 @@
-// src/components/CompanyPage.tsx
+// src/components/user/CompanyPage.tsx
 import React, { useState, useEffect } from 'react';
-import { useParams, useOutletContext } from 'react-router-dom';
+import { Link, useParams, useOutletContext } from 'react-router-dom';
 import type { UserLayoutContext } from '../UserLayout';
-import type { AppError, ProjectWithTeamsDto, Result, WorkplaceDto } from '../../models';
+import type { AppError, ProjectDto, ProjectWithTeamsDto, Result, TeamDto, WorkplaceDto } from '../../models';
 import { UserController } from '../../controllers';
+
+export interface CompanyNavigationState {
+    workplace: WorkplaceDto;
+    projectAndTeams: ProjectWithTeamsDto;
+    team: TeamDto | null;
+    timestamp: number;
+}
 
 const CompanyPage: React.FC = () => {
     const { companyTitle } = useParams<{ companyTitle: string }>();
@@ -26,31 +33,23 @@ const CompanyPage: React.FC = () => {
             return;
         }
 
-        let isCancelled = false;
-
         const fetchProjectsAndTeams = async () => {
             setLoading(true);
             setError(null);
 
             const controller = new UserController();
             const result: Result<ProjectWithTeamsDto[]> = await controller.getProjectsAndTeams(workplace.id);
-
-            if (isCancelled) return;
-
             if (result.isFailure) {
                 setError(result.error);
                 setProjectsAndTeams(null);
             } else {
+                setError(null);
                 setProjectsAndTeams(result.value);
             }
             setLoading(false);
         };
 
         fetchProjectsAndTeams();
-
-        return () => {
-            isCancelled = true;
-        };
     }, [workplace]);
 
     if (!workplaces) { return <div>Загрузка списка компаний...</div>; }
@@ -58,42 +57,57 @@ const CompanyPage: React.FC = () => {
     if (loading) { return <div>Загрузка данных компании...</div>; }
     if (error) { return <div>Ошибка: {error.message}</div>; }
 
-    const projectList = projectsAndTeams || [];
+    const getProjectRoute = (project: ProjectDto): string =>
+        `/company/${companyTitle}/project/${encodeURIComponent(project.title)}`
+    const getTeamRoute = (project: ProjectDto, team: TeamDto): string =>
+        `${getProjectRoute(project)}/team/${encodeURIComponent(team.title)}`
 
-    return (
-        <>
-            <h1>{workplace.company.title}</h1>
+    return (<>
+        <h1>{workplace.company.title}</h1>
 
-            <h2>Информация о компании</h2>
-            <p>ID: {workplace.company.id}</p>
+        <h2>Информация о компании</h2>
+        <p>ID: {workplace.company.id}</p>
 
-            <h2>Должность в компании</h2>
-            <p><strong>{workplace.positionInCompany.title}</strong></p>
-            <p>{workplace.positionInCompany.description}</p>
+        <h2>Должность в компании</h2>
+        <p><strong>{workplace.positionInCompany.title}</strong></p>
+        <p>{workplace.positionInCompany.description}</p>
 
-            <h2>Проекты и команды</h2>
-            {
-                projectList.length === 0 ? (
-                    <p>Нет проектов</p>
-                ) : (
-                    projectList.map((item) => (
-                        <div key={item.project.id}>
-                            <h3>{item.project.title}</h3>
-                            {item.teams.length > 0 ? (
-                                <ul>
-                                    {item.teams.map((team) => (
-                                        <li key={team.id}>{team.title}</li>
-                                    ))}
-                                </ul>
-                            ) : (
-                                <p>Нет команд в этом проекте</p>
-                            )}
-                        </div>
+        <h2>Проекты и команды</h2>
+        {
+            !projectsAndTeams || projectsAndTeams.length === 0
+                ? (<p>Нет проектов</p>)
+                : (
+                    projectsAndTeams.map((projectAndTeams) => (
+                        <div key={projectAndTeams.project.id}>
+                            <Link
+                                to={getProjectRoute(projectAndTeams.project)}
+                                state={{ workplace, projectAndTeams, team: null, timestamp: Date.now() } satisfies CompanyNavigationState}
+                            >
+                                <h3>{projectAndTeams.project.title}</h3>
+                            </Link>
+                            {
+                                projectAndTeams.teams.length === 0
+                                    ? (<p>Нет команд в этом проекте</p>)
+                                    : (
+                                        <ul>
+                                            {projectAndTeams.teams.map((team) => (
+                                                <li key={team.id}>
+                                                    <Link
+                                                        to={getTeamRoute(projectAndTeams.project, team)}
+                                                        state={{ workplace, projectAndTeams, team, timestamp: Date.now(), }}
+                                                    >
+                                                        {team.title}
+                                                    </Link>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )
+                            }
+                        </div >
                     ))
                 )
-            }
-        </>
-    );
+        }
+    </>);
 };
 
 export default CompanyPage;
