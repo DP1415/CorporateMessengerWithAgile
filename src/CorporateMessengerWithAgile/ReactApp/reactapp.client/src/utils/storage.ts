@@ -19,12 +19,12 @@ export function loadFromStorage<T>(key: string, schema: z.ZodType<T>): T | null 
             return result.data;
         } else {
             console.error(`Validation failed for key "${key}":`, result.error.issues);
-            localStorage.removeItem(key); // Очищаем битые данные
+            localStorage.removeItem(key);
             return null;
         }
     } catch (error) {
         console.error(`Failed to load or parse "${key}" from localStorage:`, error);
-        localStorage.removeItem(key); // Очищаем повреждённые данные
+        localStorage.removeItem(key);
         return null;
     }
 }
