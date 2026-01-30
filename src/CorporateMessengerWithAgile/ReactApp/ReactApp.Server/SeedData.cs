@@ -1,8 +1,6 @@
 using Domain.Entity;
 using Domain.ValueObjects;
 using Persistence;
-using System;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace ReactApp.Server
 {
@@ -127,7 +125,7 @@ namespace ReactApp.Server
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
         };
-        #endregion 
+        #endregion
 
         private static User CreateMainUser() => CreateUser("00000001-0000-4444-bbbb-faaaaaaaaa01", "main@main.com", "janesmith", "Password123!", "1111111111", "User");
 
@@ -177,6 +175,11 @@ namespace ReactApp.Server
             TeamMember tmGalaxy2 = CreateTeamMember("00000008-1111-4444-aaaa-faaaaaaaaa06", employee2, teamGalaxyBack);
             TeamMember tmGalaxy3 = CreateTeamMember("00000008-1111-4444-aaaa-faaaaaaaaa07", employee1, teamGalaxyOps);
 
+            var now = DateTime.UtcNow;
+            TaskItem task1 = CreateTaskItem("00000009-1111-4444-aaaa-faaaaaaaaa01", projectAlpha, employee1, employee2, "Разработка главной страницы", "Создать компонент главной страницы с навигацией", 2, 3, now.AddDays(10));
+            TaskItem task2 = CreateTaskItem("00000009-1111-4444-aaaa-faaaaaaaaa02", projectAlpha, employee1, employee1, "Настройка аутентификации", "Реализовать систему входа и регистрации пользователей", 1, 4, now.AddDays(14));
+            TaskItem task3 = CreateTaskItem("00000009-1111-4444-aaaa-faaaaaaaaa03", projectNeuron, employee1, employee1, "Анализ алгоритмов", "Исследование эффективности различных ML-алгоритмов", 3, 5, now.AddDays(20));
+
             context.Users.AddRange(user1, user2);
             context.Companies.Add(company);
             context.PositionsInCompany.AddRange(positionLead, positionDev);
@@ -184,6 +187,7 @@ namespace ReactApp.Server
             context.Projects.AddRange(projectAlpha, projectNeuron, projectGalaxy);
             context.Teams.AddRange(teamAlpha1, teamAlpha2, teamNeuronCore, teamNeuronML, teamGalaxyFront, teamGalaxyBack, teamGalaxyOps);
             context.TeamMembers.AddRange(tmAlpha1, tmAlpha2, tmNeuron1, tmNeuron2, tmGalaxy1, tmGalaxy2, tmGalaxy3);
+            context.TaskItems.AddRange(task1, task2, task3);
 
             context.SaveChanges();
         }
