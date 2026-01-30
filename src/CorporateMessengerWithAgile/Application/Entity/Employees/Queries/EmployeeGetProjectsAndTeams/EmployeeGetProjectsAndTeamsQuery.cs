@@ -7,5 +7,5 @@ namespace Application.Entity.Employees.Queries.EmployeeGetProjectsAndTeams
         (
             Guid EmployeeId
         )
-        : AbsQueryEntity<TeamMember, ProjectWithTeams[]>;
+        : AbsQueryEntity<TeamMember, IEnumerable<ProjectWithTeams>>;
 }

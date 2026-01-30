@@ -8,9 +8,9 @@ using Persistence;
 namespace Application.Entity.Employees.Queries.EmployeeGetProjectsAndTeams
 {
     public class EmployeeGetProjectsAndTeamsQueryHandler(AppDbContext context, IMapper mapper)
-        : AbsQueryEntityHandler<EmployeeGetProjectsAndTeamsQuery, TeamMember, ProjectWithTeams[]>(context, mapper)
+        : AbsQueryEntityHandler<EmployeeGetProjectsAndTeamsQuery, TeamMember, IEnumerable<ProjectWithTeams>>(context, mapper)
     {
-        public override async Task<ProjectWithTeams[]> Handle(
+        public override async Task<IEnumerable<ProjectWithTeams>> Handle(
             EmployeeGetProjectsAndTeamsQuery request,
             CancellationToken cancellationToken)
         {
@@ -23,18 +23,14 @@ namespace Application.Entity.Employees.Queries.EmployeeGetProjectsAndTeams
 
             if (teamMembers.Length == 0) return [];
 
-            Dictionary<Guid, List<Team>> teamsByProject = teamMembers
-                .GroupBy(tm => tm.Team.Project.Id)
-                .ToDictionary(g => g.Key, g => g.Select(tm => tm.Team).ToList());
-
-            ProjectWithTeams[] result = new ProjectWithTeams[teamsByProject.Count];
-
-            int index = 0;
-            foreach (KeyValuePair<Guid, List<Team>> group in teamsByProject)
-                result[index++] = new(
-                    _mapper.Map<ProjectDto>(group.Value[0].Project),
-                    _mapper.Map<TeamDto[]>(group.Value)
-                );
+            ProjectWithTeams[] result = [.. teamMembers
+                .GroupBy(tm => tm.Team.Project)
+                .Select(
+                    group => new ProjectWithTeams(
+                        _mapper.Map<ProjectDto>(group.Key),
+                        _mapper.Map<TeamDto[]>(group.Select(tm => tm.Team))
+                    )
+                )];
 
             return result;
         }
