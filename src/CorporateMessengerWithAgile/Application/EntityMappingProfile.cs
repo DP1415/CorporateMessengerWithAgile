@@ -29,7 +29,7 @@ namespace Application
                 .ForMember(d => d.UserId, opt => opt.MapFrom(s => s.UserId))
                 .ForMember(d => d.TeamMemberIds, opt => opt.MapFrom(s => s.TeamMembers.Select(tm => tm.Id).ToList()));
 
-            CreateMap<Domain.Entity.Employee, Dto.WorkplaceDto>()
+            CreateMap<Domain.Entity.Employee, Dto.EmployeeWithRelationsDto>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
                 .ForMember(d => d.Company, opt => opt.MapFrom(s => s.Company))
                 .ForMember(d => d.PositionInCompany, opt => opt.MapFrom(s => s.PositionInCompany))

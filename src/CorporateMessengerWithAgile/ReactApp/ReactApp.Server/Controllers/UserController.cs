@@ -14,7 +14,7 @@ namespace ReactApp.Server.Controllers
     {
         [Authorize]
         [HttpGet("{userId}/employees")]
-        public async Task<IEnumerable<WorkplaceDto>> GetEmployeesByUserId(
+        public async Task<IEnumerable<EmployeeWithRelationsDto>> GetEmployeesByUserId(
             [FromRoute] Guid userId,
             CancellationToken cancellationToken = default
         ) => await Sender.Send(new EmployeeGetByUserIdQuery(userId), cancellationToken);

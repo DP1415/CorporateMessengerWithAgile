@@ -6,7 +6,7 @@ using Domain.Entity;
 namespace Application.Entity.Employees.Queries.EmployeeGetByUserId
 {
     public record EmployeeGetByUserIdQuery(Guid UserId)
-        : AbsQueryEntityWithOptions<Employee, WorkplaceDto>(
+        : AbsQueryEntityWithOptions<Employee, EmployeeWithRelationsDto>(
             [
                 new Filter<Employee>(e => e.UserId == UserId),
                 new Include<Employee, Company>(e => e.Company),

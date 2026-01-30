@@ -2,11 +2,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams, useOutletContext } from 'react-router-dom';
 import type { UserLayoutContext } from '../UserLayout';
-import type { AppError, ProjectDto, ProjectWithTeamsDto, Result, TeamDto, WorkplaceDto } from '../../models';
+import type { AppError, ProjectDto, ProjectWithTeamsDto, Result, TeamDto, EmployeeWithRelationsDto } from '../../models';
 import { UserController } from '../../controllers';
 
 export interface CompanyNavigationState {
-    workplace: WorkplaceDto;
+    employeeWithRelations: EmployeeWithRelationsDto;
     projectAndTeams: ProjectWithTeamsDto;
     team: TeamDto | null;
     timestamp: number;
@@ -14,19 +14,19 @@ export interface CompanyNavigationState {
 
 const CompanyPage: React.FC = () => {
     const { companyTitle } = useParams<{ companyTitle: string }>();
-    const { workplaces } = useOutletContext<UserLayoutContext>();
+    const { employeesWithRelations } = useOutletContext<UserLayoutContext>();
 
     const [projectsAndTeams, setProjectsAndTeams] = useState<ProjectWithTeamsDto[] | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<AppError | null>(null);
 
     const decodedTitle = decodeURIComponent(companyTitle || '');
-    const workplace: WorkplaceDto | undefined = decodedTitle && workplaces
-        ? workplaces.find(w => w.company.title === decodedTitle)
+    const employeeWithRelations: EmployeeWithRelationsDto | undefined = decodedTitle && employeesWithRelations
+        ? employeesWithRelations.find(emp => emp.company.title === decodedTitle)
         : undefined;
 
     useEffect(() => {
-        if (!workplace) {
+        if (!employeeWithRelations) {
             // eslint-disable-next-line react-hooks/set-state-in-effect
             setProjectsAndTeams(null);
             setError(null);
@@ -38,7 +38,7 @@ const CompanyPage: React.FC = () => {
             setError(null);
 
             const controller = new UserController();
-            const result: Result<ProjectWithTeamsDto[]> = await controller.getProjectsAndTeams(workplace.id);
+            const result: Result<ProjectWithTeamsDto[]> = await controller.getProjectsAndTeams(employeeWithRelations.id);
             if (result.isFailure) {
                 setError(result.error);
                 setProjectsAndTeams(null);
@@ -50,10 +50,10 @@ const CompanyPage: React.FC = () => {
         };
 
         fetchProjectsAndTeams();
-    }, [workplace]);
+    }, [employeeWithRelations]);
 
-    if (!workplaces) { return <div>Загрузка списка компаний...</div>; }
-    if (!workplace) { return <div>Компания не найдена</div>; }
+    if (!employeesWithRelations) { return <div>Загрузка списка компаний...</div>; }
+    if (!employeeWithRelations) { return <div>Компания не найдена</div>; }
     if (loading) { return <div>Загрузка данных компании...</div>; }
     if (error) { return <div>Ошибка: {error.message}</div>; }
 
@@ -63,14 +63,14 @@ const CompanyPage: React.FC = () => {
         `${getProjectRoute(project)}/team/${encodeURIComponent(team.title)}`
 
     return (<>
-        <h1>{workplace.company.title}</h1>
+        <h1>{employeeWithRelations.company.title}</h1>
 
         <h2>Информация о компании</h2>
-        <p>ID: {workplace.company.id}</p>
+        <p>ID: {employeeWithRelations.company.id}</p>
 
         <h2>Должность в компании</h2>
-        <p><strong>{workplace.positionInCompany.title}</strong></p>
-        <p>{workplace.positionInCompany.description}</p>
+        <p><strong>{employeeWithRelations.positionInCompany.title}</strong></p>
+        <p>{employeeWithRelations.positionInCompany.description}</p>
 
         <h2>Проекты и команды</h2>
         {
@@ -81,7 +81,7 @@ const CompanyPage: React.FC = () => {
                         <div key={projectAndTeams.project.id}>
                             <Link
                                 to={getProjectRoute(projectAndTeams.project)}
-                                state={{ workplace, projectAndTeams, team: null, timestamp: Date.now() } satisfies CompanyNavigationState}
+                                state={{ employeeWithRelations, projectAndTeams, team: null, timestamp: Date.now() } satisfies CompanyNavigationState}
                             >
                                 <h3>{projectAndTeams.project.title}</h3>
                             </Link>
@@ -94,7 +94,7 @@ const CompanyPage: React.FC = () => {
                                                 <li key={team.id}>
                                                     <Link
                                                         to={getTeamRoute(projectAndTeams.project, team)}
-                                                        state={{ workplace, projectAndTeams, team, timestamp: Date.now(), }}
+                                                        state={{ employeeWithRelations, projectAndTeams, team, timestamp: Date.now(), }}
                                                     >
                                                         {team.title}
                                                     </Link>

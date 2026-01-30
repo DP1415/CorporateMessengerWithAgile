@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useOutletContext, useLocation } from 'react-router-dom';
 import type { UserLayoutContext } from '../UserLayout';
-import type { AppError, WorkplaceDto, TeamDto, Result, ProjectWithTeamsDto } from '../../models';
+import type { AppError, EmployeeWithRelationsDto, TeamDto, Result, ProjectWithTeamsDto } from '../../models';
 import { UserController } from '../../controllers';
 import { AppError as AppErrorClass } from '../../models/result/AppError';
 import type { CompanyNavigationState } from './CompanyPage';
@@ -12,19 +12,20 @@ const TeamPage: React.FC = () => {
     const navigationState = location.state as CompanyNavigationState | null;
 
     const { companyTitle, projectTitle, teamTitle } = useParams<{ companyTitle: string; projectTitle: string; teamTitle: string; }>();
-    const { workplaces } = useOutletContext<UserLayoutContext>();
+    const { employeesWithRelations } = useOutletContext<UserLayoutContext>();
 
-    const [workplace, setWorkplace] = useState<WorkplaceDto | null>(null);
+    const [employeeWithRelations, setEmployeeWithRelations] = useState<EmployeeWithRelationsDto | null>(null);
     const [teamData, setTeamData] = useState<TeamDto | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<AppError | null>(null);
 
     useEffect(() => {
-        const { workplace, team, timestamp } = navigationState || {};
-        if (workplace && team && timestamp) {
+        const { employeeWithRelations, team, timestamp } = navigationState || {};
+        if (employeeWithRelations && team && timestamp) {
             const isDataFresh = Date.now() - timestamp < 5000;
             if (isDataFresh) {
-                setWorkplace(workplace);
+                // eslint-disable-next-line react-hooks/set-state-in-effect
+                setEmployeeWithRelations(employeeWithRelations);
                 setTeamData(team);
                 setLoading(false);
                 return;
@@ -34,8 +35,8 @@ const TeamPage: React.FC = () => {
         const loadDataFromApi = async () => {
             setLoading(true);
             setError(null);
-            if (!workplaces) {
-                setError(new AppErrorClass('!workplaces', 'Workplaces not loaded', -1));
+            if (!employeesWithRelations) {
+                setError(new AppErrorClass('!employeesWithRelations', 'Employees with relations not loaded', -1));
                 setLoading(false);
                 return;
             }
@@ -47,16 +48,16 @@ const TeamPage: React.FC = () => {
             }
 
             const decodedCompany = decodeURIComponent(companyTitle);
-            const targetWorkplace: WorkplaceDto | undefined = workplaces.find(w => w.company.title === decodedCompany);
-            if (!targetWorkplace) {
+            const targetEmployeeWithRelations: EmployeeWithRelationsDto | undefined = employeesWithRelations.find(emp => emp.company.title === decodedCompany);
+            if (!targetEmployeeWithRelations) {
                 setError(new AppErrorClass('!company', 'Компания не найдена', -1));
                 setLoading(false);
                 return;
             }
-            setWorkplace(targetWorkplace);
+            setEmployeeWithRelations(targetEmployeeWithRelations);
 
             const controller = new UserController();
-            const result: Result<ProjectWithTeamsDto[]> = await controller.getProjectsAndTeams(targetWorkplace.id);
+            const result: Result<ProjectWithTeamsDto[]> = await controller.getProjectsAndTeams(targetEmployeeWithRelations.id);
             if (result.isFailure) {
                 setError(result.error);
                 setLoading(false);
@@ -83,17 +84,17 @@ const TeamPage: React.FC = () => {
         };
 
         loadDataFromApi();
-    }, [companyTitle, projectTitle, teamTitle, workplaces, navigationState]);
+    }, [companyTitle, projectTitle, teamTitle, employeesWithRelations, navigationState]);
 
 
     if (loading) return <div>Загрузка...</div>;
     if (error) return <div>Ошибка: {error.message}</div>;
-    if (!workplace || !teamData) return <div>Команда не найдена</div>;
+    if (!employeeWithRelations || !teamData) return <div>Команда не найдена</div>;
 
     return (
         <>
             <h1>Команда: {teamData.title}</h1>
-            <p>Компания: {workplace.company.title}</p>
+            <p>Компания: {employeeWithRelations.company.title}</p>
             <p>Проект: {projectTitle}</p>
         </>
     );

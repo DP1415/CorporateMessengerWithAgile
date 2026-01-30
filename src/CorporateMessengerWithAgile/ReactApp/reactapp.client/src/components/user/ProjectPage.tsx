@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useParams, useOutletContext, Link } from 'react-router-dom';
 import type { UserLayoutContext } from '../UserLayout';
-import type { AppError, ProjectWithTeamsDto, Result, WorkplaceDto } from '../../models';
+import type { AppError, ProjectWithTeamsDto, Result, EmployeeWithRelationsDto } from '../../models';
 import { UserController } from '../../controllers';
 import { AppError as AppErrorClass } from '../../models/result/AppError';
 import type { CompanyNavigationState } from './CompanyPage';
@@ -12,19 +12,19 @@ const ProjectPage: React.FC = () => {
     const navigationState = location.state as CompanyNavigationState | null;
 
     const { companyTitle, projectTitle } = useParams<{ companyTitle: string; projectTitle: string }>();
-    const { workplaces } = useOutletContext<UserLayoutContext>();
+    const { employeesWithRelations } = useOutletContext<UserLayoutContext>();
 
-    const [workplace, setWorkplace] = useState<WorkplaceDto | null>(null);
+    const [employeeWithRelations, setEmployeeWithRelations] = useState<EmployeeWithRelationsDto | null>(null);
     const [projectAndTeams, setProjectAndTeams] = useState<ProjectWithTeamsDto | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<AppError | null>(null);
 
     useEffect(() => {
-        const { workplace, projectAndTeams, timestamp } = navigationState || {};
-        if (workplace && projectAndTeams && timestamp) {
+        const { employeeWithRelations, projectAndTeams, timestamp } = navigationState || {};
+        if (employeeWithRelations && projectAndTeams && timestamp) {
             const isDataFresh = Date.now() - timestamp < 5000;
             if (isDataFresh) {
-                setWorkplace(workplace);
+                setEmployeeWithRelations(employeeWithRelations);
                 setProjectAndTeams(projectAndTeams);
                 setLoading(false);
                 return;
@@ -33,24 +33,24 @@ const ProjectPage: React.FC = () => {
 
         const loadDataFromApi = async () => {
             setLoading(true);
-            if (!workplaces) {
-                setError(new AppErrorClass('!workplaces', 'Workplaces not loaded', -1));
+            if (!employeesWithRelations) {
+                setError(new AppErrorClass('!employeesWithRelations', 'Employees with relations not loaded', -1));
                 setLoading(false);
                 return;
             }
 
             const decodedCompanyTitle = decodeURIComponent(companyTitle || '');
-            const targetWorkplace: WorkplaceDto | undefined = workplaces.find(w => w.company.title === decodedCompanyTitle);
-            if (!targetWorkplace) {
+            const targetEmployeeWithRelations: EmployeeWithRelationsDto | undefined = employeesWithRelations.find(emp => emp.company.title === decodedCompanyTitle);
+            if (!targetEmployeeWithRelations) {
                 setError(new AppErrorClass('!company', 'Компания не найдена', -1));
                 setLoading(false);
                 return;
             }
-            setWorkplace(targetWorkplace);
+            setEmployeeWithRelations(targetEmployeeWithRelations);
             setError(null);
 
             const controller = new UserController();
-            const result: Result<ProjectWithTeamsDto[]> = await controller.getProjectsAndTeams(targetWorkplace.id);
+            const result: Result<ProjectWithTeamsDto[]> = await controller.getProjectsAndTeams(targetEmployeeWithRelations.id);
             if (result.isFailure) {
                 setError(result.error);
                 setLoading(false);
@@ -67,17 +67,17 @@ const ProjectPage: React.FC = () => {
         };
 
         loadDataFromApi();
-    }, [companyTitle, projectTitle, workplaces, navigationState]);
+    }, [companyTitle, projectTitle, employeesWithRelations, navigationState]);
 
 
 
     if (loading) return <div>Загрузка...</div>;
     if (error) return <div>Ошибка: {error.message}</div>;
-    if (!workplace || !projectAndTeams) return <div>Проект не найден</div>;
+    if (!employeeWithRelations || !projectAndTeams) return <div>Проект не найден</div>;
 
     return (<>
         <h1>Проект: {projectAndTeams.project.title}</h1>
-        <p>Компания: {workplace.company.title}</p>
+        <p>Компания: {employeeWithRelations.company.title}</p>
 
         <h2>Команды проекта</h2>
         {projectAndTeams.teams.length > 0 ? (
@@ -85,7 +85,7 @@ const ProjectPage: React.FC = () => {
                 {projectAndTeams.teams.map(team => (
                     <li key={team.id}>
                         <Link to={`/company/${companyTitle}/project/${projectTitle}/team/${encodeURIComponent(team.title)}`}
-                            state={{ workplace, projectAndTeams, timestamp: Date.now(), team } satisfies CompanyNavigationState}>
+                            state={{ employeeWithRelations, projectAndTeams, timestamp: Date.now(), team } satisfies CompanyNavigationState}>
                             {team.title}
                         </Link>
                     </li>

@@ -1,6 +1,6 @@
 namespace Application.Dto
 {
-    public class WorkplaceDto : BaseDto
+    public class EmployeeWithRelationsDto : BaseDto
     {
         public CompanyDto Company { get; set; } = null!;
         public PositionInCompanyDto PositionInCompany { get; set; } = null!;

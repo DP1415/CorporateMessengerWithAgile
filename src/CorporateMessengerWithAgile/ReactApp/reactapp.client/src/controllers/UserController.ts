@@ -1,10 +1,9 @@
 // src/controllers/UserController.ts
 import { AuthenticatedController } from './AuthenticatedController';
 import {
-    type Guid,
-    Result,
-    type WorkplaceDto,
-    WorkplaceSchema,
+    type Guid, Result,
+    type EmployeeWithRelationsDto,
+    EmployeeWithRelationsSchema,
     type ProjectWithTeamsDto,
     ProjectWithTeamsDtoSchema,
     type TeamDetailsDto,
@@ -19,7 +18,7 @@ export class UserController extends AuthenticatedController {
 
     protected convertToArray<T>(arrayData: unknown, schema: z.ZodType<T>): Result<T[]> {
         if (!Array.isArray(arrayData)) {
-            return Result.FailureWith(new AppError('Validation.Error', 'Expected array of workplaces', -1));
+            return Result.FailureWith(new AppError('Validation.Error', 'The received data is not an array', -1));
         }
         const validatedData: T[] = [];
         for (const item of arrayData) {
@@ -32,10 +31,10 @@ export class UserController extends AuthenticatedController {
         return Result.SuccessWith(validatedData);
     }
 
-    async getWorkplaces(userId: Guid): Promise<Result<WorkplaceDto[]>> {
+    async getEmployeesWithRelations(userId: Guid): Promise<Result<EmployeeWithRelationsDto[]>> {
         const result = await this.request('GET', `/${userId}/employees`);
-        if (result.isFailure) return result as Result<WorkplaceDto[]>;
-        return this.convertToArray<WorkplaceDto>(result.value, WorkplaceSchema);
+        if (result.isFailure) return result as Result<EmployeeWithRelationsDto[]>;
+        return this.convertToArray<EmployeeWithRelationsDto>(result.value, EmployeeWithRelationsSchema);
     }
 
     async getProjectsAndTeams(employeeId: Guid): Promise<Result<ProjectWithTeamsDto[]>> {
