@@ -1,6 +1,6 @@
-﻿namespace Application.Dto
+namespace Application.Dto.Summary
 {
-    public class TaskItemDto : BaseDto
+    public class TaskItemSummaryDto : BaseDto
     {
         public Guid ProjectId { get; set; }
         public Guid AuthorId { get; set; }

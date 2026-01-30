@@ -1,5 +1,5 @@
-﻿using Application.AbsCommand.Create;
-using Application.Dto;
+using Application.AbsCommand.Create;
+using Application.Dto.Summary;
 using Domain.Entity;
 
 namespace Application.Entity.Employees.Commands.EmployeeCreate
@@ -10,5 +10,5 @@ namespace Application.Entity.Employees.Commands.EmployeeCreate
             Guid PositionInCompanyId,
             Guid UserId
         )
-        : AbsCommandCreateEntity<Employee, EmployeeDto>;
+        : AbsCommandCreateEntity<Employee, EmployeeSummaryDto>;
 }

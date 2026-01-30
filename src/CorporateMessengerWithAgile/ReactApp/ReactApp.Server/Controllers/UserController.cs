@@ -28,7 +28,7 @@ namespace ReactApp.Server.Controllers
 
         [Authorize]
         [HttpGet("teams/{teamId}/")]
-        public async Task<ActionResult<TeamDetailsDto>> GetTeamDetails(
+        public async Task<ActionResult<TeamWithRelationsDto>> GetTeamDetails(
             [FromRoute] Guid teamId,
             CancellationToken cancellationToken = default
         ) => (await Sender.Send(new TeamGetByIdWithDetailsQuery(teamId), cancellationToken)).ToActionResult();

@@ -1,5 +1,5 @@
-﻿using Application.AbsCommand.Create;
-using Application.Dto;
+using Application.AbsCommand.Create;
+using Application.Dto.Summary;
 using AutoMapper;
 using Domain.Entity;
 using Domain.Result;
@@ -9,7 +9,7 @@ using Persistence;
 namespace Application.Entity.Companies.Command.CompanyCreate
 {
     public class CommandCreateCompanyHandler(AppDbContext context, IMapper mapper)
-        : AbsCommandCreateEntityHandler<CommandCreateCompany, Company, CompanyDto>(context, mapper)
+        : AbsCommandCreateEntityHandler<CommandCreateCompany, Company, CompanySummaryDto>(context, mapper)
     {
         public override Result<Company> Create(CommandCreateCompany request)
         {

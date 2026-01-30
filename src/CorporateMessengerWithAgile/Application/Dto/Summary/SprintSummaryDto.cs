@@ -1,6 +1,6 @@
-﻿namespace Application.Dto
+namespace Application.Dto.Summary
 {
-    public class SprintDto : BaseDto
+    public class SprintSummaryDto : BaseDto
     {
         public Guid TeamId { get; set; }
         public DateTime DateStart { get; set; }

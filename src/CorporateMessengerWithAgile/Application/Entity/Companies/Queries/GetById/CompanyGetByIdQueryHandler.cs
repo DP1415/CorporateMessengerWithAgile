@@ -1,5 +1,5 @@
-﻿using Application.AbsQuery;
-using Application.Dto;
+using Application.AbsQuery;
+using Application.Dto.Summary;
 using AutoMapper;
 using Domain.Entity;
 using Domain.Result;
@@ -26,11 +26,11 @@ namespace Application.Entity.Companies.Queries.GetById
                 ? ApplicationErrors.CompanyError.NotFound(request.Id)
                 : new CompanyGetByIdDto
                 (
-                    CompanyDto: _mapper.Map<CompanyDto>(company),
-                    ProjectDtos: _mapper.Map<List<ProjectDto>>(company.Projects),
-                    EmployeeDtos: _mapper.Map<List<EmployeeDto>>(company.Employees),
-                    PositionInCompanyDtos: _mapper.Map<List<PositionInCompanyDto>>(company.Positions),
-                    UserDtos: _mapper.Map<List<UserDto>>(users)
+                    CompanyDto: _mapper.Map<CompanySummaryDto>(company),
+                    ProjectDtos: _mapper.Map<List<ProjectSummaryDto>>(company.Projects),
+                    EmployeeDtos: _mapper.Map<List<EmployeeSummaryDto>>(company.Employees),
+                    PositionInCompanyDtos: _mapper.Map<List<PositionInCompanySummaryDto>>(company.Positions),
+                    UserDtos: _mapper.Map<List<UserSummaryDto>>(users)
                 );
         }
     }

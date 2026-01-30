@@ -1,12 +1,12 @@
-﻿using Application.Dto;
 using Application.AbsQuery.Options;
 using Application.AbsQuery;
 using Domain.Entity;
+using Application.Dto.Summary;
 
 namespace Application.Entity.Teams.Queries.TeamsGetAll
 {
     public record TeamsGetAllQuery()
-        : AbsQueryEntityWithOptions<Team, TeamDto>(
+        : AbsQueryEntityWithOptions<Team, TeamSummaryDto>(
             [
                 new Include<Team, Project>(t => t.Project),
                 new Include<Team, ICollection<TeamMember>>(t => t.TeamMembers),

@@ -1,5 +1,5 @@
-﻿using Application.AbsCommand.Update;
-using Application.Dto;
+using Application.AbsCommand.Update;
+using Application.Dto.Summary;
 using AutoMapper;
 using Domain.Entity;
 using Domain.Result;
@@ -9,7 +9,7 @@ using Persistence;
 namespace Application.Entity.TaskItems.Commands.TaskItemUpdate
 {
     public class CommandUpdateTaskItemHandler(AppDbContext context, IMapper mapper)
-        : AbsCommandUpdateEntityByIdHandler<CommandUpdateTaskItem, TaskItem, TaskItemDto>(context, mapper)
+        : AbsCommandUpdateEntityByIdHandler<CommandUpdateTaskItem, TaskItem, TaskItemSummaryDto>(context, mapper)
     {
         protected override Result<TaskItem> Update(TaskItem entity, CommandUpdateTaskItem request)
         {

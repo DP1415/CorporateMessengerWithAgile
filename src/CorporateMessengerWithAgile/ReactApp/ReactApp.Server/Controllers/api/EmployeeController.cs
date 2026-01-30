@@ -1,4 +1,4 @@
-﻿using Application.Dto;
+using Application.Dto.Summary;
 using Application.Entity.Employees.Commands.EmployeeCreate;
 using Application.Entity.Employees.Commands.EmployeeDelete;
 using Application.Entity.Employees.Commands.EmployeeUpdate;
@@ -13,7 +13,7 @@ namespace ReactApp.Server.Controllers.api
     public class EmployeeController(ISender sender) : ApiControllerBase
         <
             Employee,
-            EmployeeDto,
+            EmployeeSummaryDto,
             EmployeesGetAllQuery,
             CommandCreateEmployee,
             CommandUpdateEmployee,

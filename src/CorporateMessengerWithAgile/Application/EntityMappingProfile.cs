@@ -1,3 +1,5 @@
+using Application.Dto.Summary;
+
 namespace Application
 {
     public class EntityMappingProfile : AutoMapper.Profile
@@ -5,7 +7,7 @@ namespace Application
         public EntityMappingProfile()
         {
             // User
-            CreateMap<Domain.Entity.User, Dto.UserDto>()
+            CreateMap<Domain.Entity.User, UserSummaryDto>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
                 .ForMember(d => d.Email, opt => opt.MapFrom(s => s.Email.Value))
                 .ForMember(d => d.Username, opt => opt.MapFrom(s => s.Username.Value))
@@ -14,7 +16,7 @@ namespace Application
                 .ForMember(d => d.EmployeeIds, opt => opt.MapFrom(s => s.Employees.Select(e => e.Id).ToList()));
 
             // Company
-            CreateMap<Domain.Entity.Company, Dto.CompanyDto>()
+            CreateMap<Domain.Entity.Company, CompanySummaryDto>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
                 .ForMember(d => d.Title, opt => opt.MapFrom(s => s.Title.Value))
                 .ForMember(d => d.EmployeeIds, opt => opt.MapFrom(s => s.Employees.Select(e => e.Id).ToList()))
@@ -22,7 +24,7 @@ namespace Application
                 .ForMember(d => d.ProjectIds, opt => opt.MapFrom(s => s.Projects.Select(p => p.Id).ToList()));
 
             // Employee
-            CreateMap<Domain.Entity.Employee, Dto.EmployeeDto>()
+            CreateMap<Domain.Entity.Employee, EmployeeSummaryDto>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
                 .ForMember(d => d.CompanyId, opt => opt.MapFrom(s => s.CompanyId))
                 .ForMember(d => d.PositionInCompanyId, opt => opt.MapFrom(s => s.PositionInCompanyId))
@@ -37,7 +39,7 @@ namespace Application
                 .ForMember(d => d.TeamMembers, opt => opt.MapFrom(s => s.TeamMembers.ToList()));
 
             // PositionInCompany
-            CreateMap<Domain.Entity.PositionInCompany, Dto.PositionInCompanyDto>()
+            CreateMap<Domain.Entity.PositionInCompany, PositionInCompanySummaryDto>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
                 .ForMember(d => d.CompanyId, opt => opt.MapFrom(s => s.CompanyId))
                 .ForMember(d => d.Title, opt => opt.MapFrom(s => s.Title.Value))
@@ -45,7 +47,7 @@ namespace Application
                 .ForMember(d => d.EmployeeIds, opt => opt.MapFrom(s => s.Employees.Select(e => e.Id).ToList()));
 
             // Project
-            CreateMap<Domain.Entity.Project, Dto.ProjectDto>()
+            CreateMap<Domain.Entity.Project, ProjectSummaryDto>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
                 .ForMember(d => d.CompanyId, opt => opt.MapFrom(s => s.CompanyId))
                 .ForMember(d => d.Title, opt => opt.MapFrom(s => s.Title.Value))
@@ -53,7 +55,7 @@ namespace Application
                 .ForMember(d => d.TeamIds, opt => opt.MapFrom(s => s.Teams.Select(t => t.Id).ToList()));
 
             // Sprint
-            CreateMap<Domain.Entity.Sprint, Dto.SprintDto>()
+            CreateMap<Domain.Entity.Sprint, SprintSummaryDto>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
                 .ForMember(d => d.TeamId, opt => opt.MapFrom(s => s.TeamId))
                 .ForMember(d => d.DateStart, opt => opt.MapFrom(s => s.DateStart))
@@ -61,7 +63,7 @@ namespace Application
                 .ForMember(d => d.TaskItemIds, opt => opt.MapFrom(s => s.TaskItems.Select(t => t.Id).ToList()));
 
             // TaskItem
-            CreateMap<Domain.Entity.TaskItem, Dto.TaskItemDto>()
+            CreateMap<Domain.Entity.TaskItem, TaskItemSummaryDto>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
                 .ForMember(d => d.ProjectId, opt => opt.MapFrom(s => s.ProjectId))
                 .ForMember(d => d.AuthorId, opt => opt.MapFrom(s => s.AuthorId))
@@ -76,7 +78,7 @@ namespace Application
                 .ForMember(d => d.Deadline, opt => opt.MapFrom(s => s.Deadline));
 
             // TaskItemInSprint
-            CreateMap<Domain.Entity.TaskItemInSprint, Dto.TaskItemInSprintDto>()
+            CreateMap<Domain.Entity.TaskItemInSprint, TaskItemInSprintSummaryDto>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
                 .ForMember(d => d.TaskItemId, opt => opt.MapFrom(s => s.TaskItemId))
                 .ForMember(d => d.SprintId, opt => opt.MapFrom(s => s.SprintId))
@@ -84,7 +86,7 @@ namespace Application
                 .ForMember(d => d.Description, opt => opt.MapFrom(s => s.Description.Value));
 
             // Team
-            CreateMap<Domain.Entity.Team, Dto.TeamDto>()
+            CreateMap<Domain.Entity.Team, TeamSummaryDto>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
                 .ForMember(d => d.ProjectId, opt => opt.MapFrom(s => s.ProjectId))
                 .ForMember(d => d.Title, opt => opt.MapFrom(s => s.Title.Value))
@@ -94,13 +96,13 @@ namespace Application
                 .ForMember(d => d.KanbanBoardColumnIds, opt => opt.MapFrom(s => s.KanbanBoardColumns.Select(k => k.Id).ToList()));
 
             // TeamMember
-            CreateMap<Domain.Entity.TeamMember, Dto.TeamMemberDto>()
+            CreateMap<Domain.Entity.TeamMember, TeamMemberSummaryDto>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
                 .ForMember(d => d.EmployeeId, opt => opt.MapFrom(s => s.EmployeeId))
                 .ForMember(d => d.TeamId, opt => opt.MapFrom(s => s.TeamId));
 
             // KanbanBoardColumn
-            CreateMap<Domain.Entity.KanbanBoardColumn, Dto.KanbanBoardColumnDto>()
+            CreateMap<Domain.Entity.KanbanBoardColumn, KanbanBoardColumnSummaryDto>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
                 .ForMember(d => d.TeamId, opt => opt.MapFrom(s => s.TeamId))
                 .ForMember(d => d.TaskStatus, opt => opt.MapFrom(s => s.TaskStatus))

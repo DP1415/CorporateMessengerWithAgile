@@ -1,10 +1,10 @@
-using Application.Dto;
+using Application.Dto.Summary;
 
 namespace Application.Entity.Employees.Queries.EmployeeGetProjectsAndTeams
 {
     public record ProjectWithTeams
         (
-            ProjectDto Project,
-            IReadOnlyCollection<TeamDto> Teams
+            ProjectSummaryDto Project,
+            IReadOnlyCollection<TeamSummaryDto> Teams
         );
 }

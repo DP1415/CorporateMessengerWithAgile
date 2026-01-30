@@ -1,5 +1,5 @@
-﻿using Application.AbsCommand.Create;
-using Application.Dto;
+using Application.AbsCommand.Create;
+using Application.Dto.Summary;
 using Domain.Entity;
 
 namespace Application.Entity.PositionInCompany_s
@@ -8,5 +8,5 @@ namespace Application.Entity.PositionInCompany_s
         string Title,
         string Description,
         Guid CompanyId
-    ) : AbsCommandCreateEntity<PositionInCompany, PositionInCompanyDto>;
+    ) : AbsCommandCreateEntity<PositionInCompany, PositionInCompanySummaryDto>;
 }

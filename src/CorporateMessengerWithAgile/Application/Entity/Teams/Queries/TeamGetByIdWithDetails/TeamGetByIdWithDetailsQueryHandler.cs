@@ -1,5 +1,6 @@
 using Application.AbsQuery;
 using Application.Dto;
+using Application.Dto.Summary;
 using AutoMapper;
 using Domain.Entity;
 using Domain.Result;
@@ -9,9 +10,9 @@ using Persistence;
 namespace Application.Entity.Teams.Queries.TeamGetByIdWithDetails
 {
     public class TeamGetByIdWithDetailsQueryHandler(AppDbContext context, IMapper mapper)
-        : AbsQueryEntityHandler<TeamGetByIdWithDetailsQuery, Team, Result<TeamDetailsDto>>(context, mapper)
+        : AbsQueryEntityHandler<TeamGetByIdWithDetailsQuery, Team, Result<TeamWithRelationsDto>>(context, mapper)
     {
-        public override async Task<Result<TeamDetailsDto>> Handle(TeamGetByIdWithDetailsQuery request, CancellationToken cancellationToken)
+        public override async Task<Result<TeamWithRelationsDto>> Handle(TeamGetByIdWithDetailsQuery request, CancellationToken cancellationToken)
         {
             Team? team = await _dbSet
                 .Include(t => t.Project)
@@ -28,18 +29,18 @@ namespace Application.Entity.Teams.Queries.TeamGetByIdWithDetails
 
             List<KanbanBoardColumn> kanbanBoardColumns = [.. team.KanbanBoardColumns];
 
-            TeamDetailsDto teamDetailsDto = new()
+            TeamWithRelationsDto teamWithRelationsDto = new()
             {
                 Id = team.Id,
                 ProjectId = team.ProjectId,
                 Title = team.Title.Value,
                 StandardSprintDuration = team.StandardSprintDuration,
-                Users = _mapper.Map<IReadOnlyList<EmployeeDto>>(employees),
-                Sprints = _mapper.Map<IReadOnlyList<SprintDto>>(sprints),
-                KanbanBoardColumnIds = _mapper.Map<List<KanbanBoardColumnDto>>(kanbanBoardColumns)
+                Users = _mapper.Map<IReadOnlyList<EmployeeSummaryDto>>(employees),
+                Sprints = _mapper.Map<IReadOnlyList<SprintSummaryDto>>(sprints),
+                KanbanBoardColumnIds = _mapper.Map<List<KanbanBoardColumnSummaryDto>>(kanbanBoardColumns)
             };
 
-            return teamDetailsDto;
+            return teamWithRelationsDto;
         }
     }
 }

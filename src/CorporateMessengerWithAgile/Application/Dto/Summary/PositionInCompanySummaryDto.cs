@@ -1,6 +1,6 @@
-﻿namespace Application.Dto
+namespace Application.Dto.Summary
 {
-    public class PositionInCompanyDto : BaseDto
+    public class PositionInCompanySummaryDto : BaseDto
     {
         public Guid CompanyId { get; set; }
         public string Title { get; set; } = null!;

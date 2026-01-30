@@ -1,5 +1,5 @@
 using Application.AbsQuery;
-using Application.Dto;
+using Application.Dto.Summary;
 using AutoMapper;
 using Domain.Entity;
 using Microsoft.EntityFrameworkCore;
@@ -27,8 +27,8 @@ namespace Application.Entity.Employees.Queries.EmployeeGetProjectsAndTeams
                 .GroupBy(tm => tm.Team.Project)
                 .Select(
                     group => new ProjectWithTeams(
-                        _mapper.Map<ProjectDto>(group.Key),
-                        _mapper.Map<TeamDto[]>(group.Select(tm => tm.Team))
+                        _mapper.Map<ProjectSummaryDto>(group.Key),
+                        _mapper.Map<TeamSummaryDto[]>(group.Select(tm => tm.Team))
                     )
                 )];
 

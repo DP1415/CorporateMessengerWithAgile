@@ -1,4 +1,4 @@
-﻿using Application.Dto;
+using Application.Dto.Summary;
 using Application.Entity.KanbanBoardColumns.Commands.KanbanBoardColumnCreate;
 using Application.Entity.KanbanBoardColumns.Commands.KanbanBoardColumnDelete;
 using Application.Entity.KanbanBoardColumns.Commands.KanbanBoardColumnUpdate;
@@ -13,7 +13,7 @@ namespace ReactApp.Server.Controllers.api
     public class KanbanBoardColumnController(ISender sender) : ApiControllerBase
         <
             KanbanBoardColumn,
-            KanbanBoardColumnDto,
+            KanbanBoardColumnSummaryDto,
             KanbanBoardColumnsGetAllQuery,
             CommandCreateKanbanBoardColumn,
             CommandUpdateKanbanBoardColumn,

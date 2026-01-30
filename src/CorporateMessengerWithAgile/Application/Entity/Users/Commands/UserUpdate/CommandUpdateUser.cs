@@ -1,5 +1,5 @@
-﻿using Application.AbsCommand.Update;
-using Application.Dto;
+using Application.AbsCommand.Update;
+using Application.Dto.Summary;
 using Domain.Entity;
 
 namespace Application.Entity.Users.Commands.UserChange
@@ -12,5 +12,5 @@ namespace Application.Entity.Users.Commands.UserChange
             string? Password,
             string? Role
         )
-        : AbsCommandUpdateEntityById<User, UserDto>(Id);
+        : AbsCommandUpdateEntityById<User, UserSummaryDto>(Id);
 }

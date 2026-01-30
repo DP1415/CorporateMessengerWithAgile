@@ -1,5 +1,5 @@
 using Application.AbsCommand;
-using Application.Dto;
+using Application.Dto.Summary;
 using Domain.Result;
 
 namespace Application.Entity.Users.Commands.Register
@@ -10,5 +10,5 @@ namespace Application.Entity.Users.Commands.Register
             string Email,
             string Password
         )
-        : AbsCommand<Result<UserDto>>;
+        : AbsCommand<Result<UserSummaryDto>>;
 }

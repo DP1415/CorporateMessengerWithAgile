@@ -1,5 +1,5 @@
-﻿using Application.AbsCommand.Create;
-using Application.Dto;
+using Application.AbsCommand.Create;
+using Application.Dto.Summary;
 using AutoMapper;
 using Domain.Entity;
 using Domain.Result;
@@ -8,7 +8,7 @@ using Persistence;
 namespace Application.Entity.Employees.Commands.EmployeeCreate
 {
     public class CommandCreateEmployeeHandler(AppDbContext context, IMapper mapper)
-        : AbsCommandCreateEntityHandler<CommandCreateEmployee, Employee, EmployeeDto>(context, mapper)
+        : AbsCommandCreateEntityHandler<CommandCreateEmployee, Employee, EmployeeSummaryDto>(context, mapper)
     {
         public override Result<Employee> Create(CommandCreateEmployee request)
         {

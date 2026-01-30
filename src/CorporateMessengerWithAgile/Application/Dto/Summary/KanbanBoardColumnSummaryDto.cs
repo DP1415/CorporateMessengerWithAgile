@@ -1,8 +1,8 @@
-﻿using Domain.Entity;
+using Domain.Entity;
 
-namespace Application.Dto
+namespace Application.Dto.Summary
 {
-    public class KanbanBoardColumnDto : BaseDto
+    public class KanbanBoardColumnSummaryDto : BaseDto
     {
         public Guid TeamId { get; set; }
         public TaskItemStatus TaskStatus { get; set; }

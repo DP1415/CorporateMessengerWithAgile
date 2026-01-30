@@ -1,5 +1,5 @@
-﻿using Application.AbsCommand.Create;
-using Application.Dto;
+using Application.AbsCommand.Create;
+using Application.Dto.Summary;
 using Domain.Entity;
 
 namespace Application.Entity.KanbanBoardColumns.Commands.KanbanBoardColumnCreate
@@ -9,5 +9,5 @@ namespace Application.Entity.KanbanBoardColumns.Commands.KanbanBoardColumnCreate
         TaskItemStatus TaskStatus,
         int PositionOnBoard,
         Guid TeamId
-    ) : AbsCommandCreateEntity<KanbanBoardColumn, KanbanBoardColumnDto>;
+    ) : AbsCommandCreateEntity<KanbanBoardColumn, KanbanBoardColumnSummaryDto>;
 }

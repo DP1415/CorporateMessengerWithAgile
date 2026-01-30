@@ -1,5 +1,5 @@
-﻿using Application.AbsCommand.Create;
-using Application.Dto;
+using Application.AbsCommand.Create;
+using Application.Dto.Summary;
 using AutoMapper;
 using Domain.Entity;
 using Domain.Result;
@@ -9,7 +9,7 @@ using Persistence;
 namespace Application.Entity.TaskItems.Commands.TaskItemCreate
 {
     public class CommandCreateTaskItemHandler(AppDbContext context, IMapper mapper)
-        : AbsCommandCreateEntityHandler<CommandCreateTaskItem, TaskItem, TaskItemDto>(context, mapper)
+        : AbsCommandCreateEntityHandler<CommandCreateTaskItem, TaskItem, TaskItemSummaryDto>(context, mapper)
     {
         public override Result<TaskItem> Create(CommandCreateTaskItem request)
         {

@@ -1,12 +1,12 @@
-﻿using Application.Dto;
 using Application.AbsQuery.Options;
 using Application.AbsQuery;
 using Domain.Entity;
+using Application.Dto.Summary;
 
 namespace Application.Entity.TaskItems.Queries.TaskItemsGetAll
 {
     public record TaskItemsGetAllQuery()
-        : AbsQueryEntityWithOptions<TaskItem, TaskItemDto>(
+        : AbsQueryEntityWithOptions<TaskItem, TaskItemSummaryDto>(
             [
                 new Include<TaskItem, Project>(t => t.Project),
                 new Include<TaskItem, Employee>(t => t.Author),

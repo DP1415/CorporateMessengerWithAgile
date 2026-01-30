@@ -1,4 +1,4 @@
-﻿using Application.Dto;
+using Application.Dto.Summary;
 using Application.Entity.TaskItems.Commands.TaskItemCreate;
 using Application.Entity.TaskItems.Commands.TaskItemDelete;
 using Application.Entity.TaskItems.Commands.TaskItemUpdate;
@@ -13,7 +13,7 @@ namespace ReactApp.Server.Controllers.api
     public class TaskItemController(ISender sender) : ApiControllerBase
         <
             TaskItem,
-            TaskItemDto,
+            TaskItemSummaryDto,
             TaskItemsGetAllQuery,
             CommandCreateTaskItem,
             CommandUpdateTaskItem,

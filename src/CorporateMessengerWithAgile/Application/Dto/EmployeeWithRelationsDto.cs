@@ -1,10 +1,12 @@
+using Application.Dto.Summary;
+
 namespace Application.Dto
 {
     public class EmployeeWithRelationsDto : BaseDto
     {
-        public CompanyDto Company { get; set; } = null!;
-        public PositionInCompanyDto PositionInCompany { get; set; } = null!;
-        public UserDto User { get; set; } = null!;
-        public IReadOnlyList<TeamMemberDto> TeamMembers { get; set; } = [];
+        public CompanySummaryDto Company { get; set; } = null!;
+        public PositionInCompanySummaryDto PositionInCompany { get; set; } = null!;
+        public UserSummaryDto User { get; set; } = null!;
+        public IReadOnlyList<TeamMemberSummaryDto> TeamMembers { get; set; } = [];
     }
 }

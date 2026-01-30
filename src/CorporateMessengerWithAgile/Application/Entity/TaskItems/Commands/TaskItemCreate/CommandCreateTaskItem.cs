@@ -1,5 +1,5 @@
-﻿using Application.AbsCommand.Create;
-using Application.Dto;
+using Application.AbsCommand.Create;
+using Application.Dto.Summary;
 using Domain.Entity;
 
 namespace Application.Entity.TaskItems.Commands.TaskItemCreate
@@ -15,5 +15,5 @@ namespace Application.Entity.TaskItems.Commands.TaskItemCreate
         Guid ResponsibleId,
         Guid? SprintWithLastMentionId = null,
         Guid? ParentTaskId = null
-    ) : AbsCommandCreateEntity<TaskItem, TaskItemDto>;
+    ) : AbsCommandCreateEntity<TaskItem, TaskItemSummaryDto>;
 }

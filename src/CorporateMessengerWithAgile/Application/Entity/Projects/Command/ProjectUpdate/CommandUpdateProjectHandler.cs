@@ -1,5 +1,5 @@
-﻿using Application.AbsCommand.Update;
-using Application.Dto;
+using Application.AbsCommand.Update;
+using Application.Dto.Summary;
 using AutoMapper;
 using Domain.Entity;
 using Domain.Result;
@@ -9,7 +9,7 @@ using Persistence;
 namespace Application.Entity.Projects.Command.ProjectUpdate
 {
     public class CommandUpdateProjectHandler(AppDbContext context, IMapper mapper)
-        : AbsCommandUpdateEntityByIdHandler<CommandUpdateProject, Project, ProjectDto>(context, mapper)
+        : AbsCommandUpdateEntityByIdHandler<CommandUpdateProject, Project, ProjectSummaryDto>(context, mapper)
     {
         protected override Result<Project> Update(Project entity, CommandUpdateProject request)
         {

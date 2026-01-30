@@ -1,4 +1,4 @@
-﻿using Application.Dto;
+using Application.Dto.Summary;
 using Application.Entity.Projects.Command.ProjectCreate;
 using Application.Entity.Projects.Command.ProjectDelete;
 using Application.Entity.Projects.Command.ProjectUpdate;
@@ -13,7 +13,7 @@ namespace ReactApp.Server.Controllers.api
     public class ProjectController(ISender sender) : ApiControllerBase
         <
             Project,
-            ProjectDto,
+            ProjectSummaryDto,
             ProjectsGetAllQuery,
             CommandCreateProject,
             CommandUpdateProject,

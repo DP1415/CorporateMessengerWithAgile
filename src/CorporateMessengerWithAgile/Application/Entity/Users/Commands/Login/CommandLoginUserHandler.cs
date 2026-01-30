@@ -1,5 +1,5 @@
-﻿using Application.AbsCommand;
-using Application.Dto;
+using Application.AbsCommand;
+using Application.Dto.Summary;
 using AutoMapper;
 using Domain.Result;
 using Domain.ValueObjects;
@@ -27,7 +27,7 @@ namespace Application.Entity.Users.Commands.Login
                 return ApplicationErrors.AuthenticationError.Invalid;
 
             string token = jwtProvider.GenerateToken(user);
-            return new CommandLoginUserOutput(token, _mapper.Map<UserDto>(user));
+            return new CommandLoginUserOutput(token, _mapper.Map<UserSummaryDto>(user));
         }
     }
 }

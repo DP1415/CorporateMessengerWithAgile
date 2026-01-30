@@ -1,5 +1,5 @@
 using Application.AbsCommand;
-using Application.Dto;
+using Application.Dto.Summary;
 using AutoMapper;
 using Domain.Entity;
 using Domain.Result;
@@ -9,9 +9,9 @@ using Persistence;
 namespace Application.Entity.Users.Commands.Register
 {
     public class CommandRegisterUserHandler(AppDbContext context, IMapper mapper)
-        : AbsCommandHandler<CommandRegisterUser, Result<UserDto>>(context, mapper)
+        : AbsCommandHandler<CommandRegisterUser, Result<UserSummaryDto>>(context, mapper)
     {
-        public async override Task<Result<UserDto>> Handle(CommandRegisterUser request, CancellationToken cancellationToken)
+        public async override Task<Result<UserSummaryDto>> Handle(CommandRegisterUser request, CancellationToken cancellationToken)
         {
             var username = Username.Create(request.UserName);
             if (username.IsFailure) return username.Error;
@@ -33,7 +33,7 @@ namespace Application.Entity.Users.Commands.Register
             _context.Users.Add(user);
             await _context.SaveChangesAsync(cancellationToken);
 
-            return Result.Success(_mapper.Map<UserDto>(user), 201);
+            return Result.Success(_mapper.Map<UserSummaryDto>(user), 201);
         }
     }
 }

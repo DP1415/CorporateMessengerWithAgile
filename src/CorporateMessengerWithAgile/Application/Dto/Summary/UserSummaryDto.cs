@@ -1,6 +1,6 @@
-﻿namespace Application.Dto
+namespace Application.Dto.Summary
 {
-    public class UserDto : BaseDto
+    public class UserSummaryDto : BaseDto
     {
         public string Email { get; set; } = null!;
         public string Username { get; set; } = null!;

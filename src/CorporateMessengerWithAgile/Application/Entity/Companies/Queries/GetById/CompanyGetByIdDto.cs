@@ -1,12 +1,12 @@
-﻿using Application.Dto;
+using Application.Dto.Summary;
 
 namespace Application.Entity.Companies.Queries.GetById
 {
     public record CompanyGetByIdDto(
-            CompanyDto CompanyDto,
-            List<ProjectDto> ProjectDtos,
-            List<EmployeeDto> EmployeeDtos,
-            List<PositionInCompanyDto> PositionInCompanyDtos,
-            List<UserDto> UserDtos
+            CompanySummaryDto CompanyDto,
+            List<ProjectSummaryDto> ProjectDtos,
+            List<EmployeeSummaryDto> EmployeeDtos,
+            List<PositionInCompanySummaryDto> PositionInCompanyDtos,
+            List<UserSummaryDto> UserDtos
         );
 }

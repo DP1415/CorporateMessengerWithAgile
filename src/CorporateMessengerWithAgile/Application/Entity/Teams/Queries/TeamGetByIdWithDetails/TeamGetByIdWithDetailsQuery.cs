@@ -9,5 +9,5 @@ namespace Application.Entity.Teams.Queries.TeamGetByIdWithDetails
         (
             Guid TeamId
         )
-        : AbsQueryEntity<Team, Result<TeamDetailsDto>>;
+        : AbsQueryEntity<Team, Result<TeamWithRelationsDto>>;
 }

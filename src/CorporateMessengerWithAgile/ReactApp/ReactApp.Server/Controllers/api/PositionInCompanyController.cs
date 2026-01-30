@@ -1,4 +1,4 @@
-﻿using Application.Dto;
+using Application.Dto.Summary;
 using Application.Entity.PositionInCompany_s;
 using Domain.Entity;
 using MediatR;
@@ -10,7 +10,7 @@ namespace ReactApp.Server.Controllers.api
     public class PositionInCompanyController(ISender sender) : ApiControllerBase
         <
             PositionInCompany,
-            PositionInCompanyDto,
+            PositionInCompanySummaryDto,
             PositionInCompaniesGetAllQuery,
             CommandCreatePositionInCompany,
             CommandUpdatePositionInCompany,

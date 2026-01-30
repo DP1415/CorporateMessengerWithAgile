@@ -1,4 +1,4 @@
-﻿using Application.Dto;
+using Application.Dto.Summary;
 using Application.Entity.Companies.Queries.GetAll;
 using Application.Entity.Companies.Queries.GetById;
 using Application.Entity.Projects.Queries.GetByCompanyId;
@@ -12,7 +12,7 @@ namespace ReactApp.Server.Controllers.reports
     public class CompanyController(ISender sender) : ReportsControllerBase(sender)
     {
         [HttpGet]
-        public async Task<IEnumerable<CompanyDto>> GetAll(
+        public async Task<IEnumerable<CompanySummaryDto>> GetAll(
             CancellationToken cancellationToken = default
         ) => await Sender.Send(new CompaniesGetAllQuery(), cancellationToken);
 
@@ -24,7 +24,7 @@ namespace ReactApp.Server.Controllers.reports
 
 
         [HttpGet("{companyId:guid}/Project")]
-        public async Task<ActionResult<ProjectGetByCompanyIdDto>> GetAll(
+        public async Task<ActionResult<ProjectGetByCompanyIdQueryOutput>> GetAll(
             Guid companyId,
             CancellationToken cancellationToken = default
         ) => (await Sender.Send(new ProjectGetByCompanyIdQuery(companyId), cancellationToken)).ToActionResult();

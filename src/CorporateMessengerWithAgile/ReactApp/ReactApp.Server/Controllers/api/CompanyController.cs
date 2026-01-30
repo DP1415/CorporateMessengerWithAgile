@@ -1,4 +1,4 @@
-﻿using Application.Dto;
+using Application.Dto.Summary;
 using Application.Entity.Companies.Command.CompanyCreate;
 using Application.Entity.Companies.Command.CompanyDelete;
 using Application.Entity.Companies.Command.CompanyUpdate;
@@ -13,7 +13,7 @@ namespace ReactApp.Server.Controllers.api
     public class CompanyController(ISender sender) : ApiControllerBase
         <
             Company,
-            CompanyDto,
+            CompanySummaryDto,
             CompaniesGetAllQuery,
             CommandCreateCompany,
             CommandUpdateCompany,

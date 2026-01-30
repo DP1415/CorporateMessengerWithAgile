@@ -1,4 +1,4 @@
-﻿using Application.Dto;
+using Application.Dto.Summary;
 using Application.Entity.Users.Commands.UserChange;
 using Application.Entity.Users.Commands.UserCreate;
 using Application.Entity.Users.Commands.UserDelete;
@@ -13,7 +13,7 @@ namespace ReactApp.Server.Controllers.api
     public class UserController(ISender sender) : ApiControllerBase
         <
             User,
-            UserDto,
+            UserSummaryDto,
             UsersGetAllQuery,
             CommandCreateUser,
             CommandUpdateUser,

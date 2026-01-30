@@ -1,5 +1,5 @@
-﻿using Application.AbsCommand.Create;
-using Application.Dto;
+using Application.AbsCommand.Create;
+using Application.Dto.Summary;
 using Domain.Entity;
 
 namespace Application.Entity.Users.Commands.UserCreate
@@ -11,5 +11,5 @@ namespace Application.Entity.Users.Commands.UserCreate
             string Password,
             string Role
         )
-        : AbsCommandCreateEntity<User, UserDto>;
+        : AbsCommandCreateEntity<User, UserSummaryDto>;
 }

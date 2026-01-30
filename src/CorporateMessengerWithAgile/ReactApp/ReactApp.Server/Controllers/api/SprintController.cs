@@ -1,4 +1,4 @@
-﻿using Application.Dto;
+using Application.Dto.Summary;
 using Application.Entity.Sprints.Commands.SprintCreate;
 using Application.Entity.Sprints.Commands.SprintDelete;
 using Application.Entity.Sprints.Commands.SprintUpdate;
@@ -13,7 +13,7 @@ namespace ReactApp.Server.Controllers.api
     public class SprintController(ISender sender) : ApiControllerBase
         <
             Sprint,
-            SprintDto,
+            SprintSummaryDto,
             SprintsGetAllQuery,
             CommandCreateSprint,
             CommandUpdateSprint,

@@ -1,5 +1,5 @@
-﻿using Application.AbsCommand.Create;
-using Application.Dto;
+using Application.AbsCommand.Create;
+using Application.Dto.Summary;
 using Domain.Entity;
 
 namespace Application.Entity.Teams.Commands.TeamCreate
@@ -8,5 +8,5 @@ namespace Application.Entity.Teams.Commands.TeamCreate
         string Title,
         int StandardSprintDuration,
         Guid ProjectId
-    ) : AbsCommandCreateEntity<Team, TeamDto>;
+    ) : AbsCommandCreateEntity<Team, TeamSummaryDto>;
 }

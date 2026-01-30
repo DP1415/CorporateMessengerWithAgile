@@ -1,5 +1,5 @@
-﻿using Application.AbsCommand.Update;
-using Application.Dto;
+using Application.AbsCommand.Update;
+using Application.Dto.Summary;
 using AutoMapper;
 using Domain.Entity;
 using Domain.Result;
@@ -9,7 +9,7 @@ using Persistence;
 namespace Application.Entity.KanbanBoardColumns.Commands.KanbanBoardColumnUpdate
 {
     public class CommandUpdateKanbanBoardColumnHandler(AppDbContext context, IMapper mapper)
-        : AbsCommandUpdateEntityByIdHandler<CommandUpdateKanbanBoardColumn, KanbanBoardColumn, KanbanBoardColumnDto>(context, mapper)
+        : AbsCommandUpdateEntityByIdHandler<CommandUpdateKanbanBoardColumn, KanbanBoardColumn, KanbanBoardColumnSummaryDto>(context, mapper)
     {
         protected override Result<KanbanBoardColumn> Update(KanbanBoardColumn entity, CommandUpdateKanbanBoardColumn request)
         {

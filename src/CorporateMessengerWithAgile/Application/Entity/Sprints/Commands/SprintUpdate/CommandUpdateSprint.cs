@@ -1,5 +1,5 @@
-﻿using Application.AbsCommand.Update;
-using Application.Dto;
+using Application.AbsCommand.Update;
+using Application.Dto.Summary;
 using Domain.Entity;
 
 namespace Application.Entity.Sprints.Commands.SprintUpdate
@@ -9,5 +9,5 @@ namespace Application.Entity.Sprints.Commands.SprintUpdate
         DateTime? DateStart,
         DateTime? DateEnd,
         Guid? TeamId
-    ) : AbsCommandUpdateEntityById<Sprint, SprintDto>(Id);
+    ) : AbsCommandUpdateEntityById<Sprint, SprintSummaryDto>(Id);
 }

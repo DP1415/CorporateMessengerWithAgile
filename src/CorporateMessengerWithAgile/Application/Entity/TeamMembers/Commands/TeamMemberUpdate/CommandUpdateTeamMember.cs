@@ -1,5 +1,5 @@
-﻿using Application.AbsCommand.Update;
-using Application.Dto;
+using Application.AbsCommand.Update;
+using Application.Dto.Summary;
 using Domain.Entity;
 
 namespace Application.Entity.TeamMembers.Commands.TeamMemberUpdate
@@ -8,5 +8,5 @@ namespace Application.Entity.TeamMembers.Commands.TeamMemberUpdate
         Guid Id,
         Guid? EmployeeId,
         Guid? TeamId
-    ) : AbsCommandUpdateEntityById<TeamMember, TeamMemberDto>(Id);
+    ) : AbsCommandUpdateEntityById<TeamMember, TeamMemberSummaryDto>(Id);
 }

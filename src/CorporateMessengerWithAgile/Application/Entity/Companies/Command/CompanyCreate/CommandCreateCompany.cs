@@ -1,5 +1,5 @@
-﻿using Application.AbsCommand.Create;
-using Application.Dto;
+using Application.AbsCommand.Create;
+using Application.Dto.Summary;
 using Domain.Entity;
 
 namespace Application.Entity.Companies.Command.CompanyCreate
@@ -8,5 +8,5 @@ namespace Application.Entity.Companies.Command.CompanyCreate
     (
         string Title
     )
-    : AbsCommandCreateEntity<Company, CompanyDto>;
+    : AbsCommandCreateEntity<Company, CompanySummaryDto>;
 }

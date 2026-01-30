@@ -1,5 +1,5 @@
-﻿using Application.AbsCommand.Update;
-using Application.Dto;
+using Application.AbsCommand.Update;
+using Application.Dto.Summary;
 using Domain.Entity;
 
 namespace Application.Entity.KanbanBoardColumns.Commands.KanbanBoardColumnUpdate
@@ -10,5 +10,5 @@ namespace Application.Entity.KanbanBoardColumns.Commands.KanbanBoardColumnUpdate
         TaskItemStatus? TaskStatus,
         int? PositionOnBoard,
         Guid? TeamId
-    ) : AbsCommandUpdateEntityById<KanbanBoardColumn, KanbanBoardColumnDto>(Id);
+    ) : AbsCommandUpdateEntityById<KanbanBoardColumn, KanbanBoardColumnSummaryDto>(Id);
 }

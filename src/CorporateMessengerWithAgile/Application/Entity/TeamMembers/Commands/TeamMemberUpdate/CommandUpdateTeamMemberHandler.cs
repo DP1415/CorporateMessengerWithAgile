@@ -1,5 +1,5 @@
-﻿using Application.AbsCommand.Update;
-using Application.Dto;
+using Application.AbsCommand.Update;
+using Application.Dto.Summary;
 using AutoMapper;
 using Domain.Entity;
 using Domain.Result;
@@ -8,7 +8,7 @@ using Persistence;
 namespace Application.Entity.TeamMembers.Commands.TeamMemberUpdate
 {
     public class CommandUpdateTeamMemberHandler(AppDbContext context, IMapper mapper)
-        : AbsCommandUpdateEntityByIdHandler<CommandUpdateTeamMember, TeamMember, TeamMemberDto>(context, mapper)
+        : AbsCommandUpdateEntityByIdHandler<CommandUpdateTeamMember, TeamMember, TeamMemberSummaryDto>(context, mapper)
     {
         protected override Result<TeamMember> Update(TeamMember entity, CommandUpdateTeamMember request)
         {

@@ -1,4 +1,4 @@
-﻿using Application.Dto;
+using Application.Dto.Summary;
 using Application.Entity.Teams.Commands.TeamCreate;
 using Application.Entity.Teams.Commands.TeamDelete;
 using Application.Entity.Teams.Commands.TeamUpdate;
@@ -13,7 +13,7 @@ namespace ReactApp.Server.Controllers.api
     public class TeamController(ISender sender) : ApiControllerBase
         <
             Team,
-            TeamDto,
+            TeamSummaryDto,
             TeamsGetAllQuery,
             CommandCreateTeam,
             CommandUpdateTeam,

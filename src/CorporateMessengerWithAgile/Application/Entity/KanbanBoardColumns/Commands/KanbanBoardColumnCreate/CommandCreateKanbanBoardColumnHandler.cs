@@ -1,5 +1,5 @@
-﻿using Application.AbsCommand.Create;
-using Application.Dto;
+using Application.AbsCommand.Create;
+using Application.Dto.Summary;
 using AutoMapper;
 using Domain.Entity;
 using Domain.Result;
@@ -9,7 +9,7 @@ using Persistence;
 namespace Application.Entity.KanbanBoardColumns.Commands.KanbanBoardColumnCreate
 {
     public class CommandCreateKanbanBoardColumnHandler(AppDbContext context, IMapper mapper)
-        : AbsCommandCreateEntityHandler<CommandCreateKanbanBoardColumn, KanbanBoardColumn, KanbanBoardColumnDto>(context, mapper)
+        : AbsCommandCreateEntityHandler<CommandCreateKanbanBoardColumn, KanbanBoardColumn, KanbanBoardColumnSummaryDto>(context, mapper)
     {
         public override Result<KanbanBoardColumn> Create(CommandCreateKanbanBoardColumn request)
         {

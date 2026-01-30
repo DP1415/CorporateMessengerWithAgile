@@ -1,4 +1,4 @@
-﻿using Application.Dto;
+using Application.Dto.Summary;
 using Application.Entity.Users.Commands.Login;
 using Application.Entity.Users.Commands.Register;
 using MediatR;
@@ -11,7 +11,7 @@ namespace ReactApp.Server.Controllers
     public class AuthController(ISender sender) : AbstractController(sender)
     {
         [HttpPost("Register")]
-        public async Task<ActionResult<UserDto>> Register(
+        public async Task<ActionResult<UserSummaryDto>> Register(
             [FromBody] CommandRegisterUser commandRegisterUser,
             CancellationToken cancellationToken = default
         ) => (await Sender.Send(commandRegisterUser, cancellationToken)).ToActionResult();

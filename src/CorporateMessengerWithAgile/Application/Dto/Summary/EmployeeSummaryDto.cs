@@ -1,6 +1,6 @@
-namespace Application.Dto
+namespace Application.Dto.Summary
 {
-    public class EmployeeDto : BaseDto
+    public class EmployeeSummaryDto : BaseDto
     {
         public Guid CompanyId { get; set; }
         public Guid PositionInCompanyId { get; set; }

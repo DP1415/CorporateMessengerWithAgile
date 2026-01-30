@@ -1,5 +1,5 @@
-﻿using Application.AbsCommand.Create;
-using Application.Dto;
+using Application.AbsCommand.Create;
+using Application.Dto.Summary;
 using AutoMapper;
 using Domain.Entity;
 using Domain.Result;
@@ -9,7 +9,7 @@ using Persistence;
 namespace Application.Entity.Teams.Commands.TeamCreate
 {
     public class CommandCreateTeamHandler(AppDbContext context, IMapper mapper)
-        : AbsCommandCreateEntityHandler<CommandCreateTeam, Team, TeamDto>(context, mapper)
+        : AbsCommandCreateEntityHandler<CommandCreateTeam, Team, TeamSummaryDto>(context, mapper)
     {
         public override Result<Team> Create(CommandCreateTeam request)
         {

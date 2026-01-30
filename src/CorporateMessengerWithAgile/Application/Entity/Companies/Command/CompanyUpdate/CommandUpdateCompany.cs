@@ -1,5 +1,5 @@
-﻿using Application.AbsCommand.Update;
-using Application.Dto;
+using Application.AbsCommand.Update;
+using Application.Dto.Summary;
 using Domain.Entity;
 
 namespace Application.Entity.Companies.Command.CompanyUpdate
@@ -9,5 +9,5 @@ namespace Application.Entity.Companies.Command.CompanyUpdate
         Guid Id,
         string? Title
     )
-    : AbsCommandUpdateEntityById<Company, CompanyDto>(Id);
+    : AbsCommandUpdateEntityById<Company, CompanySummaryDto>(Id);
 }

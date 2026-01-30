@@ -1,4 +1,4 @@
-﻿using Application.Dto;
+using Application.Dto.Summary;
 using Application.Entity.TaskItemInSprints.Commands.TaskItemInSprintCreate;
 using Application.Entity.TaskItemInSprints.Commands.TaskItemInSprintDelete;
 using Application.Entity.TaskItemInSprints.Commands.TaskItemInSprintUpdate;
@@ -13,7 +13,7 @@ namespace ReactApp.Server.Controllers.api
     public class TaskItemInSprintController(ISender sender) : ApiControllerBase
         <
             TaskItemInSprint,
-            TaskItemInSprintDto,
+            TaskItemInSprintSummaryDto,
             TaskItemsInSprintGetAllQuery,
             CommandCreateTaskItemInSprint,
             CommandUpdateTaskItemInSprint,

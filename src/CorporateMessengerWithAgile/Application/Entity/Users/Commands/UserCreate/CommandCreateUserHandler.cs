@@ -1,5 +1,5 @@
-﻿using Application.AbsCommand.Create;
-using Application.Dto;
+using Application.AbsCommand.Create;
+using Application.Dto.Summary;
 using AutoMapper;
 using Domain.Entity;
 using Domain.Result;
@@ -9,7 +9,7 @@ using Persistence;
 namespace Application.Entity.Users.Commands.UserCreate
 {
     public class CommandCreateUserHandler(AppDbContext context, IMapper mapper)
-        : AbsCommandCreateEntityHandler<CommandCreateUser, User, UserDto>(context, mapper)
+        : AbsCommandCreateEntityHandler<CommandCreateUser, User, UserSummaryDto>(context, mapper)
     {
         public override Result<User> Create(CommandCreateUser request)
         {

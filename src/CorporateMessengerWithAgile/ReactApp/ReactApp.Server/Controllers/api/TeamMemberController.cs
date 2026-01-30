@@ -1,4 +1,4 @@
-﻿using Application.Dto;
+using Application.Dto.Summary;
 using Application.Entity.TeamMembers.Commands.TeamMemberCreate;
 using Application.Entity.TeamMembers.Commands.TeamMemberDelete;
 using Application.Entity.TeamMembers.Commands.TeamMemberUpdate;
@@ -13,7 +13,7 @@ namespace ReactApp.Server.Controllers.api
     public class TeamMemberController(ISender sender) : ApiControllerBase
         <
             TeamMember,
-            TeamMemberDto,
+            TeamMemberSummaryDto,
             TeamMembersGetAllQuery,
             CommandCreateTeamMember,
             CommandUpdateTeamMember,

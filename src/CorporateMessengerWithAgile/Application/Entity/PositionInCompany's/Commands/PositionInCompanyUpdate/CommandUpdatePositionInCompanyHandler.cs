@@ -1,5 +1,5 @@
-﻿using Application.AbsCommand.Update;
-using Application.Dto;
+using Application.AbsCommand.Update;
+using Application.Dto.Summary;
 using AutoMapper;
 using Domain.Entity;
 using Domain.Result;
@@ -9,7 +9,7 @@ using Persistence;
 namespace Application.Entity.PositionInCompany_s
 {
     public class CommandUpdatePositionInCompanyHandler(AppDbContext context, IMapper mapper)
-        : AbsCommandUpdateEntityByIdHandler<CommandUpdatePositionInCompany, PositionInCompany, PositionInCompanyDto>(context, mapper)
+        : AbsCommandUpdateEntityByIdHandler<CommandUpdatePositionInCompany, PositionInCompany, PositionInCompanySummaryDto>(context, mapper)
     {
         protected override Result<PositionInCompany> Update(PositionInCompany entity, CommandUpdatePositionInCompany request)
         {

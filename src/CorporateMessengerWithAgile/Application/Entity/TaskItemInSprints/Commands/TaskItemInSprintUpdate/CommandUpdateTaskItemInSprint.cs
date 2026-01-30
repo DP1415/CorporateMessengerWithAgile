@@ -1,5 +1,5 @@
-﻿using Application.AbsCommand.Update;
-using Application.Dto;
+using Application.AbsCommand.Update;
+using Application.Dto.Summary;
 using Domain.Entity;
 
 namespace Application.Entity.TaskItemInSprints.Commands.TaskItemInSprintUpdate
@@ -10,5 +10,5 @@ namespace Application.Entity.TaskItemInSprints.Commands.TaskItemInSprintUpdate
         string? Description,
         Guid? TaskItemId,
         Guid? SprintId
-    ) : AbsCommandUpdateEntityById<TaskItemInSprint, TaskItemInSprintDto>(Id);
+    ) : AbsCommandUpdateEntityById<TaskItemInSprint, TaskItemInSprintSummaryDto>(Id);
 }

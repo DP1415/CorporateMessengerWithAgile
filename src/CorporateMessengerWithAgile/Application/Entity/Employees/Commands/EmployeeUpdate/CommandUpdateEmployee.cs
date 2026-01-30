@@ -1,5 +1,5 @@
-﻿using Application.AbsCommand.Update;
-using Application.Dto;
+using Application.AbsCommand.Update;
+using Application.Dto.Summary;
 using Domain.Entity;
 
 namespace Application.Entity.Employees.Commands.EmployeeUpdate
@@ -11,5 +11,5 @@ namespace Application.Entity.Employees.Commands.EmployeeUpdate
             Guid? PositionInCompanyId,
             Guid? UserId
         )
-        : AbsCommandUpdateEntityById<Employee, EmployeeDto>(Id);
+        : AbsCommandUpdateEntityById<Employee, EmployeeSummaryDto>(Id);
 }

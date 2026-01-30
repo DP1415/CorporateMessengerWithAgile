@@ -1,15 +1,15 @@
-﻿using Application.Dto;
 using AutoMapper;
 using Domain.Entity;
 using Domain.Result;
 using Persistence;
 using Domain.ValueObjects;
 using Application.AbsCommand.Create;
+using Application.Dto.Summary;
 
 namespace Application.Entity.TaskItemInSprints.Commands.TaskItemInSprintCreate
 {
     public class CommandCreateTaskItemInSprintHandler(AppDbContext context, IMapper mapper)
-        : AbsCommandCreateEntityHandler<CommandCreateTaskItemInSprint, TaskItemInSprint, TaskItemInSprintDto>(context, mapper)
+        : AbsCommandCreateEntityHandler<CommandCreateTaskItemInSprint, TaskItemInSprint, TaskItemInSprintSummaryDto>(context, mapper)
     {
         public override Result<TaskItemInSprint> Create(CommandCreateTaskItemInSprint request)
         {
