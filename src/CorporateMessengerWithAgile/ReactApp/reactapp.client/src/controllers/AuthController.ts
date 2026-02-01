@@ -1,6 +1,6 @@
 // src/controllers/AuthController.ts
 import { AbstractController } from './AbstractController';
-import { type UserDto, UserDtoSchema } from '../models/entity/UserDto';
+import { type UserSummaryDto, UserSummaryDtoSchema } from '../models';
 import { Result, AppError } from '../models';
 import { validateWithSchema } from '../utils/validation';
 
@@ -17,7 +17,7 @@ interface RegisterRequest {
 
 interface LoginResponse {
     token: string;
-    user: UserDto;
+    user: UserSummaryDto;
 }
 
 export class AuthController extends AbstractController {
@@ -43,7 +43,7 @@ export class AuthController extends AbstractController {
             return Result.FailureWith(new AppError('Validation.Error', 'Missing or invalid token', -1));
         }
 
-        const userResult = validateWithSchema(UserDtoSchema, valueObj.user);
+        const userResult = validateWithSchema(UserSummaryDtoSchema, valueObj.user);
         if (userResult.isFailure) {
             return Result.FailureWith<LoginResponse>(userResult.error);
         }
@@ -51,12 +51,12 @@ export class AuthController extends AbstractController {
         return Result.SuccessWith({ token: valueObj.token, user: userResult.value });
     }
 
-    async Register(userData: RegisterRequest): Promise<Result<UserDto>> {
+    async Register(userData: RegisterRequest): Promise<Result<UserSummaryDto>> {
         const result = await this.request('POST', '/Register', userData);
         if (result.isFailure) {
-            return result as Result<UserDto>;
+            return result as Result<UserSummaryDto>;
         }
 
-        return validateWithSchema(UserDtoSchema, result.value);
+        return validateWithSchema(UserSummaryDtoSchema, result.value);
     }
 }

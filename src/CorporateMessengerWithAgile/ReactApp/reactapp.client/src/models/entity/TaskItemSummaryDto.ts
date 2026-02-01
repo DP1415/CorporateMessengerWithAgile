@@ -1,9 +1,9 @@
-// src/models/entity/TaskItemDto.ts
+// src/models/entity/TaskItemSummaryDto.ts
 import { z } from 'zod';
 import { BaseDtoSchema } from './BaseDto';
 import { GuidSchema } from '../Guid';
 
-export const TaskItemDtoSchema = BaseDtoSchema.extend({
+export const TaskItemSummaryDtoSchema = BaseDtoSchema.extend({
     projectId: GuidSchema,
     authorId: GuidSchema,
     responsibleId: GuidSchema,
@@ -17,4 +17,4 @@ export const TaskItemDtoSchema = BaseDtoSchema.extend({
     deadline: z.coerce.date(),
 });
 
-export type TaskItemDto = z.infer<typeof TaskItemDtoSchema>;
+export type TaskItemSummaryDto = z.infer<typeof TaskItemSummaryDtoSchema>;

@@ -1,17 +1,38 @@
 // src/controllers/UserController.ts
 import { AuthenticatedController } from './AuthenticatedController';
 import {
-    type Guid, Result,
-    type EmployeeWithRelationsDto,
-    EmployeeWithRelationsSchema,
-    type ProjectWithTeamsDto,
-    ProjectWithTeamsDtoSchema,
-    type TeamDetailsDto,
-    TeamDetailsDtoSchema
+    GuidSchema, type Guid, Result,
+    BaseDtoSchema,
+    CompanySummaryDtoSchema, PositionInCompanySummaryDtoSchema, TeamMemberSummaryDtoSchema,
+    ProjectSummaryDtoSchema, TeamSummaryDtoSchema,
+    EmployeeSummaryDtoSchema, SprintSummaryDtoSchema
 } from '../models';
 import { validateWithSchema } from '../utils/validation';
 import { AppError } from '../models/result/AppError';
-import type z from 'zod';
+import { z } from 'zod';
+
+const EmployeeWithRelationsSchema = BaseDtoSchema.extend({
+    company: CompanySummaryDtoSchema,
+    positionInCompany: PositionInCompanySummaryDtoSchema,
+    teamMembers: z.array(TeamMemberSummaryDtoSchema).optional(),
+});
+export type EmployeeWithRelationsDto = z.infer<typeof EmployeeWithRelationsSchema>;
+
+const ProjectWithTeamsDtoSchema = z.object({
+    project: ProjectSummaryDtoSchema,
+    teams: z.array(TeamSummaryDtoSchema),
+});
+export type ProjectWithTeamsDto = z.infer<typeof ProjectWithTeamsDtoSchema>;
+
+const TeamDetailsDtoSchema = BaseDtoSchema.extend({
+    projectId: GuidSchema,
+    title: z.string(),
+    standardSprintDuration: z.number(),
+    users: z.array(EmployeeSummaryDtoSchema).default([]),
+    sprints: z.array(SprintSummaryDtoSchema).default([]),
+    kanbanBoardColumnIds: z.array(GuidSchema).optional(),
+});
+export type TeamDetailsDto = z.infer<typeof TeamDetailsDtoSchema>;
 
 export class UserController extends AuthenticatedController {
     constructor() { super('/User'); }

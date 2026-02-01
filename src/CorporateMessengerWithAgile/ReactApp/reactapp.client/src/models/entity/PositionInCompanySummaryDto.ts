@@ -1,13 +1,13 @@
-// src/models/entity/PositionInCompanyDto.ts
+// src/models/entity/PositionInCompanySummaryDto.ts
 import { z } from 'zod';
 import { BaseDtoSchema } from './BaseDto';
 import { GuidSchema } from '../Guid';
 
-export const PositionInCompanyDtoSchema = BaseDtoSchema.extend({
+export const PositionInCompanySummaryDtoSchema = BaseDtoSchema.extend({
     companyId: GuidSchema,
     title: z.string().min(1),
     description: z.string(),
     employeeIds: z.array(GuidSchema).optional(),
 });
 
-export type PositionInCompanyDto = z.infer<typeof PositionInCompanyDtoSchema>;
+export type PositionInCompanySummaryDto = z.infer<typeof PositionInCompanySummaryDtoSchema>;

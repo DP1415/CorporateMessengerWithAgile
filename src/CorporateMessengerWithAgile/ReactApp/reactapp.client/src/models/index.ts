@@ -2,20 +2,17 @@
 export { GuidSchema, type Guid } from "./Guid";
 export { BaseDtoSchema, type BaseDto } from "./entity/BaseDto";
 
-export { UserDtoSchema, type UserDto } from "./entity/UserDto";
-export { CompanyDtoSchema, type CompanyDto } from "./entity/CompanyDto";
-export { PositionInCompanyDtoSchema, type PositionInCompanyDto } from "./entity/PositionInCompanyDto";
-export { EmployeeDtoSchema, type EmployeeDto } from "./entity/EmployeeDto";
-export { EmployeeWithRelationsSchema, type EmployeeWithRelationsDto } from "./entity/EmployeeWithRelationsDto";
-export { ProjectWithTeamsDtoSchema, type ProjectWithTeamsDto } from "./entity/ProjectWithTeamsDto";
-export { KanbanBoardColumnDtoSchema, type KanbanBoardColumnDto } from "./entity/KanbanBoardColumnDto";
-export { ProjectDtoSchema, type ProjectDto } from "./entity/ProjectDto";
-export { SprintDtoSchema, type SprintDto } from "./entity/SprintDto";
-export { TaskItemDtoSchema, type TaskItemDto } from "./entity/TaskItemDto";
-export { TaskItemInSprintDtoSchema, type TaskItemInSprintDto } from "./entity/TaskItemInSprintDto";
-export { TeamDtoSchema, type TeamDto } from "./entity/TeamDto";
-export { TeamMemberDtoSchema, type TeamMemberDto } from "./entity/TeamMemberDto";
-export { TeamDetailsDtoSchema, type TeamDetailsDto } from "./entity/TeamDetailsDto";
+export { UserSummaryDtoSchema, type UserSummaryDto } from "./entity/UserSummaryDto";
+export { CompanySummaryDtoSchema, type CompanySummaryDto } from "./entity/CompanySummaryDto";
+export { PositionInCompanySummaryDtoSchema, type PositionInCompanySummaryDto } from "./entity/PositionInCompanySummaryDto";
+export { EmployeeSummaryDtoSchema, type EmployeeSummaryDto } from "./entity/EmployeeSummaryDto";
+export { KanbanBoardColumnSummaryDtoSchema, type KanbanBoardColumnSummaryDto } from "./entity/KanbanBoardColumnSummaryDto";
+export { ProjectSummaryDtoSchema, type ProjectSummaryDto } from "./entity/ProjectSummaryDto";
+export { SprintSummaryDtoSchema, type SprintSummaryDto } from "./entity/SprintSummaryDto";
+export { TaskItemSummaryDtoSchema, type TaskItemSummaryDto } from "./entity/TaskItemSummaryDto";
+export { TaskItemInSprintSummaryDtoSchema, type TaskItemInSprintSummaryDto } from "./entity/TaskItemInSprintSummaryDto";
+export { TeamSummaryDtoSchema, type TeamSummaryDto } from "./entity/TeamSummaryDto";
+export { TeamMemberSummaryDtoSchema, type TeamMemberSummaryDto } from "./entity/TeamMemberSummaryDto";
 
 export { AppError } from "./result/AppError";
 export { Result } from "./result/Result";

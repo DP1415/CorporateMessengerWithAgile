@@ -2,13 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams, useOutletContext } from 'react-router-dom';
 import type { UserLayoutContext } from '../UserLayout';
-import type { AppError, ProjectDto, ProjectWithTeamsDto, Result, TeamDto, EmployeeWithRelationsDto } from '../../models';
-import { UserController } from '../../controllers';
+import type { AppError, ProjectSummaryDto, Result, TeamSummaryDto } from '../../models';
+import { UserController, type ProjectWithTeamsDto, type EmployeeWithRelationsDto } from '../../controllers';
 
 export interface CompanyNavigationState {
     employeeWithRelations: EmployeeWithRelationsDto;
     projectAndTeams: ProjectWithTeamsDto;
-    team: TeamDto | null;
+    team: TeamSummaryDto | null;
     timestamp: number;
 }
 
@@ -57,9 +57,9 @@ const CompanyPage: React.FC = () => {
     if (loading) { return <div>Загрузка данных компании...</div>; }
     if (error) { return <div>Ошибка: {error.message}</div>; }
 
-    const getProjectRoute = (project: ProjectDto): string =>
+    const getProjectRoute = (project: ProjectSummaryDto): string =>
         `/company/${companyTitle}/project/${encodeURIComponent(project.title)}`
-    const getTeamRoute = (project: ProjectDto, team: TeamDto): string =>
+    const getTeamRoute = (project: ProjectSummaryDto, team: TeamSummaryDto): string =>
         `${getProjectRoute(project)}/team/${encodeURIComponent(team.title)}`
 
     return (<>

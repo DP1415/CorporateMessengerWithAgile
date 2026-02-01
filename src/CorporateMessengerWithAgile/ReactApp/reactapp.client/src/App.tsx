@@ -1,7 +1,7 @@
 // src/App.tsx
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { type UserDto, UserDtoSchema } from './models/entity/UserDto';
+import { type UserSummaryDto, UserSummaryDtoSchema } from './models';
 import { loadFromStorage, saveToStorage } from './utils/storage';
 import {
     WelcomePage,
@@ -17,13 +17,13 @@ import {
 } from './components';
 
 const App: React.FC = () => {
-    const [authUser, setAuthUser] = useState<{ token: string; user: UserDto } | null>(null);
+    const [authUser, setAuthUser] = useState<{ token: string; user: UserSummaryDto } | null>(null);
     const [authChecked, setAuthChecked] = useState(false);
     const [initialUsername, setInitialUsername] = useState<string | null>(null);
 
     useEffect(() => {
         const token = localStorage.getItem('accessToken');
-        const user = loadFromStorage('authUser', UserDtoSchema);
+        const user = loadFromStorage('authUser', UserSummaryDtoSchema);
         if (token && user) {
             setTimeout(() => {
                 setAuthUser({ token, user });
@@ -34,13 +34,13 @@ const App: React.FC = () => {
         }, 0);
     }, []);
 
-    const handleAuthSuccess = (userData: { token: string; user: UserDto }) => {
+    const handleAuthSuccess = (userData: { token: string; user: UserSummaryDto }) => {
         setAuthUser(userData);
         localStorage.setItem('accessToken', userData.token);
         saveToStorage('authUser', userData.user);
     };
 
-    const handleRegisterSuccess = (userData: UserDto) => {
+    const handleRegisterSuccess = (userData: UserSummaryDto) => {
         setInitialUsername(userData.username);
     };
 

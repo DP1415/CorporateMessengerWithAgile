@@ -2,11 +2,11 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import type { ReactNode } from 'react';
-import { type UserDto } from '../models/entity/UserDto';
+import { type UserSummaryDto } from '../models';
 
 interface ProtectedRouteProps {
     children: ReactNode;
-    authUser: { token: string; user: UserDto } | null;
+    authUser: { token: string; user: UserSummaryDto } | null;
     authChecked: boolean;
 }
 
@@ -17,7 +17,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, authUser, aut
     if (!authUser) {
         return <Navigate to="/login" replace />;
     }
-    return <>{children}</>;
+    return children;
 };
 
 export default ProtectedRoute;

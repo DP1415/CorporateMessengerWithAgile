@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useOutletContext, useLocation } from 'react-router-dom';
 import type { UserLayoutContext } from '../UserLayout';
-import type { AppError, EmployeeWithRelationsDto, TeamDto, Result, ProjectWithTeamsDto } from '../../models';
-import { UserController } from '../../controllers';
+import type { AppError, TeamSummaryDto, Result } from '../../models';
+import { UserController, type EmployeeWithRelationsDto, type ProjectWithTeamsDto } from '../../controllers';
 import { AppError as AppErrorClass } from '../../models/result/AppError';
 import type { CompanyNavigationState } from './CompanyPage';
 
@@ -15,7 +15,7 @@ const TeamPage: React.FC = () => {
     const { employeesWithRelations } = useOutletContext<UserLayoutContext>();
 
     const [employeeWithRelations, setEmployeeWithRelations] = useState<EmployeeWithRelationsDto | null>(null);
-    const [teamData, setTeamData] = useState<TeamDto | null>(null);
+    const [teamData, setTeamData] = useState<TeamSummaryDto | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<AppError | null>(null);
 
@@ -73,7 +73,7 @@ const TeamPage: React.FC = () => {
             }
 
             const decodedTeam = decodeURIComponent(teamTitle);
-            const team: TeamDto | undefined = project.teams.find(t => t.title === decodedTeam);
+            const team: TeamSummaryDto | undefined = project.teams.find(t => t.title === decodedTeam);
             if (!team) {
                 setError(new AppErrorClass('!team', 'Команда не найдена', -1));
                 setLoading(false);

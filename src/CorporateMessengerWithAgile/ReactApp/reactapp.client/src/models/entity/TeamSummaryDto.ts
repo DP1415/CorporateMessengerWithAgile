@@ -1,9 +1,9 @@
-// src/models/entity/TeamDto.ts
+// src/models/entity/TeamSummaryDto.ts
 import { z } from 'zod';
 import { BaseDtoSchema } from './BaseDto';
 import { GuidSchema } from '../Guid';
 
-export const TeamDtoSchema = BaseDtoSchema.extend({
+export const TeamSummaryDtoSchema = BaseDtoSchema.extend({
     projectId: GuidSchema,
     title: z.string().min(1),
     standardSprintDuration: z.number(),
@@ -12,4 +12,4 @@ export const TeamDtoSchema = BaseDtoSchema.extend({
     kanbanBoardColumnIds: z.array(GuidSchema).optional(),
 });
 
-export type TeamDto = z.infer<typeof TeamDtoSchema>;
+export type TeamSummaryDto = z.infer<typeof TeamSummaryDtoSchema>;

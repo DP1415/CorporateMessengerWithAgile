@@ -1,17 +1,17 @@
 // src/components/UserLayout.tsx
 import React, { useState, useEffect } from 'react';
 import { Outlet, Link } from 'react-router-dom';
-import { UserController } from '../controllers';
+import { UserController, type EmployeeWithRelationsDto } from '../controllers';
 import styles from './UserLayout.module.css';
-import type { Result, UserDto, EmployeeWithRelationsDto } from '../models';
+import type { Result, UserSummaryDto } from '../models';
 import { AppError } from '../models';
 
 interface UserLayoutProps {
-    authUser: { token: string; user: UserDto };
+    authUser: { token: string; user: UserSummaryDto };
 }
 
 export interface UserLayoutContext {
-    authUser: { token: string; user: UserDto };
+    authUser: { token: string; user: UserSummaryDto };
     employeesWithRelations: EmployeeWithRelationsDto[];
     loadingEmployeesWithRelations: boolean;
 }

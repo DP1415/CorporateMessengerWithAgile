@@ -1,13 +1,13 @@
 // src/components/auth/LoginForm.tsx
 import React, { useState } from 'react';
 import { AuthController } from '../../controllers';
-import { AppError, type UserDto } from '../../models';
+import { AppError, type UserSummaryDto } from '../../models';
 import { useNavigate } from 'react-router-dom';
 import styles from './AuthForm.module.css';
 
 
 interface LoginFormProps {
-    onSuccess: (userData: { token: string; user: UserDto }) => void;
+    onSuccess: (userData: { token: string; user: UserSummaryDto }) => void;
     initialUsername: string | null;
 }
 

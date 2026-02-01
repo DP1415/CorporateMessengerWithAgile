@@ -1,12 +1,12 @@
 // src/components/auth/RegisterForm.tsx
 import React, { useState } from 'react';
 import { AuthController } from '../../controllers/AuthController';
-import { AppError, type UserDto } from '../../models';
+import { AppError, type UserSummaryDto } from '../../models';
 import { useNavigate } from 'react-router-dom';
 import styles from './AuthForm.module.css';
 
 interface RegisterFormProps {
-    onSuccess: (userData: UserDto) => void;
+    onSuccess: (userData: UserSummaryDto) => void;
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {

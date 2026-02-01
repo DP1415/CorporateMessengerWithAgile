@@ -1,13 +1,13 @@
-// src/models/entity/TaskItemInSprintDto.ts
+// src/models/entity/TaskItemInSprintSummaryDto.ts
 import { z } from 'zod';
 import { BaseDtoSchema } from './BaseDto';
 import { GuidSchema } from '../Guid';
 
-export const TaskItemInSprintDtoSchema = BaseDtoSchema.extend({
+export const TaskItemInSprintSummaryDtoSchema = BaseDtoSchema.extend({
     taskItemId: GuidSchema,
     sprintId: GuidSchema,
     taskStatus: z.string().min(1),
     description: z.string(),
 });
 
-export type TaskItemInSprintDto = z.infer<typeof TaskItemInSprintDtoSchema>;
+export type TaskItemInSprintSummaryDto = z.infer<typeof TaskItemInSprintSummaryDtoSchema>;

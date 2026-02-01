@@ -1,9 +1,9 @@
-// src/models/entity/UserDto.ts
+// src/models/entity/UserSummaryDto.ts
 import { z } from 'zod';
 import { BaseDtoSchema } from './BaseDto';
 import { GuidSchema } from '../Guid';
 
-export const UserDtoSchema = BaseDtoSchema.extend({
+export const UserSummaryDtoSchema = BaseDtoSchema.extend({
     email: z.email(),
     username: z.string().min(1),
     phoneNumber: z.string().nullable().optional(),
@@ -11,4 +11,4 @@ export const UserDtoSchema = BaseDtoSchema.extend({
     employeeIds: z.array(GuidSchema).optional(),
 });
 
-export type UserDto = z.infer<typeof UserDtoSchema>;
+export type UserSummaryDto = z.infer<typeof UserSummaryDtoSchema>;
