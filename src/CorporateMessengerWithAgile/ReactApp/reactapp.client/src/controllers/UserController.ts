@@ -2,37 +2,38 @@
 import { AuthenticatedController } from './AuthenticatedController';
 import {
     GuidSchema, type Guid, Result,
-    BaseDtoSchema,
-    CompanySummaryDtoSchema, PositionInCompanySummaryDtoSchema, TeamMemberSummaryDtoSchema,
-    ProjectSummaryDtoSchema, TeamSummaryDtoSchema,
-    EmployeeSummaryDtoSchema, SprintSummaryDtoSchema
+    CompanySummaryDtoSchema,
+    PositionInCompanySummaryDtoSchema,
+    ProjectSummaryDtoSchema,
+    TeamSummaryDtoSchema
 } from '../models';
 import { validateWithSchema } from '../utils/validation';
 import { AppError } from '../models/result/AppError';
 import { z } from 'zod';
 
-const EmployeeWithRelationsSchema = BaseDtoSchema.extend({
-    company: CompanySummaryDtoSchema,
-    positionInCompany: PositionInCompanySummaryDtoSchema,
-    teamMembers: z.array(TeamMemberSummaryDtoSchema).optional(),
-});
-export type EmployeeWithRelationsDto = z.infer<typeof EmployeeWithRelationsSchema>;
-
-const ProjectWithTeamsDtoSchema = z.object({
+const ProjectWithTeamsSchema = z.object({
     project: ProjectSummaryDtoSchema,
     teams: z.array(TeamSummaryDtoSchema),
 });
-export type ProjectWithTeamsDto = z.infer<typeof ProjectWithTeamsDtoSchema>;
+export type ProjectWithTeams = z.infer<typeof ProjectWithTeamsSchema>;
 
-const TeamDetailsDtoSchema = BaseDtoSchema.extend({
-    projectId: GuidSchema,
-    title: z.string(),
-    standardSprintDuration: z.number(),
-    users: z.array(EmployeeSummaryDtoSchema).default([]),
-    sprints: z.array(SprintSummaryDtoSchema).default([]),
-    kanbanBoardColumnIds: z.array(GuidSchema).optional(),
+const EmployeeFullHierarchySchema = z.object({
+    employeeId: GuidSchema,
+    company: CompanySummaryDtoSchema,
+    positionInCompany: PositionInCompanySummaryDtoSchema,
+    projectsAndTeams: z.array(ProjectWithTeamsSchema).default([]),
 });
-export type TeamDetailsDto = z.infer<typeof TeamDetailsDtoSchema>;
+export type EmployeeWithRelations = z.infer<typeof EmployeeFullHierarchySchema>;
+
+//const TeamDetailsDtoSchema = BaseDtoSchema.extend({
+//    projectId: GuidSchema,
+//    title: z.string(),
+//    standardSprintDuration: z.number(),
+//    users: z.array(EmployeeSummaryDtoSchema).default([]),
+//    sprints: z.array(SprintSummaryDtoSchema).default([]),
+//    kanbanBoardColumnIds: z.array(GuidSchema).optional(),
+//});
+//export type TeamDetailsDto = z.infer<typeof TeamDetailsDtoSchema>;
 
 export class UserController extends AuthenticatedController {
     constructor() { super('/User'); }
@@ -52,21 +53,15 @@ export class UserController extends AuthenticatedController {
         return Result.SuccessWith(validatedData);
     }
 
-    async getEmployeesWithRelations(userId: Guid): Promise<Result<EmployeeWithRelationsDto[]>> {
+    async getEmployeesWithRelations(userId: Guid): Promise<Result<EmployeeWithRelations[]>> {
         const result = await this.request('GET', `/${userId}/employees`);
-        if (result.isFailure) return result as Result<EmployeeWithRelationsDto[]>;
-        return this.convertToArray<EmployeeWithRelationsDto>(result.value, EmployeeWithRelationsSchema);
+        if (result.isFailure) return result as Result<EmployeeWithRelations[]>;
+        return this.convertToArray<EmployeeWithRelations>(result.value, EmployeeFullHierarchySchema);
     }
 
-    async getProjectsAndTeams(employeeId: Guid): Promise<Result<ProjectWithTeamsDto[]>> {
-        const result = await this.request('GET', `/${employeeId}/projects-and-teams`);
-        if (result.isFailure) return result as Result<ProjectWithTeamsDto[]>;
-        return this.convertToArray<ProjectWithTeamsDto>(result.value, ProjectWithTeamsDtoSchema);
-    }
-
-    async getTeamDetails(teamId: Guid): Promise<Result<TeamDetailsDto>> {
-        const result = await this.request('GET', `/teams/${teamId}`);
-        if (result.isFailure) return result as Result<TeamDetailsDto>;
-        return validateWithSchema(TeamDetailsDtoSchema, result.value);
-    }
+    //async getTeamDetails(teamId: Guid): Promise<Result<TeamDetailsDto>> {
+    //    const result = await this.request('GET', `/teams/${teamId}`);
+    //    if (result.isFailure) return result as Result<TeamDetailsDto>;
+    //    return validateWithSchema(TeamDetailsDtoSchema, result.value);
+    //}
 }

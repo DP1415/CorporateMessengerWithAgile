@@ -1,79 +1,25 @@
 // src/components/user/ProjectPage.tsx
-import React, { useState, useEffect } from 'react';
-import { useLocation, useParams, useOutletContext, Link } from 'react-router-dom';
+import React from 'react';
+import { useParams, useOutletContext, Link } from 'react-router-dom';
 import type { UserLayoutContext } from '../UserLayout';
-import type { AppError, ProjectWithTeamsDto, Result, EmployeeWithRelationsDto } from '../../models';
-import { UserController } from '../../controllers';
-import { AppError as AppErrorClass } from '../../models/result/AppError';
-import type { CompanyNavigationState } from './CompanyPage';
+import type { TeamSummaryDto } from '../../models';
+import type { EmployeeWithRelations, ProjectWithTeams } from '../../controllers';
 
 const ProjectPage: React.FC = () => {
-    const location = useLocation();
-    const navigationState = location.state as CompanyNavigationState | null;
-
     const { companyTitle, projectTitle } = useParams<{ companyTitle: string; projectTitle: string }>();
     const { employeesWithRelations } = useOutletContext<UserLayoutContext>();
 
-    const [employeeWithRelations, setEmployeeWithRelations] = useState<EmployeeWithRelationsDto | null>(null);
-    const [projectAndTeams, setProjectAndTeams] = useState<ProjectWithTeamsDto | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<AppError | null>(null);
+    const decodedCompanyTitle = decodeURIComponent(companyTitle || '');
+    const employeeWithRelations: EmployeeWithRelations | undefined = employeesWithRelations.find(emp => emp.company.title === decodedCompanyTitle);
 
-    useEffect(() => {
-        const { employeeWithRelations, projectAndTeams, timestamp } = navigationState || {};
-        if (employeeWithRelations && projectAndTeams && timestamp) {
-            const isDataFresh = Date.now() - timestamp < 5000;
-            if (isDataFresh) {
-                setEmployeeWithRelations(employeeWithRelations);
-                setProjectAndTeams(projectAndTeams);
-                setLoading(false);
-                return;
-            }
-        }
+    if (!employeeWithRelations) { return <div>Компания не найдена</div>; }
 
-        const loadDataFromApi = async () => {
-            setLoading(true);
-            if (!employeesWithRelations) {
-                setError(new AppErrorClass('!employeesWithRelations', 'Employees with relations not loaded', -1));
-                setLoading(false);
-                return;
-            }
+    const decodedProjectTitle = decodeURIComponent(projectTitle || '');
+    const projectAndTeams: ProjectWithTeams | undefined = employeeWithRelations.projectsAndTeams?.find(p => p.project.title === decodedProjectTitle);
 
-            const decodedCompanyTitle = decodeURIComponent(companyTitle || '');
-            const targetEmployeeWithRelations: EmployeeWithRelationsDto | undefined = employeesWithRelations.find(emp => emp.company.title === decodedCompanyTitle);
-            if (!targetEmployeeWithRelations) {
-                setError(new AppErrorClass('!company', 'Компания не найдена', -1));
-                setLoading(false);
-                return;
-            }
-            setEmployeeWithRelations(targetEmployeeWithRelations);
-            setError(null);
+    if (!projectAndTeams) { return <div>Проект не найден</div>; }
 
-            const controller = new UserController();
-            const result: Result<ProjectWithTeamsDto[]> = await controller.getProjectsAndTeams(targetEmployeeWithRelations.id);
-            if (result.isFailure) {
-                setError(result.error);
-                setLoading(false);
-                return
-            }
-
-            const decodedProjectTitle = decodeURIComponent(projectTitle || '');
-            const foundProject: ProjectWithTeamsDto | undefined = result.value.find(p => p.project.title === decodedProjectTitle);
-
-            if (foundProject) setProjectAndTeams(foundProject);
-            else setError(new AppErrorClass('!project', 'Проект не найден', -1));
-
-            setLoading(false);
-        };
-
-        loadDataFromApi();
-    }, [companyTitle, projectTitle, employeesWithRelations, navigationState]);
-
-
-
-    if (loading) return <div>Загрузка...</div>;
-    if (error) return <div>Ошибка: {error.message}</div>;
-    if (!employeeWithRelations || !projectAndTeams) return <div>Проект не найден</div>;
+    const getTeamRoute = (team: TeamSummaryDto): string => `/company/${companyTitle}/project/${encodeURIComponent(projectAndTeams.project.title)}/team/${encodeURIComponent(team.title)}`;
 
     return (<>
         <h1>Проект: {projectAndTeams.project.title}</h1>
@@ -84,8 +30,7 @@ const ProjectPage: React.FC = () => {
             <ul>
                 {projectAndTeams.teams.map(team => (
                     <li key={team.id}>
-                        <Link to={`/company/${companyTitle}/project/${projectTitle}/team/${encodeURIComponent(team.title)}`}
-                            state={{ employeeWithRelations, projectAndTeams, timestamp: Date.now(), team } satisfies CompanyNavigationState}>
+                        <Link to={getTeamRoute(team)}>
                             {team.title}
                         </Link>
                     </li>

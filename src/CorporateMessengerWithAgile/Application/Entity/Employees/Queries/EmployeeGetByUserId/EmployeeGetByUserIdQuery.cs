@@ -1,18 +1,28 @@
 using Application.AbsQuery;
-using Application.AbsQuery.Options;
-using Application.Dto;
+using Application.Dto.Summary;
 using Domain.Entity;
 
 namespace Application.Entity.Employees.Queries.EmployeeGetByUserId
 {
-    public record EmployeeGetByUserIdQuery(Guid UserId)
-        : AbsQueryEntityWithOptions<Employee, EmployeeWithRelationsDto>(
-            [
-                new Filter<Employee>(e => e.UserId == UserId),
-                new Include<Employee, Company>(e => e.Company),
-                new Include<Employee, PositionInCompany>(e => e.PositionInCompany),
-                new Include<Employee, User>(e => e.User),
-                new Include<Employee, ICollection<TeamMember>>(e => e.TeamMembers)
-            ]
+    public record ProjectWithTeams
+        (
+            ProjectSummaryDto Project,
+            IEnumerable<TeamSummaryDto> Teams
         );
+
+    public record EmployeeWithRelations
+        (
+            Guid EmployeeId,
+            CompanySummaryDto Company,
+            PositionInCompanySummaryDto PositionInCompany,
+            IEnumerable<ProjectWithTeams> ProjectsAndTeams
+        );
+
+    public record EmployeeGetByUserIdQuery
+        (
+            Guid UserId
+        )
+        : AbsQueryEntity<TeamMember, IEnumerable<EmployeeWithRelations>>
+    {
+    }
 }
