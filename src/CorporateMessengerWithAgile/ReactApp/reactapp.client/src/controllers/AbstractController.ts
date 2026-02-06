@@ -24,7 +24,7 @@ export abstract class AbstractController {
         body?: unknown,
         headers: HeadersInit = {}
     ): Promise<Result<unknown>> {
-        const requestId = ++requestCounter; // Уникальный номер запроса
+        const requestId = ++requestCounter;
         const url = this.baseUrl + endpoint;
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
