@@ -322,14 +322,14 @@ namespace ReactApp.Server
             #region Task Item in Sprints
             TaskItemInSprint[] taskItemInSprints =
             [
-                CreateTaskItemInSprint("00000061-1111-4444-aaaa-aaaaaaaaaa01", taskItems[0], sprints[0], TaskItemStatus.Status2, "В работе"),
-                CreateTaskItemInSprint("00000062-2222-4444-aaaa-aaaaaaaaaa02", taskItems[1], sprints[0], TaskItemStatus.Status1, "Запланировано"),
-                CreateTaskItemInSprint("00000063-3333-4444-aaaa-aaaaaaaaaa03", taskItems[2], sprints[1], TaskItemStatus.Status3, "Завершено"),
-                CreateTaskItemInSprint("00000064-4444-4444-aaaa-aaaaaaaaaa04", taskItems[3], sprints[1], TaskItemStatus.Status2, "В работе"),
-                CreateTaskItemInSprint("00000065-5555-4444-aaaa-aaaaaaaaaa05", taskItems[4], sprints[2], TaskItemStatus.Status1, "Запланировано"),
-                CreateTaskItemInSprint("00000066-6666-4444-aaaa-aaaaaaaaaa06", taskItems[5], sprints[3], TaskItemStatus.Status2, "В работе"),
-                CreateTaskItemInSprint("00000067-7777-4444-aaaa-aaaaaaaaaa07", taskItems[6], sprints[4], TaskItemStatus.Status1, "Запланировано"),
-                CreateTaskItemInSprint("00000068-8888-4444-aaaa-aaaaaaaaaa08", taskItems[7], sprints[5], TaskItemStatus.Status3, "Завершено")
+                CreateTaskItemInSprint("00000061-1111-4444-aaaa-aaaaaaaaaa01", taskItems[0], sprints[0], TaskItemStatus.Available, "В работе"),
+                CreateTaskItemInSprint("00000062-2222-4444-aaaa-aaaaaaaaaa02", taskItems[1], sprints[0], TaskItemStatus.Postponed, "Запланировано"),
+                CreateTaskItemInSprint("00000063-3333-4444-aaaa-aaaaaaaaaa03", taskItems[2], sprints[1], TaskItemStatus.InProgress, "Завершено"),
+                CreateTaskItemInSprint("00000064-4444-4444-aaaa-aaaaaaaaaa04", taskItems[3], sprints[1], TaskItemStatus.Available, "В работе"),
+                CreateTaskItemInSprint("00000065-5555-4444-aaaa-aaaaaaaaaa05", taskItems[4], sprints[2], TaskItemStatus.Postponed, "Запланировано"),
+                CreateTaskItemInSprint("00000066-6666-4444-aaaa-aaaaaaaaaa06", taskItems[5], sprints[3], TaskItemStatus.Available, "В работе"),
+                CreateTaskItemInSprint("00000067-7777-4444-aaaa-aaaaaaaaaa07", taskItems[6], sprints[4], TaskItemStatus.Postponed, "Запланировано"),
+                CreateTaskItemInSprint("00000068-8888-4444-aaaa-aaaaaaaaaa08", taskItems[7], sprints[5], TaskItemStatus.InProgress, "Завершено")
             ];
             context.TaskItemInSprints.AddRange(taskItemInSprints);
             #endregion
@@ -337,12 +337,12 @@ namespace ReactApp.Server
             #region Kanban Board Columns
             KanbanBoardColumn[] kanbanColumns =
             [
-                CreateKanbanBoardColumn("00000069-1111-4444-aaaa-aaaaaaaaaa01", teams[0], TaskItemStatus.Status1, 1, "К выполнению"),
-                CreateKanbanBoardColumn("00000070-2222-4444-aaaa-aaaaaaaaaa02", teams[0], TaskItemStatus.Status2, 2, "В работе"),
-                CreateKanbanBoardColumn("00000071-3333-4444-aaaa-aaaaaaaaaa03", teams[0], TaskItemStatus.Status3, 3, "Завершено"),
-                CreateKanbanBoardColumn("00000072-1111-4444-aaaa-aaaaaaaaaa04", teams[1], TaskItemStatus.Status1, 1, "К выполнению"),
-                CreateKanbanBoardColumn("00000073-2222-4444-aaaa-aaaaaaaaaa05", teams[1], TaskItemStatus.Status2, 2, "В работе"),
-                CreateKanbanBoardColumn("00000074-3333-4444-aaaa-aaaaaaaaaa06", teams[1], TaskItemStatus.Status3, 3, "Завершено")
+                CreateKanbanBoardColumn("00000069-1111-4444-aaaa-aaaaaaaaaa01", teams[0], TaskItemStatus.Postponed, 1, "К выполнению"),
+                CreateKanbanBoardColumn("00000070-2222-4444-aaaa-aaaaaaaaaa02", teams[0], TaskItemStatus.Available, 2, "В работе"),
+                CreateKanbanBoardColumn("00000071-3333-4444-aaaa-aaaaaaaaaa03", teams[0], TaskItemStatus.InProgress, 3, "Завершено"),
+                CreateKanbanBoardColumn("00000072-1111-4444-aaaa-aaaaaaaaaa04", teams[1], TaskItemStatus.Postponed, 1, "К выполнению"),
+                CreateKanbanBoardColumn("00000073-2222-4444-aaaa-aaaaaaaaaa05", teams[1], TaskItemStatus.Available, 2, "В работе"),
+                CreateKanbanBoardColumn("00000074-3333-4444-aaaa-aaaaaaaaaa06", teams[1], TaskItemStatus.InProgress, 3, "Завершено")
             ];
             context.KanbanBoardColumns.AddRange(kanbanColumns);
             #endregion
