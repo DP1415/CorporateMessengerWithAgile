@@ -110,7 +110,6 @@ namespace ReactApp.Server
             TaskItemId = taskItem.Id,
             SprintId = sprint.Id,
             TaskStatus = status,
-            Description = Text.Create(description).Value,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
         };

@@ -7,6 +7,5 @@ namespace Application.Dto.Summary
         public Guid TaskItemId { get; set; }
         public Guid SprintId { get; set; }
         public TaskItemStatus TaskStatus { get; set; }
-        public string Description { get; set; } = null!;
     }
 }

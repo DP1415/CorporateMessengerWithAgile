@@ -1,4 +1,4 @@
-﻿using Domain.ValueObjects;
+using Domain.ValueObjects;
 
 namespace Domain.Entity
 {
@@ -11,6 +11,5 @@ namespace Domain.Entity
         public Guid SprintId { get; set; }
 
         public TaskItemStatus TaskStatus { get; set; }
-        public Text Description { get; set; } = null!;
     }
 }

@@ -19,7 +19,6 @@ namespace Application.Entity.TaskItemInSprints.Commands.TaskItemInSprintCreate
             var taskItemInSprint = new TaskItemInSprint
             {
                 TaskStatus = request.TaskStatus,
-                Description = description,
                 TaskItemId = request.TaskItemId,
                 SprintId = request.SprintId
             };

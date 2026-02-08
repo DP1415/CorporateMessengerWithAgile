@@ -75,8 +75,7 @@ namespace Application
                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
                 .ForMember(d => d.TaskItemId, opt => opt.MapFrom(s => s.TaskItemId))
                 .ForMember(d => d.SprintId, opt => opt.MapFrom(s => s.SprintId))
-                .ForMember(d => d.TaskStatus, opt => opt.MapFrom(s => s.TaskStatus))
-                .ForMember(d => d.Description, opt => opt.MapFrom(s => s.Description.Value));
+                .ForMember(d => d.TaskStatus, opt => opt.MapFrom(s => s.TaskStatus));
 
             // Team
             CreateMap<Domain.Entity.Team, TeamSummaryDto>()

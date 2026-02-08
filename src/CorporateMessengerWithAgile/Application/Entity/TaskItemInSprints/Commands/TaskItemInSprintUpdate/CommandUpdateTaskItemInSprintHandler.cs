@@ -16,17 +16,10 @@ namespace Application.Entity.TaskItemInSprints.Commands.TaskItemInSprintUpdate
             if (request.TaskStatus is not null)
                 entity.TaskStatus = request.TaskStatus.Value;
 
-            if (request.Description is not null)
-            {
-                var description = Text.Create(request.Description);
-                if (description.IsFailure) return description.Error;
-                entity.Description = description;
-            }
-
-            if (request.TaskItemId.HasValue)
+            if (request.TaskItemId is not null)
                 entity.TaskItemId = request.TaskItemId.Value;
 
-            if (request.SprintId.HasValue)
+            if (request.SprintId is not null)
                 entity.SprintId = request.SprintId.Value;
 
             return entity;
