@@ -24,7 +24,7 @@ namespace Application.Entity.Employees.Queries.EmployeeGetByUserId
 
             if (employees.Length == 0) return [];
 
-            return
+            var result =
                 from employee in employees
                 select new EmployeeWithRelations(
                     EmployeeId: employee.Id,
@@ -36,9 +36,11 @@ namespace Application.Entity.Employees.Queries.EmployeeGetByUserId
                                       group teamMember by teamMember.Team.Project into teamMemberGroup
                                       select new ProjectWithTeams(
                                           Project: _mapper.Map<ProjectSummaryDto>(teamMemberGroup.Key),
-                                          Teams: from teamMember in teamMemberGroup
-                                                 orderby teamMember.Team.Title.Value
-                                                 select _mapper.Map<TeamSummaryDto>(teamMember.Team)));
+                                          Teams: _mapper.Map<TeamSummaryDto[]>(from teamMember in teamMemberGroup
+                                                                               orderby teamMember.Team.Title.Value
+                                                                               select teamMember.Team
+                                                                               )));
+            return result;
         }
     }
 }
