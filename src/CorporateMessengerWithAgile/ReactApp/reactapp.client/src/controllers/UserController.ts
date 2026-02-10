@@ -5,7 +5,9 @@ import {
     CompanySummaryDtoSchema,
     PositionInCompanySummaryDtoSchema,
     ProjectSummaryDtoSchema,
-    TeamSummaryDtoSchema
+    TaskItemSummaryDtoSchema,
+    TeamSummaryDtoSchema,
+    type TaskItemSummaryDto
 } from '../models';
 import { validateWithSchema } from '../utils/validation';
 import { AppError } from '../models/result/AppError';
@@ -57,6 +59,12 @@ export class UserController extends AuthenticatedController {
         const result = await this.request('GET', `/${userId}/employees`);
         if (result.isFailure) return result as Result<EmployeeWithRelations[]>;
         return this.convertToArray<EmployeeWithRelations>(result.value, EmployeeFullHierarchySchema);
+    }
+
+    async getTaskItemsByProject(projectId: Guid): Promise<Result<TaskItemSummaryDto[]>> {
+        const result = await this.request('GET', `/task-items/get-by-project/${projectId}`);
+        if (result.isFailure) return result as Result<TaskItemSummaryDto[]>;
+        return this.convertToArray<TaskItemSummaryDto>(result.value, TaskItemSummaryDtoSchema);
     }
 
     //async getTeamDetails(teamId: Guid): Promise<Result<TeamDetailsDto>> {
