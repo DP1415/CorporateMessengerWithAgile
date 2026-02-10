@@ -157,36 +157,51 @@ namespace ReactApp.Server
             Team teamAlpha1 = CreateTeam("00000006-1111-4444-aaaa-faaaaaaaaa01", projectAlpha, "Команда Альфа", 14);
             Team teamAlpha2 = CreateTeam("00000006-1111-4444-aaaa-faaaaaaaaa02", projectAlpha, "Команда Бета", 14);
 
-            Team teamNeuronCore = CreateTeam("00000006-1111-4444-aaaa-faaaaaaaaa03", projectNeuron, "Ядро Нейрона", 21);
-            Team teamNeuronML = CreateTeam("00000006-1111-4444-aaaa-faaaaaaaaa04", projectNeuron, "ML-группа", 28);
-
-            Team teamGalaxyFront = CreateTeam("00000006-1111-4444-aaaa-faaaaaaaaa05", projectGalaxy, "Frontend-экипаж", 7);
-            Team teamGalaxyBack = CreateTeam("00000006-1111-4444-aaaa-faaaaaaaaa06", projectGalaxy, "Backend-экипаж", 14);
-            Team teamGalaxyOps = CreateTeam("00000006-1111-4444-aaaa-faaaaaaaaa07", projectGalaxy, "DevOps-отряд", 10);
-
             TeamMember tmAlpha1 = CreateTeamMember("00000008-1111-4444-aaaa-faaaaaaaaa01", employee1, teamAlpha1);
             TeamMember tmAlpha2 = CreateTeamMember("00000008-1111-4444-aaaa-faaaaaaaaa02", employee1, teamAlpha2);
 
-            TeamMember tmNeuron1 = CreateTeamMember("00000008-1111-4444-aaaa-faaaaaaaaa03", employee1, teamNeuronCore);
-            TeamMember tmNeuron2 = CreateTeamMember("00000008-1111-4444-aaaa-faaaaaaaaa04", employee2, teamNeuronML);
-
-            TeamMember tmGalaxy1 = CreateTeamMember("00000008-1111-4444-aaaa-faaaaaaaaa05", employee2, teamGalaxyFront);
-            TeamMember tmGalaxy2 = CreateTeamMember("00000008-1111-4444-aaaa-faaaaaaaaa06", employee2, teamGalaxyBack);
-            TeamMember tmGalaxy3 = CreateTeamMember("00000008-1111-4444-aaaa-faaaaaaaaa07", employee1, teamGalaxyOps);
-
             var now = DateTime.UtcNow;
+
+            // Создаем спринты для команд
+            Sprint sprint1 = CreateSprint("0000000a-1111-4444-aaaa-faaaaaaaaa01", teamAlpha1, now.AddDays(-14), now.AddDays(0));
+            Sprint sprint2 = CreateSprint("0000000a-1111-4444-aaaa-faaaaaaaaa02", teamAlpha1, now.AddDays(1), now.AddDays(15));
+            Sprint sprint3 = CreateSprint("0000000a-1111-4444-aaaa-faaaaaaaaa03", teamAlpha2, now.AddDays(-10), now.AddDays(4));
+            Sprint sprint4 = CreateSprint("0000000a-1111-4444-aaaa-faaaaaaaaa04", teamAlpha2, now.AddDays(5), now.AddDays(19));
+
+            // Создаем задачи
             TaskItem task1 = CreateTaskItem("00000009-1111-4444-aaaa-faaaaaaaaa01", projectAlpha, employee1, employee2, "Разработка главной страницы", "Создать компонент главной страницы с навигацией", 2, 3, now.AddDays(10));
             TaskItem task2 = CreateTaskItem("00000009-1111-4444-aaaa-faaaaaaaaa02", projectAlpha, employee1, employee1, "Настройка аутентификации", "Реализовать систему входа и регистрации пользователей", 1, 4, now.AddDays(14));
             TaskItem task3 = CreateTaskItem("00000009-1111-4444-aaaa-faaaaaaaaa03", projectNeuron, employee1, employee1, "Анализ алгоритмов", "Исследование эффективности различных ML-алгоритмов", 3, 5, now.AddDays(20));
+            TaskItem task4 = CreateTaskItem("00000009-1111-4444-aaaa-faaaaaaaaa04", projectAlpha, employee1, employee2, "Разработка профильной страницы", "Создание страницы профиля пользователя", 2, 2, now.AddDays(8));
+            TaskItem task5 = CreateTaskItem("00000009-1111-4444-aaaa-faaaaaaaaa05", projectAlpha, employee1, employee1, "Настройка логирования", "Реализовать систему логирования событий", 1, 3, now.AddDays(12));
+            TaskItem task6 = CreateTaskItem("00000009-1111-4444-aaaa-faaaaaaaaa06", projectAlpha, employee1, employee2, "Тестирование API", "Написать unit-тесты для основных API-эндпоинтов", 3, 4, now.AddDays(15));
+            TaskItem task7 = CreateTaskItem("00000009-1111-4444-aaaa-faaaaaaaaa07", projectAlpha, employee1, employee1, "Оптимизация производительности", "Улучшение скорости загрузки страниц", 2, 3, now.AddDays(11));
+            TaskItem task8 = CreateTaskItem("00000009-1111-4444-aaaa-faaaaaaaaa08", projectAlpha, employee1, employee2, "Интеграция с внешним API", "Подключение стороннего сервиса", 2, 4, now.AddDays(13));
+            TaskItem task9 = CreateTaskItem("00000009-1111-4444-aaaa-faaaaaaaaa09", projectAlpha, employee1, employee1, "Реализация уведомлений", "Система внутренних уведомлений", 1, 2, now.AddDays(9));
+            TaskItem task10 = CreateTaskItem("00000009-1111-4444-aaaa-faaaaaaaaa10", projectAlpha, employee1, employee2, "Разработка админ-панели", "Интерфейс управления контентом", 3, 5, now.AddDays(18));
+
+            // Создаем задачи в спринтах
+            TaskItemInSprint taskInSprint1 = CreateTaskItemInSprint("0000000b-1111-4444-aaaa-faaaaaaaaa01", task1, sprint1, TaskItemStatus.InProgress, "В работе");
+            TaskItemInSprint taskInSprint2 = CreateTaskItemInSprint("0000000b-1111-4444-aaaa-faaaaaaaaa02", task2, sprint1, TaskItemStatus.Available, "В работе");
+            TaskItemInSprint taskInSprint3 = CreateTaskItemInSprint("0000000b-1111-4444-aaaa-faaaaaaaaa03", task3, sprint2, TaskItemStatus.Postponed, "Запланировано");
+            TaskItemInSprint taskInSprint4 = CreateTaskItemInSprint("0000000b-1111-4444-aaaa-faaaaaaaaa04", task4, sprint2, TaskItemStatus.InProgress, "В работе");
+            TaskItemInSprint taskInSprint5 = CreateTaskItemInSprint("0000000b-1111-4444-aaaa-faaaaaaaaa05", task5, sprint3, TaskItemStatus.Available, "В работе");
+            TaskItemInSprint taskInSprint6 = CreateTaskItemInSprint("0000000b-1111-4444-aaaa-faaaaaaaaa06", task6, sprint3, TaskItemStatus.Postponed, "Запланировано");
+            TaskItemInSprint taskInSprint7 = CreateTaskItemInSprint("0000000b-1111-4444-aaaa-faaaaaaaaa07", task7, sprint4, TaskItemStatus.InProgress, "В работе");
+            TaskItemInSprint taskInSprint8 = CreateTaskItemInSprint("0000000b-1111-4444-aaaa-faaaaaaaaa08", task8, sprint4, TaskItemStatus.Available, "В работе");
+            TaskItemInSprint taskInSprint9 = CreateTaskItemInSprint("0000000b-1111-4444-aaaa-faaaaaaaaa09", task9, sprint1, TaskItemStatus.InProgress, "В работе");
+            TaskItemInSprint taskInSprint10 = CreateTaskItemInSprint("0000000b-1111-4444-aaaa-faaaaaaaaa10", task10, sprint2, TaskItemStatus.Postponed, "Запланировано");
 
             context.Users.AddRange(user1, user2);
             context.Companies.Add(company);
             context.PositionsInCompany.AddRange(positionLead, positionDev);
             context.Employees.AddRange(employee1, employee2);
             context.Projects.AddRange(projectAlpha, projectNeuron, projectGalaxy);
-            context.Teams.AddRange(teamAlpha1, teamAlpha2, teamNeuronCore, teamNeuronML, teamGalaxyFront, teamGalaxyBack, teamGalaxyOps);
-            context.TeamMembers.AddRange(tmAlpha1, tmAlpha2, tmNeuron1, tmNeuron2, tmGalaxy1, tmGalaxy2, tmGalaxy3);
-            context.TaskItems.AddRange(task1, task2, task3);
+            context.Teams.AddRange(teamAlpha1, teamAlpha2);
+            context.TeamMembers.AddRange(tmAlpha1, tmAlpha2);
+            context.Sprints.AddRange(sprint1, sprint2, sprint3, sprint4);
+            context.TaskItems.AddRange(task1, task2, task3, task4, task5, task6, task7, task8, task9, task10);
+            context.TaskItemInSprints.AddRange(taskInSprint1, taskInSprint2, taskInSprint3, taskInSprint4, taskInSprint5, taskInSprint6, taskInSprint7, taskInSprint8, taskInSprint9, taskInSprint10);
 
             context.SaveChanges();
         }
