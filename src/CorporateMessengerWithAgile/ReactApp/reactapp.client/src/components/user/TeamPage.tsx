@@ -13,7 +13,15 @@ interface SprintWithTasks {
     tasks: TaskItemWithStatusDto[];
     loading: boolean;
     error: string | null;
-    expanded: boolean; // Добавляем состояние раскрытости
+    expanded: boolean;
+}
+
+interface CreateTaskFormData {
+    title: string;
+    description: string;
+    priority: number;
+    complexity: number;
+    deadline: string;
 }
 
 const TeamPage: React.FC = () => {
@@ -28,6 +36,14 @@ const TeamPage: React.FC = () => {
         projectAndTeams: ProjectWithTeams;
         team: TeamSummaryDto;
     } | null>(null);
+    const [showCreateTaskForm, setShowCreateTaskForm] = useState(false);
+    const [createTaskForm, setCreateTaskForm] = useState<CreateTaskFormData>({
+        title: '',
+        description: '',
+        priority: 1,
+        complexity: 1,
+        deadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+    });
 
     useEffect(() => {
         const loadData = async () => {
@@ -145,6 +161,20 @@ const TeamPage: React.FC = () => {
         });
     };
 
+    const handleCreateTask = () => {
+        // TODO: Implement task creation via API
+        console.log('Creating task:', createTaskForm);
+        alert('Функция создания задачи будет добавлена после реализации API');
+        setShowCreateTaskForm(false);
+        setCreateTaskForm({
+            title: '',
+            description: '',
+            priority: 1,
+            complexity: 1,
+            deadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+        });
+    };
+
     return (
         <div className={styles.teamPage}>
             <div className={styles.teamHeader}>
@@ -153,6 +183,94 @@ const TeamPage: React.FC = () => {
                     <span>Компания: {employeeWithRelations.company.title}</span>
                     <span>Проект: {projectAndTeams.project.title}</span>
                 </div>
+            </div>
+
+            <div className={styles.createTaskSection}>
+                <button
+                    className={styles.createTaskButton}
+                    onClick={() => setShowCreateTaskForm(!showCreateTaskForm)}
+                >
+                    {showCreateTaskForm ? '− Отменить' : '+ Добавить задачу'}
+                </button>
+
+                {showCreateTaskForm && (
+                    <div className={styles.createTaskForm}>
+                        <h3>Новая задача</h3>
+                        <div className={styles.formRow}>
+                            <div className={styles.formGroup}>
+                                <label>Название *</label>
+                                <input
+                                    type="text"
+                                    value={createTaskForm.title}
+                                    onChange={(e) => setCreateTaskForm({...createTaskForm, title: e.target.value})}
+                                    className={styles.formInput}
+                                    placeholder="Введите название задачи"
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div className={styles.formRow}>
+                            <div className={styles.formGroup}>
+                                <label>Описание</label>
+                                <textarea
+                                    value={createTaskForm.description}
+                                    onChange={(e) => setCreateTaskForm({...createTaskForm, description: e.target.value})}
+                                    className={styles.formTextarea}
+                                    placeholder="Описание задачи"
+                                    rows={3}
+                                />
+                            </div>
+                        </div>
+                        <div className={styles.formRow}>
+                            <div className={styles.formGroup}>
+                                <label>Приоритет</label>
+                                <select
+                                    value={createTaskForm.priority}
+                                    onChange={(e) => setCreateTaskForm({...createTaskForm, priority: parseInt(e.target.value)})}
+                                    className={styles.formSelect}
+                                >
+                                    <option value={0}>0 - Низкий</option>
+                                    <option value={1}>1 - Средний</option>
+                                    <option value={2}>2 - Высокий</option>
+                                    <option value={3}>3 - Критический</option>
+                                </select>
+                            </div>
+                            <div className={styles.formGroup}>
+                                <label>Сложность</label>
+                                <select
+                                    value={createTaskForm.complexity}
+                                    onChange={(e) => setCreateTaskForm({...createTaskForm, complexity: parseInt(e.target.value)})}
+                                    className={styles.formSelect}
+                                >
+                                    <option value={0}>0 - Легкий</option>
+                                    <option value={1}>1 - Средний</option>
+                                    <option value={2}>2 - Сложный</option>
+                                    <option value={3}>3 - Очень сложный</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div className={styles.formRow}>
+                            <div className={styles.formGroup}>
+                                <label>Дедлайн</label>
+                                <input
+                                    type="date"
+                                    value={createTaskForm.deadline}
+                                    onChange={(e) => setCreateTaskForm({...createTaskForm, deadline: e.target.value})}
+                                    className={styles.formInput}
+                                />
+                            </div>
+                        </div>
+                        <div className={styles.formActions}>
+                            <button
+                                className={styles.submitButton}
+                                onClick={handleCreateTask}
+                                disabled={!createTaskForm.title}
+                            >
+                                Создать задачу
+                            </button>
+                        </div>
+                    </div>
+                )}
             </div>
 
             <div className={styles.sprintsSection}>

@@ -2,6 +2,122 @@
     padding: 2rem;
 }
 
+.createTaskSection {
+    margin: 2rem 0;
+}
+
+.createTaskButton {
+    background: #646cff;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.createTaskButton:hover {
+    background: #747bff;
+    transform: translateY(-1px);
+}
+
+.createTaskForm {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+}
+
+.createTaskForm h3 {
+    margin: 0 0 1.5rem 0;
+    font-size: 1.25em;
+    color: rgba(255, 255, 255, 0.87);
+}
+
+.formRow {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.formGroup label {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 500;
+}
+
+.formInput,
+.formSelect,
+.formTextarea {
+    background: #242424;
+    border: 1px solid #333;
+    border-radius: 6px;
+    padding: 10px 12px;
+    color: rgba(255, 255, 255, 0.87);
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.formInput:focus,
+.formSelect:focus,
+.formTextarea:focus {
+    outline: none;
+    border-color: #646cff;
+    box-shadow: 0 0 0 2px rgba(100, 108, 255, 0.1);
+}
+
+.formInput::placeholder,
+.formTextarea::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.formSelect {
+    cursor: pointer;
+}
+
+.formSelect option {
+    background: #242424;
+    color: rgba(255, 255, 255, 0.87);
+}
+
+.formActions {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.submitButton {
+    background: #646cff;
+    color: white;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.submitButton:hover:not(:disabled) {
+    background: #747bff;
+    transform: translateY(-1px);
+}
+
+.submitButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .teamHeader {
     margin-bottom: 2rem;
 }
@@ -86,4 +202,19 @@
     font-size: 1em;
     background-color: #1a1a1a;
     border-radius: 8px;
+}
+
+.sprintHeader.expanded {
+    border-bottom-color: #646cff;
+}
+
+.expandIcon {
+    font-size: 24px;
+    font-weight: bold;
+    color: #646cff;
+    user-select: none;
+}
+
+.kanbanContainer {
+    margin-top: 1.5rem;
 }
