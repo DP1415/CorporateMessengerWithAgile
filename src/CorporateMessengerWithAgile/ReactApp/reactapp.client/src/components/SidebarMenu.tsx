@@ -67,6 +67,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ employeesWithRelations }) => 
                     employeesWithRelations.map(
                         employee =>
                             <Link
+                                key={employee.company.id}
                                 to={getCompanyRoute(employee.company.title)}
                                 className={styles.navLink}
                             >

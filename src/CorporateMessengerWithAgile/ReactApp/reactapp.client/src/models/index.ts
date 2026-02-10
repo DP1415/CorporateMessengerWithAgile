@@ -10,6 +10,7 @@ export { KanbanBoardColumnSummaryDtoSchema, type KanbanBoardColumnSummaryDto } f
 export { ProjectSummaryDtoSchema, type ProjectSummaryDto } from "./entity/ProjectSummaryDto";
 export { SprintSummaryDtoSchema, type SprintSummaryDto } from "./entity/SprintSummaryDto";
 export { TaskItemSummaryDtoSchema, type TaskItemSummaryDto } from "./entity/TaskItemSummaryDto";
+export { TaskItemWithStatusDtoSchema, type TaskItemWithStatusDto } from "./entity/TaskItemSummaryDto";
 export { TaskItemInSprintSummaryDtoSchema, type TaskItemInSprintSummaryDto } from "./entity/TaskItemInSprintSummaryDto";
 export { TeamSummaryDtoSchema, type TeamSummaryDto } from "./entity/TeamSummaryDto";
 export { TeamMemberSummaryDtoSchema, type TeamMemberSummaryDto } from "./entity/TeamMemberSummaryDto";

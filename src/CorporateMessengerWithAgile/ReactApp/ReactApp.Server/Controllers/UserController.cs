@@ -4,6 +4,7 @@ using Application.Entity.Employees.Queries.EmployeeGetByUserId;
 using Application.Entity.Sprints.Queries.SprintsGetByTeam;
 using Application.Entity.TaskItems.Queries.TaskItemsGetByProject;
 using Application.Entity.TaskItems.Queries.TaskItemsGetBySprint;
+using Application.Entity.TaskItems.Queries.TaskItemsGetBySprintWithStatus;
 using Application.Entity.Teams.Queries.TeamGetByIdWithDetails;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -49,5 +50,12 @@ namespace ReactApp.Server.Controllers
             [FromRoute] Guid sprintId,
             CancellationToken cancellationToken = default
         ) => await Sender.Send(new TaskItemsGetBySprintQuery(sprintId), cancellationToken);
+
+        [Authorize]
+        [HttpGet("sprints/{sprintId}/task-items-with-status")]
+        public async Task<IEnumerable<TaskItemWithStatusDto>> GetTaskItemsBySprintWithStatus(
+            [FromRoute] Guid sprintId,
+            CancellationToken cancellationToken = default
+        ) => await Sender.Send(new TaskItemsGetBySprintWithStatusQuery(sprintId), cancellationToken);
     }
 }

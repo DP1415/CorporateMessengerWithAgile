@@ -7,8 +7,10 @@ import {
     ProjectSummaryDtoSchema,
     SprintSummaryDtoSchema,
     TaskItemSummaryDtoSchema,
+    TaskItemWithStatusDtoSchema,
     TeamSummaryDtoSchema,
-    type TaskItemSummaryDto
+    type TaskItemSummaryDto,
+    type TaskItemWithStatusDto
 } from '../models';
 import { validateWithSchema } from '../utils/validation';
 import { AppError } from '../models/result/AppError';
@@ -78,6 +80,12 @@ export class UserController extends AuthenticatedController {
         const result = await this.request('GET', `/sprints/${sprintId}/task-items`);
         if (result.isFailure) return result as Result<TaskItemSummaryDto[]>;
         return this.convertToArray<TaskItemSummaryDto>(result.value, TaskItemSummaryDtoSchema);
+    }
+
+    async getTaskItemsBySprintWithStatus(sprintId: Guid): Promise<Result<TaskItemWithStatusDto[]>> {
+        const result = await this.request('GET', `/sprints/${sprintId}/task-items-with-status`);
+        if (result.isFailure) return result as Result<TaskItemWithStatusDto[]>;
+        return this.convertToArray<TaskItemWithStatusDto>(result.value, TaskItemWithStatusDtoSchema);
     }
 
     //async getTeamDetails(teamId: Guid): Promise<Result<TeamDetailsDto>> {

@@ -18,3 +18,9 @@ export const TaskItemSummaryDtoSchema = BaseDtoSchema.extend({
 });
 
 export type TaskItemSummaryDto = z.infer<typeof TaskItemSummaryDtoSchema>;
+
+export const TaskItemWithStatusDtoSchema = TaskItemSummaryDtoSchema.extend({
+    taskStatus: z.number(), // TaskItemStatus enum value
+});
+
+export type TaskItemWithStatusDto = z.infer<typeof TaskItemWithStatusDtoSchema>;

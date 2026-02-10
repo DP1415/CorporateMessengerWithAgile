@@ -5,7 +5,7 @@ import type { UserLayoutContext } from '../UserLayout';
 import type { Guid, TaskItemSummaryDto, TeamSummaryDto } from '../../models';
 import type { EmployeeWithRelations, ProjectWithTeams } from '../../controllers';
 import { UserController } from '../../controllers';
-import KanbanBoard from './KanbanBoard';
+import ProjectTaskList from './ProjectTaskList';
 
 const ProjectPage: React.FC = () => {
     const { companyTitle, projectTitle } = useParams<{ companyTitle: string; projectTitle: string }>();
@@ -133,7 +133,7 @@ const ProjectPage: React.FC = () => {
                 <button onClick={() => fetchTasks()}>Повторить попытку</button>
             </div >
         ) : (
-            <KanbanBoard tasks={tasks} />
+            <ProjectTaskList tasks={tasks} />
         )}
     </>);
 };

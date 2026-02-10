@@ -2,15 +2,15 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useOutletContext } from 'react-router-dom';
 import type { UserLayoutContext } from '../UserLayout';
-import type { Guid, SprintSummaryDto, TeamSummaryDto, TaskItemSummaryDto } from '../../models';
+import type { Guid, SprintSummaryDto, TeamSummaryDto, TaskItemWithStatusDto } from '../../models';
 import type { EmployeeWithRelations, ProjectWithTeams } from '../../controllers';
 import { UserController } from '../../controllers';
-import KanbanBoard from './KanbanBoard';
+import TeamKanbanBoard from './TeamKanbanBoard';
 import styles from './TeamPage.module.css';
 
 interface SprintWithTasks {
     sprint: SprintSummaryDto;
-    tasks: TaskItemSummaryDto[];
+    tasks: TaskItemWithStatusDto[];
     loading: boolean;
     error: string | null;
     expanded: boolean; // Добавляем состояние раскрытости
@@ -115,7 +115,7 @@ const TeamPage: React.FC = () => {
             setSprints([...updatedSprints]); // Обновляем состояние до запроса
 
             const userController = new UserController();
-            const tasksResult = await userController.getTaskItemsBySprint(sprint.sprint.id as unknown as Guid);
+            const tasksResult = await userController.getTaskItemsBySprintWithStatus(sprint.sprint.id as unknown as Guid);
 
             if (tasksResult.isSuccess && tasksResult.value) {
                 sprint.tasks = tasksResult.value;
@@ -183,7 +183,7 @@ const TeamPage: React.FC = () => {
                                         ) : sprintWithTasks.error ? (
                                             <div className={styles.error}>{sprintWithTasks.error}</div>
                                         ) : (
-                                            <KanbanBoard tasks={sprintWithTasks.tasks} />
+                                            <TeamKanbanBoard tasks={sprintWithTasks.tasks} />
                                         )}
                                     </div>
                                 )}

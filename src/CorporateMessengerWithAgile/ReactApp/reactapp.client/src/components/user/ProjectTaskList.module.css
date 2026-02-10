@@ -1,0 +1,89 @@
+.taskList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.taskCard {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.taskCard:hover {
+    border-color: #646cff;
+    box-shadow: 0 2px 8px rgba(100, 108, 255, 0.15);
+}
+
+.taskCard.expanded {
+    border-color: #646cff;
+}
+
+.taskHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.taskTitle {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.87);
+}
+
+.expandIcon {
+    font-size: 20px;
+    font-weight: bold;
+    color: #646cff;
+    user-select: none;
+}
+
+.taskDetails {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #333;
+}
+
+.taskDescription {
+    margin-bottom: 12px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.taskMeta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.metaItem {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.subtasks {
+    margin-top: 12px;
+}
+
+.subtaskList {
+    margin: 8px 0 0 20px;
+    padding: 0;
+}
+
+.subtask {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 4px;
+}
+
+.empty {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.3);
+    padding: 32px;
+    font-size: 14px;
+}

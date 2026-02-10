@@ -1,3 +1,4 @@
+using Application.Dto;
 using Application.Dto.Summary;
 
 namespace Application
@@ -69,6 +70,22 @@ namespace Application
                 .ForMember(d => d.Priority, opt => opt.MapFrom(s => s.Priority))
                 .ForMember(d => d.Complexity, opt => opt.MapFrom(s => s.Complexity))
                 .ForMember(d => d.Deadline, opt => opt.MapFrom(s => s.Deadline));
+
+            // из TaskItemInSprint в TaskItemWithStatusDto
+            CreateMap<Domain.Entity.TaskItemInSprint, TaskItemWithStatusDto>()
+                .ForMember(d => d.Id, opt => opt.MapFrom(s => s.TaskItem.Id))
+                .ForMember(d => d.ProjectId, opt => opt.MapFrom(s => s.TaskItem.ProjectId))
+                .ForMember(d => d.AuthorId, opt => opt.MapFrom(s => s.TaskItem.AuthorId))
+                .ForMember(d => d.ResponsibleId, opt => opt.MapFrom(s => s.TaskItem.ResponsibleId))
+                .ForMember(d => d.SprintWithLastMentionId, opt => opt.MapFrom(s => s.TaskItem.SprintWithLastMentionId))
+                .ForMember(d => d.ParentTaskId, opt => opt.MapFrom(s => s.TaskItem.ParentTaskId))
+                .ForMember(d => d.SubtaskIds, opt => opt.MapFrom(s => s.TaskItem.Subtasks.Select(st => st.Id).ToList()))
+                .ForMember(d => d.Title, opt => opt.MapFrom(s => s.TaskItem.Title.Value))
+                .ForMember(d => d.Description, opt => opt.MapFrom(s => s.TaskItem.Description.Value))
+                .ForMember(d => d.Priority, opt => opt.MapFrom(s => s.TaskItem.Priority))
+                .ForMember(d => d.Complexity, opt => opt.MapFrom(s => s.TaskItem.Complexity))
+                .ForMember(d => d.Deadline, opt => opt.MapFrom(s => s.TaskItem.Deadline))
+                .ForMember(d => d.TaskStatus, opt => opt.MapFrom(s => s.TaskStatus));
 
             // TaskItemInSprint
             CreateMap<Domain.Entity.TaskItemInSprint, TaskItemInSprintSummaryDto>()
