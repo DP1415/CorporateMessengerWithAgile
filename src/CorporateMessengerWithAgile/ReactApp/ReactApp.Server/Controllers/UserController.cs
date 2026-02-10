@@ -2,6 +2,7 @@ using Application.Dto;
 using Application.Dto.Summary;
 using Application.Entity.Employees.Queries.EmployeeGetByUserId;
 using Application.Entity.Sprints.Queries.SprintsGetByTeam;
+using Application.Entity.TaskItems.Commands.TaskItemCreate;
 using Application.Entity.TaskItems.Queries.TaskItemsGetByProject;
 using Application.Entity.TaskItems.Queries.TaskItemsGetBySprint;
 using Application.Entity.TaskItems.Queries.TaskItemsGetBySprintWithStatus;
@@ -57,5 +58,42 @@ namespace ReactApp.Server.Controllers
             [FromRoute] Guid sprintId,
             CancellationToken cancellationToken = default
         ) => await Sender.Send(new TaskItemsGetBySprintWithStatusQuery(sprintId), cancellationToken);
+
+        [Authorize]
+        [HttpPost("task-items/create")]
+        public async Task<ActionResult<TaskItemSummaryDto>> CreateTaskItem(
+            [FromBody] CreateTaskItemRequest request,
+            CancellationToken cancellationToken = default
+        )
+        {
+            var result = await Sender.Send(new CommandCreateTaskItem(
+                request.Title,
+                request.Description,
+                request.Priority,
+                request.Complexity,
+                request.Deadline,
+                request.ProjectId,
+                request.AuthorId,
+                request.ResponsibleId,
+                request.SprintWithLastMentionId,
+                request.ParentTaskId
+            ), cancellationToken);
+
+            return result.ToActionResult();
+        }
+    }
+
+    public class CreateTaskItemRequest
+    {
+        public string Title { get; set; } = null!;
+        public string Description { get; set; } = null!;
+        public int Priority { get; set; }
+        public int Complexity { get; set; }
+        public DateTime Deadline { get; set; }
+        public Guid ProjectId { get; set; }
+        public Guid AuthorId { get; set; }
+        public Guid ResponsibleId { get; set; }
+        public Guid? SprintWithLastMentionId { get; set; }
+        public Guid? ParentTaskId { get; set; }
     }
 }

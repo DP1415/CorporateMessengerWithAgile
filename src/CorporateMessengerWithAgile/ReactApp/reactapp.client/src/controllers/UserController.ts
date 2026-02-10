@@ -88,6 +88,23 @@ export class UserController extends AuthenticatedController {
         return this.convertToArray<TaskItemWithStatusDto>(result.value, TaskItemWithStatusDtoSchema);
     }
 
+    async createTaskItem(data: {
+        title: string;
+        description: string;
+        priority: number;
+        complexity: number;
+        deadline: string;
+        projectId: Guid;
+        authorId: Guid;
+        responsibleId: Guid;
+        sprintWithLastMentionId?: Guid;
+        parentTaskId?: Guid;
+    }): Promise<Result<TaskItemSummaryDto>> {
+        const result = await this.request('POST', '/task-items/create', data);
+        if (result.isFailure) return result as Result<TaskItemSummaryDto>;
+        return validateWithSchema(TaskItemSummaryDtoSchema, result.value);
+    }
+
     //async getTeamDetails(teamId: Guid): Promise<Result<TeamDetailsDto>> {
     //    const result = await this.request('GET', `/teams/${teamId}`);
     //    if (result.isFailure) return result as Result<TeamDetailsDto>;
