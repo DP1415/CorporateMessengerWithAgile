@@ -5,6 +5,7 @@ import {
     CompanySummaryDtoSchema,
     PositionInCompanySummaryDtoSchema,
     ProjectSummaryDtoSchema,
+    SprintSummaryDtoSchema,
     TaskItemSummaryDtoSchema,
     TeamSummaryDtoSchema,
     type TaskItemSummaryDto
@@ -63,6 +64,18 @@ export class UserController extends AuthenticatedController {
 
     async getTaskItemsByProject(projectId: Guid): Promise<Result<TaskItemSummaryDto[]>> {
         const result = await this.request('GET', `/task-items/get-by-project/${projectId}`);
+        if (result.isFailure) return result as Result<TaskItemSummaryDto[]>;
+        return this.convertToArray<TaskItemSummaryDto>(result.value, TaskItemSummaryDtoSchema);
+    }
+
+    async getSprintsByTeam(teamId: Guid): Promise<Result<z.infer<typeof SprintSummaryDtoSchema>[]>> {
+        const result = await this.request('GET', `/teams/${teamId}/sprints`);
+        if (result.isFailure) return result as Result<z.infer<typeof SprintSummaryDtoSchema>[]>;
+        return this.convertToArray(result.value, SprintSummaryDtoSchema);
+    }
+
+    async getTaskItemsBySprint(sprintId: Guid): Promise<Result<TaskItemSummaryDto[]>> {
+        const result = await this.request('GET', `/sprints/${sprintId}/task-items`);
         if (result.isFailure) return result as Result<TaskItemSummaryDto[]>;
         return this.convertToArray<TaskItemSummaryDto>(result.value, TaskItemSummaryDtoSchema);
     }
