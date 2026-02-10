@@ -32,10 +32,11 @@ namespace Application.Entity.Employees.Queries.EmployeeGetByUserId
                     PositionInCompany: _mapper.Map<PositionInCompanySummaryDto>(employee.PositionInCompany),
                     ProjectsAndTeams: from teamMember in employee.TeamMembers
                                       where teamMember.Team != null && teamMember.Team.Project != null
-                                      orderby teamMember.Team.Project.Title.Value
-                                      group teamMember by teamMember.Team.Project into teamMemberGroup
+                                      group teamMember by teamMember.Team.Project.Id into teamMemberGroup
+                                      let project = teamMemberGroup.First().Team.Project
+                                      orderby project.Title.Value
                                       select new ProjectWithTeams(
-                                          Project: _mapper.Map<ProjectSummaryDto>(teamMemberGroup.Key),
+                                          Project: _mapper.Map<ProjectSummaryDto>(project),
                                           Teams: _mapper.Map<TeamSummaryDto[]>(from teamMember in teamMemberGroup
                                                                                orderby teamMember.Team.Title.Value
                                                                                select teamMember.Team
