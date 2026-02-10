@@ -1,0 +1,89 @@
+.teamPage {
+    padding: 2rem;
+}
+
+.teamHeader {
+    margin-bottom: 2rem;
+}
+
+.teamHeader h1 {
+    margin: 0 0 0.75rem 0;
+    font-size: 2em;
+    color: rgba(255, 255, 255, 0.87);
+}
+
+.teamInfo {
+    display: flex;
+    gap: 1.5rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9em;
+}
+
+.sprintsSection {
+    margin-top: 1.5rem;
+}
+
+.sprintsSection h2 {
+    margin: 0 0 1.5rem 0;
+    font-size: 1.5em;
+    color: rgba(255, 255, 255, 0.87);
+}
+
+.sprintsList {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.sprintCard {
+    background-color: #242424;
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+.sprintHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #333;
+}
+
+.sprintHeader h3 {
+    margin: 0;
+    font-size: 1.25em;
+    color: rgba(255, 255, 255, 0.87);
+}
+
+.sprintTaskCount {
+    background-color: #646cff;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+.loading {
+    text-align: center;
+    padding: 2rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1em;
+}
+
+.error {
+    text-align: center;
+    padding: 2rem;
+    color: #ff6b6b;
+    font-size: 1em;
+}
+
+.empty {
+    text-align: center;
+    padding: 2rem;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 1em;
+    background-color: #1a1a1a;
+    border-radius: 8px;
+}
