@@ -6,8 +6,8 @@ export { default as RegisterForm } from './auth/RegisterForm';
 
 export { default as ProtectedRoute } from './ProtectedRoute';
 export { default as NotFoundRedirect } from './NotFoundRedirect';
-export { default as UserLayout } from './UserLayout';
 
+export { default as UserLayout } from './user/UserLayout';
 export { default as ProfilePage } from './user/ProfilePage';
 export { default as CompanyPage } from './user/CompanyPage';
 export { default as ProjectPage } from './user/ProjectPage';

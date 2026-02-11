@@ -1,7 +1,7 @@
 // src/components/user/CompanyPage.tsx
 import React from 'react';
 import { Link, useParams, useOutletContext } from 'react-router-dom';
-import type { UserLayoutContext } from '../UserLayout';
+import type { UserLayoutContext } from './UserLayout';
 import type { ProjectSummaryDto, TeamSummaryDto } from '../../models';
 import { type EmployeeWithRelations } from '../../controllers';
 

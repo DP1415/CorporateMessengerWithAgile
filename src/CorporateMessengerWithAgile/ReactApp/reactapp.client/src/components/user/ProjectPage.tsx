@@ -1,7 +1,7 @@
 // src/components/user/ProjectPage.tsx
 import React, { useEffect, useState } from 'react';
 import { useParams, useOutletContext, Link } from 'react-router-dom';
-import type { UserLayoutContext } from '../UserLayout';
+import type { UserLayoutContext } from './UserLayout';
 import type { Guid, TaskItemSummaryDto, TeamSummaryDto } from '../../models';
 import type { EmployeeWithRelations, ProjectWithTeams } from '../../controllers';
 import { UserController } from '../../controllers';

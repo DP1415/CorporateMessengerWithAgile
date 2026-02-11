@@ -1,7 +1,7 @@
 // src/components/user/ProfilePage.tsx
 import React from 'react';
 import { useOutletContext } from 'react-router-dom';
-import type { UserLayoutContext } from '../UserLayout';
+import type { UserLayoutContext } from './UserLayout';
 
 interface ProfilePageProps {
     onLogout: () => void;

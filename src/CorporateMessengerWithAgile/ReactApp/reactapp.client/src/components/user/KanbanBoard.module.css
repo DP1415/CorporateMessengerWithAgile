@@ -1,5 +1,4 @@
-/* KanbanBoard.module.css */
-
+/* src/components/user/KanbanBoard.module.css */
 .kanbanBoard {
     margin-top: 2rem;
 }
@@ -13,11 +12,11 @@
     border-bottom: 2px solid #333;
 }
 
-.kanbanHeader h2 {
-    margin: 0;
-    font-size: 1.8em;
-    color: rgba(255, 255, 255, 0.87);
-}
+    .kanbanHeader h2 {
+        margin: 0;
+        font-size: 1.8em;
+        color: rgba(255, 255, 255, 0.87);
+    }
 
 .kanbanTaskCount {
     font-size: 0.9em;
@@ -65,11 +64,11 @@
     border-bottom: 1px solid #333;
 }
 
-.kanbanColumnHeader h3 {
-    margin: 0;
-    font-size: 1.1em;
-    color: rgba(255, 255, 255, 0.87);
-}
+    .kanbanColumnHeader h3 {
+        margin: 0;
+        font-size: 1.1em;
+        color: rgba(255, 255, 255, 0.87);
+    }
 
 .kanbanColumnCount {
     background-color: #646cff;
@@ -96,11 +95,11 @@
     cursor: pointer;
 }
 
-.kanbanTaskCard:hover {
-    border-color: #646cff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(100, 108, 255, 0.15);
-}
+    .kanbanTaskCard:hover {
+        border-color: #646cff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(100, 108, 255, 0.15);
+    }
 
 .kanbanTaskHeader {
     display: flex;
@@ -109,13 +108,13 @@
     margin-bottom: 0.5rem;
 }
 
-.kanbanTaskHeader h4 {
-    margin: 0;
-    font-size: 1em;
-    color: rgba(255, 255, 255, 0.87);
-    line-height: 1.3;
-    flex: 1;
-}
+    .kanbanTaskHeader h4 {
+        margin: 0;
+        font-size: 1em;
+        color: rgba(255, 255, 255, 0.87);
+        line-height: 1.3;
+        flex: 1;
+    }
 
 .kanbanTaskPriority {
     font-size: 0.75em;
@@ -179,7 +178,7 @@
     border-radius: 3px;
 }
 
-.kanbanTaskDescription::-webkit-scrollbar-thumb:hover,
-.kanbanColumnTasks::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
+    .kanbanTaskDescription::-webkit-scrollbar-thumb:hover,
+    .kanbanColumnTasks::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
