@@ -4,7 +4,6 @@ import { useParams, useOutletContext } from 'react-router-dom';
 import type { UserLayoutContext } from './UserLayout';
 import type { Guid, SprintSummaryDto, TeamSummaryDto, TaskItemWithStatusDto } from '../../models';
 import type { EmployeeWithRelations, ProjectWithTeams } from '../../controllers';
-import { UserController } from '../../controllers';
 import TeamKanbanBoard from './TeamKanbanBoard';
 import styles from './TeamPage.module.css';
 
@@ -18,7 +17,7 @@ interface SprintWithTasks {
 
 const TeamPage: React.FC = () => {
     const { companyTitle, projectTitle, teamTitle } = useParams<{ companyTitle: string; projectTitle: string; teamTitle: string; }>();
-    const { employeesWithRelations } = useOutletContext<UserLayoutContext>();
+    const { userController, employeesWithRelations } = useOutletContext<UserLayoutContext>();
 
     const [sprints, setSprints] = useState<SprintWithTasks[]>([]);
     const [loading, setLoading] = useState(true);
@@ -72,7 +71,6 @@ const TeamPage: React.FC = () => {
                 setLoading(true);
                 setError(null);
 
-                const userController = new UserController();
                 const result = await userController.getSprintsByTeam(team.id as unknown as Guid);
 
                 if (result.isSuccess && result.value) {
@@ -95,7 +93,7 @@ const TeamPage: React.FC = () => {
             }
         };
         loadData();
-    }, [employeesWithRelations, companyTitle, projectTitle, teamTitle]);
+    }, [employeesWithRelations, companyTitle, projectTitle, teamTitle, userController]);
 
     const toggleExpand = async (index: number) => {
         const updatedSprints = [...sprints];
@@ -114,7 +112,6 @@ const TeamPage: React.FC = () => {
             sprint.error = null;
             setSprints([...updatedSprints]); // Обновляем состояние до запроса
 
-            const userController = new UserController();
             const tasksResult = await userController.getTaskItemsBySprintWithStatus(sprint.sprint.id as unknown as Guid);
 
             if (tasksResult.isSuccess && tasksResult.value) {

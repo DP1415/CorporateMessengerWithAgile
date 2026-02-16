@@ -6,22 +6,22 @@ import { useNavigate } from 'react-router-dom';
 import styles from './AuthForm.module.css';
 
 interface RegisterFormProps {
+    authController: AuthController;
     onSuccess: (userData: UserSummaryDto) => void;
 }
 
-const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
+const RegisterForm: React.FC<RegisterFormProps> = ({ authController, onSuccess }) => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<AppError | null>(null);
-    const authController = new AuthController();
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError(null);
 
-        const result = await authController.Register({ username, email, password });
+        const result = await authController.Register(username, email, password);
 
         if (result.isSuccess) {
             onSuccess(result.value);

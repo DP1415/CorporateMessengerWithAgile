@@ -15,6 +15,7 @@ import {
 import { validateWithSchema } from '../utils/validation';
 import { AppError } from '../models/result/AppError';
 import { z } from 'zod';
+import { AuthController } from '.';
 
 const ProjectWithTeamsSchema = z.object({
     project: ProjectSummaryDtoSchema,
@@ -30,22 +31,12 @@ const EmployeeFullHierarchySchema = z.object({
 });
 export type EmployeeWithRelations = z.infer<typeof EmployeeFullHierarchySchema>;
 
-//const TeamDetailsDtoSchema = BaseDtoSchema.extend({
-//    projectId: GuidSchema,
-//    title: z.string(),
-//    standardSprintDuration: z.number(),
-//    users: z.array(EmployeeSummaryDtoSchema).default([]),
-//    sprints: z.array(SprintSummaryDtoSchema).default([]),
-//    kanbanBoardColumnIds: z.array(GuidSchema).optional(),
-//});
-//export type TeamDetailsDto = z.infer<typeof TeamDetailsDtoSchema>;
-
 export class UserController extends AuthenticatedController {
-    constructor() { super('/User'); }
+    constructor(authController: AuthController) { super(authController, '/User'); }
 
     protected convertToArray<T>(arrayData: unknown, schema: z.ZodType<T>): Result<T[]> {
         if (!Array.isArray(arrayData)) {
-            return Result.FailureWith(new AppError('Validation.Error', 'The received data is not an array', -1));
+            return Result.FailureWith(new AppError('Validation.Error', 'Полученные данные не являются массивом', -1));
         }
         const validatedData: T[] = [];
         for (const item of arrayData) {
@@ -88,22 +79,13 @@ export class UserController extends AuthenticatedController {
         return this.convertToArray<TaskItemWithStatusDto>(result.value, TaskItemWithStatusDtoSchema);
     }
 
-    async createTaskItem(data: {
-        title: string;
-        description: string;
-        priority: number;
-        complexity: number;
-        deadline: string;
-        projectId: Guid;
-        authorId: Guid;
-        responsibleId: Guid;
-        sprintWithLastMentionId?: Guid;
-        parentTaskId?: Guid;
-    }): Promise<Result<TaskItemSummaryDto>> {
+    async createTaskItem(data: { title: string; description: string; priority: number; complexity: number; deadline: string; projectId: Guid; authorId: Guid; responsibleId: Guid; sprintWithLastMentionId?: Guid; parentTaskId?: Guid; }): Promise<Result<TaskItemSummaryDto>> {
         const result = await this.request('POST', '/task-items/create', data);
         if (result.isFailure) return result as Result<TaskItemSummaryDto>;
         return validateWithSchema(TaskItemSummaryDtoSchema, result.value);
     }
+
+    async Logout() { return this.authController.Logout(); }
 
     //async getTeamDetails(teamId: Guid): Promise<Result<TeamDetailsDto>> {
     //    const result = await this.request('GET', `/teams/${teamId}`);

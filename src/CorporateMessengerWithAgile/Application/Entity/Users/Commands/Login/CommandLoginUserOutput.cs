@@ -4,7 +4,8 @@ namespace Application.Entity.Users.Commands.Login
 {
     public record CommandLoginUserOutput
         (
-            string Token,
+            string RefreshToken,
+            string AccessToken,
             UserSummaryDto User
         );
 }

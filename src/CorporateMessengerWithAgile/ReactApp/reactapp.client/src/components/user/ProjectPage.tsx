@@ -4,7 +4,6 @@ import { useParams, useOutletContext, Link } from 'react-router-dom';
 import type { UserLayoutContext } from './UserLayout';
 import type { Guid, TaskItemSummaryDto, TeamSummaryDto } from '../../models';
 import type { EmployeeWithRelations, ProjectWithTeams } from '../../controllers';
-import { UserController } from '../../controllers';
 import ProjectTaskList from './ProjectTaskList';
 import styles from './ProjectPage.module.css';
 
@@ -18,7 +17,7 @@ interface CreateTaskFormData {
 
 const ProjectPage: React.FC = () => {
     const { companyTitle, projectTitle } = useParams<{ companyTitle: string; projectTitle: string }>();
-    const { employeesWithRelations } = useOutletContext<UserLayoutContext>();
+    const { userController, employeesWithRelations } = useOutletContext<UserLayoutContext>();
 
     const [tasks, setTasks] = useState<TaskItemSummaryDto[]>([]);
     const [loading, setLoading] = useState(true);
@@ -44,7 +43,6 @@ const ProjectPage: React.FC = () => {
             setLoading(true);
             setErrorGetTaskItemsByProject(null);
 
-            const userController = new UserController();
             const result = await userController.getTaskItemsByProject(
                 projectData.projectAndTeams.project.id as unknown as Guid
             );
@@ -95,7 +93,6 @@ const ProjectPage: React.FC = () => {
                 setLoading(true);
                 setErrorGetTaskItemsByProject(null);
 
-                const userController = new UserController();
                 const result = await userController.getTaskItemsByProject(
                     projectAndTeams.project.id as unknown as Guid
                 );
@@ -113,7 +110,7 @@ const ProjectPage: React.FC = () => {
             }
         };
         loadTasks();
-    }, [employeesWithRelations, companyTitle, projectTitle]);
+    }, [employeesWithRelations, companyTitle, projectTitle, userController]);
 
     if (globalError) { return <div>{globalError}</div>; }
     if (!projectData) { return loading ? <div>Загрузка...</div> : <div>Данные проекта не найдены</div>; }
@@ -126,7 +123,6 @@ const ProjectPage: React.FC = () => {
     const handleCreateTask = async () => {
         if (!projectData) return;
 
-        const userController = new UserController();
         const result = await userController.createTaskItem({
             title: createTaskForm.title,
             description: createTaskForm.description,
@@ -176,7 +172,7 @@ const ProjectPage: React.FC = () => {
                             <input
                                 type="text"
                                 value={createTaskForm.title}
-                                onChange={(e) => setCreateTaskForm({...createTaskForm, title: e.target.value})}
+                                onChange={(e) => setCreateTaskForm({ ...createTaskForm, title: e.target.value })}
                                 className={styles.formInput}
                                 placeholder="Введите название задачи"
                                 required
@@ -188,7 +184,7 @@ const ProjectPage: React.FC = () => {
                             <label>Описание</label>
                             <textarea
                                 value={createTaskForm.description}
-                                onChange={(e) => setCreateTaskForm({...createTaskForm, description: e.target.value})}
+                                onChange={(e) => setCreateTaskForm({ ...createTaskForm, description: e.target.value })}
                                 className={styles.formTextarea}
                                 placeholder="Описание задачи"
                                 rows={3}
@@ -200,7 +196,7 @@ const ProjectPage: React.FC = () => {
                             <label>Приоритет</label>
                             <select
                                 value={createTaskForm.priority}
-                                onChange={(e) => setCreateTaskForm({...createTaskForm, priority: parseInt(e.target.value)})}
+                                onChange={(e) => setCreateTaskForm({ ...createTaskForm, priority: parseInt(e.target.value) })}
                                 className={styles.formSelect}
                             >
                                 <option value={0}>0 - Низкий</option>
@@ -213,7 +209,7 @@ const ProjectPage: React.FC = () => {
                             <label>Сложность</label>
                             <select
                                 value={createTaskForm.complexity}
-                                onChange={(e) => setCreateTaskForm({...createTaskForm, complexity: parseInt(e.target.value)})}
+                                onChange={(e) => setCreateTaskForm({ ...createTaskForm, complexity: parseInt(e.target.value) })}
                                 className={styles.formSelect}
                             >
                                 <option value={0}>0 - Легкий</option>
@@ -229,7 +225,7 @@ const ProjectPage: React.FC = () => {
                             <input
                                 type="date"
                                 value={createTaskForm.deadline}
-                                onChange={(e) => setCreateTaskForm({...createTaskForm, deadline: e.target.value})}
+                                onChange={(e) => setCreateTaskForm({ ...createTaskForm, deadline: e.target.value })}
                                 className={styles.formInput}
                             />
                         </div>

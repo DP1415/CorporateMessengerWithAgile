@@ -1,28 +1,28 @@
 // src/components/auth/LoginForm.tsx
 import React, { useState } from 'react';
-import { AuthController } from '../../controllers';
+import { AuthController} from '../../controllers';
 import { AppError, type UserSummaryDto } from '../../models';
 import { useNavigate } from 'react-router-dom';
 import styles from './AuthForm.module.css';
 
 
 interface LoginFormProps {
-    onSuccess: (userData: { token: string; user: UserSummaryDto }) => void;
+    authController: AuthController;
+    onSuccess: (userData: UserSummaryDto) => void;
     initialUsername: string | null;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, initialUsername }) => {
+const LoginForm: React.FC<LoginFormProps> = ({ authController, onSuccess, initialUsername }) => {
     const [username, setUsername] = useState(initialUsername || '');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<AppError | null>(null);
-    const authController = new AuthController();
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError(null);
 
-        const result = await authController.Login({ username, password });
+        const result = await authController.Login(username, password);
 
         if (result.isSuccess) {
             onSuccess(result.value);

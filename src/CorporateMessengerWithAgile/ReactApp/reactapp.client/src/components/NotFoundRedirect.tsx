@@ -1,18 +1,18 @@
 // src/components/NotFoundRedirect.tsx
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { type UserSummaryDto } from '../models';
+import type { UserSummaryDto } from '../models';
 
 interface NotFoundRedirectProps {
-    authUser: { token: string; user: UserSummaryDto } | null;
+    currentUser: UserSummaryDto | null;
     authChecked: boolean;
 }
 
-const NotFoundRedirect: React.FC<NotFoundRedirectProps> = ({ authUser, authChecked }) => {
+const NotFoundRedirect: React.FC<NotFoundRedirectProps> = ({ currentUser, authChecked }) => {
     if (!authChecked) {
         return <div>Загрузка...</div>;
     }
-    if (authUser) {
+    if (currentUser) {
         return <Navigate to="/" replace />;
     }
     return <Navigate to="/welcome" replace />;

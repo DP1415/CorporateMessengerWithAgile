@@ -1,4 +1,4 @@
-﻿using Domain.ValueObjects;
+using Domain.ValueObjects;
 
 namespace Domain.Entity
 {
@@ -11,6 +11,9 @@ namespace Domain.Entity
         public string Role { get; set; } = null!;
 
         public ICollection<Employee> Employees { get; set; } = [];
+
+        public Guid RefreshTokenId { get; set; }
+        public RefreshToken RefreshToken { get; set; } = null!;
 
         public User() : base() { }
         public User(Guid id) : base(id) { }

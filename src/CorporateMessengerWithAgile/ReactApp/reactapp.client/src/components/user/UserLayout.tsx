@@ -8,23 +8,24 @@ import { AppError } from '../../models';
 import SidebarMenu from './SidebarMenu';
 
 interface UserLayoutProps {
-    authUser: { token: string; user: UserSummaryDto };
+    userController: UserController;
+    currentUser: UserSummaryDto;
 }
 
 export interface UserLayoutContext {
-    authUser: { token: string; user: UserSummaryDto };
+    userController: UserController;
+    currentUser: UserSummaryDto;
     employeesWithRelations: EmployeeWithRelations[];
 }
 
-const UserLayout: React.FC<UserLayoutProps> = ({ authUser }) => {
+const UserLayout: React.FC<UserLayoutProps> = ({ userController, currentUser }) => {
     const [employeesWithRelations, setEmployeesWithRelations] = useState<EmployeeWithRelations[]>([]);
     const [loadingEmployeesWithRelations, setLoadingEmployeesWithRelations] = useState(true);
     const [employeesWithRelationsError, setEmployeesWithRelationsError] = useState<AppError | null>(null);
 
     useEffect(() => {
         const fetchCompanies = async () => {
-            const controller = new UserController();
-            const result: Result<EmployeeWithRelations[]> = await controller.getEmployeesWithRelations(authUser.user.id);
+            const result: Result<EmployeeWithRelations[]> = await userController.getEmployeesWithRelations(currentUser.id);
             if (result.isFailure) {
                 setEmployeesWithRelations([])
                 setEmployeesWithRelationsError(result.error);
@@ -35,7 +36,7 @@ const UserLayout: React.FC<UserLayoutProps> = ({ authUser }) => {
             setLoadingEmployeesWithRelations(false);
         };
         fetchCompanies();
-    }, [authUser.user.id]);
+    }, [currentUser.id, userController]);
 
     return (
         <div className={styles.userHomeLayout}>
@@ -50,7 +51,7 @@ const UserLayout: React.FC<UserLayoutProps> = ({ authUser }) => {
                                 employeesWithRelationsError &&
                                 <p>Не удалось загрузить данные: {employeesWithRelationsError.message} ({employeesWithRelationsError.code})</p>
                             }
-                            <Outlet context={{ authUser, employeesWithRelations }} />
+                            <Outlet context={{ userController, currentUser, employeesWithRelations }} />
                         </>
                 }
             </main>

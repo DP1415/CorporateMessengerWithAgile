@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace Persistence
 {
@@ -15,6 +15,7 @@ namespace Persistence
         public DbSet<Domain.Entity.TaskItem> TaskItems { get; set; }
         public DbSet<Domain.Entity.TaskItemInSprint> TaskItemInSprints { get; set; }
         public DbSet<Domain.Entity.KanbanBoardColumn> KanbanBoardColumns { get; set; }
+        public DbSet<Domain.Entity.RefreshToken> RefreshTokens { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -35,6 +36,7 @@ namespace Persistence
             modelBuilder.ApplyConfiguration(new Configurations.TaskItemConfiguration());
             modelBuilder.ApplyConfiguration(new Configurations.TaskItemInSprintConfiguration());
             modelBuilder.ApplyConfiguration(new Configurations.KanbanBoardColumnConfiguration());
+            modelBuilder.ApplyConfiguration(new Configurations.RefreshTokenConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

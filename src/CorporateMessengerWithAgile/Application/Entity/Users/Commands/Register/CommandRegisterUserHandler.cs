@@ -4,6 +4,8 @@ using AutoMapper;
 using Domain.Entity;
 using Domain.Result;
 using Domain.ValueObjects;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Entity.Users.Commands.Register
@@ -22,18 +24,35 @@ namespace Application.Entity.Users.Commands.Register
             var passwordhashed = PasswordHashed.Create(request.Password);
             if (passwordhashed.IsFailure) return passwordhashed.Error;
 
-            var user = new User
+            User? existUser = await _context.Users
+                .FirstOrDefaultAsync(
+                    existUser =>
+                        existUser.Username.Value == username.Value.Value ||
+                        existUser.Email.Value == email.Value.Value,
+                    cancellationToken
+                );
+            if (existUser != null) return new Error("exist user", "exist user", 400); // wip сделать норм ошибку
+
+            User user = new()
             {
                 Username = username,
                 Email = email,
                 PasswordHashed = passwordhashed,
-                Role = "user"
+                Role = "user",
+                RefreshToken = new()
+                {
+                    Token = string.Empty,
+                    ExpiresAt = DateTime.UtcNow,
+                    IsRevoked = true,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                }
             };
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync(cancellationToken);
 
-            return Result.Success(_mapper.Map<UserSummaryDto>(user), 201);
+            return Result.Success(_mapper.Map<UserSummaryDto>(user), StatusCodes.Status201Created);
         }
     }
 }

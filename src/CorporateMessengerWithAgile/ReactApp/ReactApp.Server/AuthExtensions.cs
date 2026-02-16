@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
 namespace ReactApp.Server
@@ -22,7 +22,8 @@ namespace ReactApp.Server
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(secretKey)),
                         ValidIssuer = jwtSettings["Issuer"],
-                        ValidAudience = jwtSettings["Audience"]
+                        ValidAudience = jwtSettings["Audience"],
+                        ClockSkew = TimeSpan.Zero
                     };
                 });
 
