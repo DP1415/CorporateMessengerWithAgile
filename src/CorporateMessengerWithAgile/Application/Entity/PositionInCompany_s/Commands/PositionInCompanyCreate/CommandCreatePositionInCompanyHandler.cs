@@ -6,7 +6,7 @@ using Domain.Result;
 using Domain.ValueObjects;
 using Persistence;
 
-namespace Application.Entity.PositionInCompany_s
+namespace Application.Entity.PositionInCompany_s.Commands.PositionInCompanyCreate
 {
     public class CommandCreatePositionInCompanyHandler(AppDbContext context, IMapper mapper)
         : AbsCommandCreateEntityHandler<CommandCreatePositionInCompany, PositionInCompany, PositionInCompanySummaryDto>(context, mapper)

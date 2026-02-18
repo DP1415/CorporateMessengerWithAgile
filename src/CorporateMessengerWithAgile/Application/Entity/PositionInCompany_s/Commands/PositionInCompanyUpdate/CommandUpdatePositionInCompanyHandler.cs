@@ -6,7 +6,7 @@ using Domain.Result;
 using Domain.ValueObjects;
 using Persistence;
 
-namespace Application.Entity.PositionInCompany_s
+namespace Application.Entity.PositionInCompany_s.Commands.PositionInCompanyUpdate
 {
     public class CommandUpdatePositionInCompanyHandler(AppDbContext context, IMapper mapper)
         : AbsCommandUpdateEntityByIdHandler<CommandUpdatePositionInCompany, PositionInCompany, PositionInCompanySummaryDto>(context, mapper)

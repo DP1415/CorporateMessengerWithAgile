@@ -3,7 +3,7 @@ using Application.AbsQuery;
 using Domain.Entity;
 using Application.Dto.Summary;
 
-namespace Application.Entity.PositionInCompany_s
+namespace Application.Entity.PositionInCompany_s.Queries.PositionInCompaniesGetAll
 {
     public record PositionInCompaniesGetAllQuery()
         : AbsQueryEntityWithOptions<PositionInCompany, PositionInCompanySummaryDto>(

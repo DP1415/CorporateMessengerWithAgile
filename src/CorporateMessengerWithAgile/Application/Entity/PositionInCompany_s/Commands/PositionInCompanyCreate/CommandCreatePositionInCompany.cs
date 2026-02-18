@@ -2,7 +2,7 @@ using Application.AbsCommand.Create;
 using Application.Dto.Summary;
 using Domain.Entity;
 
-namespace Application.Entity.PositionInCompany_s
+namespace Application.Entity.PositionInCompany_s.Commands.PositionInCompanyCreate
 {
     public record CommandCreatePositionInCompany(
         string Title,
