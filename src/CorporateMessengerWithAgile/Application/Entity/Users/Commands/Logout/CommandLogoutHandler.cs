@@ -20,7 +20,7 @@ namespace Application.Entity.Users.Commands.Logout
                     cancellationToken
                 );
 
-            if (refreshToken == null) return ApplicationErrors.AuthenticationError.Invalid; // wip добавить новую ошибку
+            if (refreshToken == null) return ApplicationErrors.RefreshTokenError.NotFound;
 
             refreshToken.IsRevoked = true;
             refreshToken.UpdatedAt = DateTime.UtcNow;

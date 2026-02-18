@@ -38,7 +38,15 @@ namespace ReactApp.Server
             PhoneNumber = PhoneNumber.Create(phoneNumber).Value,
             Role = role,
             CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
+            UpdatedAt = DateTime.UtcNow,
+            RefreshToken = new()
+            {
+                Token = string.Empty,
+                ExpiresAt = DateTime.UtcNow,
+                IsRevoked = true,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            }
         };
 
         private static Employee CreateEmployee(string id, Company company, PositionInCompany position, User user) => new()

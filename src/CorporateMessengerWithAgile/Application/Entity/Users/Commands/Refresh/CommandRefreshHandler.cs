@@ -20,10 +20,8 @@ namespace Application.Entity.Users.Commands.Refresh
                     cancellationToken
                 );
 
-            if (refreshToken == null) return ApplicationErrors.AuthenticationError.Invalid;  // wip добавить новую ошибку для не найденного токена
-
-            if (refreshToken.IsRevoked || refreshToken.ExpiresAt <= DateTime.UtcNow)
-                return ApplicationErrors.AuthenticationError.Invalid;  // wip добавить ошибку
+            if (refreshToken == null) return ApplicationErrors.RefreshTokenError.NotFound;
+            if (refreshToken.IsRevoked || refreshToken.ExpiresAt <= DateTime.UtcNow) return ApplicationErrors.RefreshTokenError.Invalid;
 
             string newRefreshTokenValue = Guid.NewGuid().ToString("N");
             DateTime newRefreshTokenExpiry = DateTime.UtcNow.AddDays(7);

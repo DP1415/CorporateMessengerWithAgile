@@ -31,7 +31,7 @@ namespace Application.Entity.Users.Commands.Register
                         existUser.Email.Value == email.Value.Value,
                     cancellationToken
                 );
-            if (existUser != null) return new Error("exist user", "exist user", 400); // wip сделать норм ошибку
+            if (existUser != null) return ApplicationErrors.RegisterError.UserExist;
 
             User user = new()
             {

@@ -33,27 +33,10 @@ namespace Application.Entity.Users.Commands.Login
             string refreshTokenValue = Guid.NewGuid().ToString("N"); // 32 символа без дефисов
             DateTime refreshTokenExpiry = DateTime.UtcNow.AddDays(7);
 
-            if (user.RefreshToken != null)
-            {
-                user.RefreshToken.Token = refreshTokenValue;
-                user.RefreshToken.ExpiresAt = refreshTokenExpiry;
-                user.RefreshToken.IsRevoked = false;
-                user.RefreshToken.UpdatedAt = DateTime.UtcNow;
-            }
-            else
-            {
-                // wip удалить этот блок
-                user.RefreshToken = new RefreshToken
-                {
-                    UserId = user.Id,
-                    Token = refreshTokenValue,
-                    ExpiresAt = refreshTokenExpiry,
-                    IsRevoked = false,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
-                };
-                _context.RefreshTokens.Add(user.RefreshToken);
-            }
+            user.RefreshToken.Token = refreshTokenValue;
+            user.RefreshToken.ExpiresAt = refreshTokenExpiry;
+            user.RefreshToken.IsRevoked = false;
+            user.RefreshToken.UpdatedAt = DateTime.UtcNow;
 
             await _context.SaveChangesAsync(cancellationToken);
 
