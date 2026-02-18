@@ -1,5 +1,5 @@
 // src/App.tsx
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { type UserSummaryDto, UserSummaryDtoSchema } from './models';
 import { loadFromStorage, saveToStorage } from './utils/storage';
@@ -8,41 +8,35 @@ import {
     WelcomePage,
     LoginForm,
     RegisterForm,
-    ProtectedRoute,
     UserLayout,
     ProfilePage,
     CompanyPage,
-    NotFoundRedirect,
     ProjectPage,
     TeamPage
 } from './components';
 
 const App: React.FC = () => {
     const [currentUser, setCurrentUser] = useState<UserSummaryDto | null>(null);
-    const [authChecked, setAuthChecked] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [initialUsername, setInitialUsername] = useState<string | null>(null);
 
     useEffect(() => {
-        const user = loadFromStorage('currentUser', UserSummaryDtoSchema);
-        if (user) {
-            setTimeout(() => {
-                setCurrentUser(user);
-            }, 0);
-        }
-        setTimeout(() => {
-            setAuthChecked(true);
-        }, 0);
+        setCurrentUser(loadFromStorage('currentUser', UserSummaryDtoSchema));
+        setLoading(false);
     }, []);
 
-    const handleAuthSuccess = (userData: UserSummaryDto) => {
+    if (loading) return <p>loading...</p>;
+
+    const handleRegisterSuccess = (userData: UserSummaryDto) => {
+        setInitialUsername(userData.username);
+    };
+
+    const handleLoginSuccess = (userData: UserSummaryDto) => {
         setCurrentUser(userData);
         saveToStorage('currentUser', userData);
     };
 
-    const handleRegisterSuccess = (userData: UserSummaryDto) => { setInitialUsername(userData.username); };
-
     const handleLogout = (userController: UserController) => {
-        //wip 
         userController.Logout();
         localStorage.removeItem('currentUser');
         setCurrentUser(null);
@@ -61,28 +55,30 @@ const App: React.FC = () => {
     const authController = new AuthController();
     const userController = new UserController(authController);
 
+    const loginForm = <LoginForm authController={authController} onSuccess={handleLoginSuccess} initialUsername={initialUsername} />;
+    const registerForm = <RegisterForm authController={authController} onSuccess={handleRegisterSuccess} />;
+    const userLayout =
+        currentUser
+            ? <UserLayout userController={userController} currentUser={currentUser} />
+            : <Navigate to="/login" replace />;
+
     return (
         <Router>
             <div className="App">
                 <Routes>
                     <Route path="/welcome" element={<WelcomePage />} />
-                    <Route path="/login" element={<LoginForm authController={authController} onSuccess={handleAuthSuccess} initialUsername={initialUsername} />} />
-                    <Route path="/register" element={<RegisterForm authController={authController} onSuccess={handleRegisterSuccess} />} />
+                    <Route path="/login" element={loginForm} />
+                    <Route path="/register" element={registerForm} />
 
-                    <Route path="/" element={
-                        <ProtectedRoute currentUser={currentUser} authChecked={authChecked}>
-                            <UserLayout userController={userController} currentUser={currentUser!} />
-                        </ProtectedRoute>
-                    }>
+                    <Route path="/" element={userLayout}>
                         <Route index element={homeElement} />
                         <Route path="/profile" element={<ProfilePage onLogout={handleLogout} />} />
                         <Route path="/company/:companyTitle" element={<CompanyPage />} />
                         <Route path="/company/:companyTitle/project/:projectTitle" element={<ProjectPage />} />
                         <Route path="/company/:companyTitle/project/:projectTitle/team/:teamTitle" element={<TeamPage />} />
-
                     </Route>
 
-                    <Route path="*" element={<NotFoundRedirect currentUser={currentUser} authChecked={authChecked} />} />
+                    <Route path="*" element={<Navigate to={currentUser ? "/" : "/welcome"} replace />} />
                 </Routes>
             </div>
         </Router>
