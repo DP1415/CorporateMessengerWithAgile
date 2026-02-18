@@ -12,16 +12,12 @@ export function loadFromStorage<T>(key: string, schema: z.ZodType<T>): T | null 
         const item = localStorage.getItem(key);
         if (item === null) return null;
 
-        const parsed = JSON.parse(item);
-        const result = schema.safeParse(parsed);
+        const result = schema.safeParse(JSON.parse(item));
+        if (result.success) return result.data;
 
-        if (result.success) {
-            return result.data;
-        } else {
-            console.error(`Validation failed for key "${key}":`, result.error.issues);
-            localStorage.removeItem(key);
-            return null;
-        }
+        console.error(`Validation failed for key "${key}":`, result.error.issues);
+        localStorage.removeItem(key);
+        return null;
     } catch (error) {
         console.error(`Failed to load or parse "${key}" from localStorage:`, error);
         localStorage.removeItem(key);
