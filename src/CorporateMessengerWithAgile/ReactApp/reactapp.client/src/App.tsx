@@ -8,11 +8,15 @@ import { LoginForm, RegisterForm, } from './forms';
 import { UserLayout } from './layouts';
 import {
     WelcomePage,
+    HomePage,
     ProfilePage,
     CompanyPage,
     ProjectPage,
     TeamPage
 } from './pages';
+
+const authController = new AuthController();
+const userController = new UserController(authController);
 
 const App: React.FC = () => {
     const [currentUser, setCurrentUser] = useState<UserSummaryDto | null>(null);
@@ -42,19 +46,6 @@ const App: React.FC = () => {
         setCurrentUser(null);
     };
 
-    const homeElement = (
-        <div>
-            <p>Домашняя страница</p>
-            <p>Email: {currentUser?.email}</p>
-            <p>Имя пользователя: {currentUser?.username}</p>
-            <p>Роль: {currentUser?.role}</p>
-            <p>Номер телефона: {currentUser?.phoneNumber}</p>
-        </div>
-    )
-
-    const authController = new AuthController();
-    const userController = new UserController(authController);
-
     const loginForm = <LoginForm authController={authController} onSuccess={handleLoginSuccess} initialUsername={initialUsername} />;
     const registerForm = <RegisterForm authController={authController} onSuccess={handleRegisterSuccess} />;
     const userLayout =
@@ -71,7 +62,7 @@ const App: React.FC = () => {
                     <Route path="/register" element={registerForm} />
 
                     <Route path="/" element={userLayout}>
-                        <Route index element={homeElement} />
+                        <Route index element={<HomePage />} />
                         <Route path="/profile" element={<ProfilePage onLogout={handleLogout} />} />
                         <Route path="/company/:companyTitle" element={<CompanyPage />} />
                         <Route path="/company/:companyTitle/project/:projectTitle" element={<ProjectPage />} />
