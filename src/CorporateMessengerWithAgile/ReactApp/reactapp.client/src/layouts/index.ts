@@ -1,3 +1,3 @@
 // src/layout/index.ts
 
-export { default as UserLayout } from './userLayout/UserLayout';
+export { default as UserLayout, type UserLayoutContext } from './userLayout/UserLayout';
