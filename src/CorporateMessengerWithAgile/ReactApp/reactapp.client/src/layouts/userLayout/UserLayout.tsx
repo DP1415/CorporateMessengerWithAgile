@@ -1,11 +1,11 @@
-// src/components/user/UserLayout.tsx
+// src/layouts/userLayout/UserLayout.tsx
 import React, { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { UserController, type EmployeeWithRelations } from '../../controllers';
 import styles from './UserLayout.module.css';
 import type { Result, UserSummaryDto } from '../../models';
 import { AppError } from '../../models';
-import SidebarMenu from './SidebarMenu';
+import SidebarMenu from './sidebarMenu/SidebarMenu';
 
 interface UserLayoutProps {
     userController: UserController;

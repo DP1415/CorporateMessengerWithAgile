@@ -1,8 +1,8 @@
-// src/components/user/SidebarMenu.tsx
+// src/layouts/userLayout/sidebarMenu/SidebarMenu.tsx
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './SidebarMenu.module.css';
-import { type EmployeeWithRelations } from '../../controllers';
+import { type EmployeeWithRelations } from '../../../controllers';
 
 interface SidebarMenuProps {
     employeesWithRelations: EmployeeWithRelations[] | null;

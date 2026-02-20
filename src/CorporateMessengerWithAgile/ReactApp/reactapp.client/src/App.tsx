@@ -5,9 +5,9 @@ import { type UserSummaryDto, UserSummaryDtoSchema } from './models';
 import { loadFromStorage, saveToStorage } from './utils/storage';
 import { AuthController, UserController } from './controllers';
 import { LoginForm, RegisterForm, } from './forms';
+import { UserLayout } from './layouts';
 import {
     WelcomePage,
-    UserLayout,
     ProfilePage,
     CompanyPage,
     ProjectPage,
