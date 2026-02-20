@@ -1,4 +1,4 @@
-// src/components/auth/LoginForm.tsx
+// src/forms/LoginForm.tsx
 import React, { useState } from 'react';
 import { AuthController} from '../controllers';
 import { AppError, type UserSummaryDto } from '../models';

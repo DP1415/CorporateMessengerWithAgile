@@ -1,4 +1,4 @@
-// src/components/auth/RegisterForm.tsx
+// src/forms/RegisterForm.tsx
 import React, { useState } from 'react';
 import { AuthController } from '../controllers/AuthController';
 import { AppError, type UserSummaryDto } from '../models';
