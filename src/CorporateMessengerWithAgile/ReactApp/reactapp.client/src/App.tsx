@@ -12,7 +12,7 @@ import {
     CompanyPage,
     ProjectPage,
     TeamPage
-} from './components';
+} from './pages';
 
 const App: React.FC = () => {
     const [currentUser, setCurrentUser] = useState<UserSummaryDto | null>(null);
@@ -20,6 +20,7 @@ const App: React.FC = () => {
     const [initialUsername, setInitialUsername] = useState<string | null>(null);
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setCurrentUser(loadFromStorage('currentUser', UserSummaryDtoSchema));
         setLoading(false);
     }, []);

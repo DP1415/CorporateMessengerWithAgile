@@ -1,4 +1,4 @@
-/* src/components/user/TeamKanbanBoard.module.css */
+/* src/pages/team/components/teamKanbanBoard/TeamKanbanBoard.module.css */
 .kanbanBoard {
     display: flex;
     gap: 16px;

@@ -1,7 +1,7 @@
-// src/components/user/TeamKanbanBoard.tsx
+// src/pages/team/components/teamKanbanBoard/TeamKanbanBoard.tsx
 import React, { useState } from 'react';
 import styles from './TeamKanbanBoard.module.css';
-import { type TaskItemWithStatusDto } from '../../models';
+import { type TaskItemWithStatusDto } from '../../../../models';
 
 interface TeamKanbanBoardProps {
     tasks: TaskItemWithStatusDto[];

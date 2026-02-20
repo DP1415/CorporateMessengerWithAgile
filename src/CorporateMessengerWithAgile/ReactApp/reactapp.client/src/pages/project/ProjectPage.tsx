@@ -1,10 +1,10 @@
-// src/components/user/ProjectPage.tsx
+// src/pages/project/ProjectPage.tsx
 import React, { useEffect, useState } from 'react';
 import { useParams, useOutletContext, Link } from 'react-router-dom';
-import type { UserLayoutContext } from './UserLayout';
+import type { UserLayoutContext } from '../../layouts';
 import type { Guid, TaskItemSummaryDto, TeamSummaryDto } from '../../models';
 import type { EmployeeWithRelations, ProjectWithTeams } from '../../controllers';
-import ProjectTaskList from './ProjectTaskList';
+import ProjectTaskList from './components/projectTaskList/ProjectTaskList';
 import styles from './ProjectPage.module.css';
 
 interface CreateTaskFormData {

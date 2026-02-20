@@ -1,7 +1,7 @@
-// src/components/user/ProjectTaskList.tsx
+// src/pages/project/components/projectTaskList/ProjectTaskList.tsx
 import React, { useState } from 'react';
 import styles from './ProjectTaskList.module.css';
-import { type TaskItemSummaryDto } from '../../models';
+import { type TaskItemSummaryDto } from '../../../../models';
 
 interface ProjectTaskListProps {
     tasks: TaskItemSummaryDto[];

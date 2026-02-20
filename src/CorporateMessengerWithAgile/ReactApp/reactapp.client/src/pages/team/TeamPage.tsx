@@ -1,10 +1,10 @@
-// src/components/user/TeamPage.tsx
+// src/pages/team/TeamPage.tsx
 import React, { useEffect, useState } from 'react';
 import { useParams, useOutletContext } from 'react-router-dom';
-import type { UserLayoutContext } from './UserLayout';
+import type { UserLayoutContext } from '../../layouts';
 import type { Guid, SprintSummaryDto, TeamSummaryDto, TaskItemWithStatusDto } from '../../models';
 import type { EmployeeWithRelations, ProjectWithTeams } from '../../controllers';
-import TeamKanbanBoard from './TeamKanbanBoard';
+import TeamKanbanBoard from './components/teamKanbanBoard/TeamKanbanBoard';
 import styles from './TeamPage.module.css';
 
 interface SprintWithTasks {
