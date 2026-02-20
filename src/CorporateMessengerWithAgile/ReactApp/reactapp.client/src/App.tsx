@@ -4,10 +4,9 @@ import { useState, useEffect } from 'react';
 import { type UserSummaryDto, UserSummaryDtoSchema } from './models';
 import { loadFromStorage, saveToStorage } from './utils/storage';
 import { AuthController, UserController } from './controllers';
+import { LoginForm, RegisterForm, } from './forms';
 import {
     WelcomePage,
-    LoginForm,
-    RegisterForm,
     UserLayout,
     ProfilePage,
     CompanyPage,

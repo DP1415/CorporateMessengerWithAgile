@@ -1,18 +1,19 @@
-// src/components/auth/RegisterForm.tsx
+// src/components/auth/LoginForm.tsx
 import React, { useState } from 'react';
-import { AuthController } from '../../controllers/AuthController';
-import { AppError, type UserSummaryDto } from '../../models';
+import { AuthController} from '../controllers';
+import { AppError, type UserSummaryDto } from '../models';
 import { useNavigate } from 'react-router-dom';
 import styles from './AuthForm.module.css';
 
-interface RegisterFormProps {
+
+interface LoginFormProps {
     authController: AuthController;
     onSuccess: (userData: UserSummaryDto) => void;
+    initialUsername: string | null;
 }
 
-const RegisterForm: React.FC<RegisterFormProps> = ({ authController, onSuccess }) => {
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
+const LoginForm: React.FC<LoginFormProps> = ({ authController, onSuccess, initialUsername }) => {
+    const [username, setUsername] = useState(initialUsername || '');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<AppError | null>(null);
     const navigate = useNavigate();
@@ -21,50 +22,40 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ authController, onSuccess }
         e.preventDefault();
         setError(null);
 
-        const result = await authController.Register(username, email, password);
+        const result = await authController.Login(username, password);
 
         if (result.isSuccess) {
             onSuccess(result.value);
-            navigate('/login');
+            navigate('/');
         } else {
             setError(result.error);
         }
     };
     return (
         <div className={styles.authForm}>
-            <h2>Регистрация</h2>
+            <h2>Вход в профиль</h2>
             <form onSubmit={handleSubmit}>
                 <div className={styles.authFormGroup}>
-                    <label htmlFor="reg-username">Имя пользователя:</label>
+                    <label htmlFor="username">Имя пользователя:</label>
                     <input
                         type="text"
-                        id="reg-username"
+                        id="username"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         required
                     />
                 </div>
                 <div className={styles.authFormGroup}>
-                    <label htmlFor="reg-email">Email:</label>
-                    <input
-                        type="email"
-                        id="reg-email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className={styles.authFormGroup}>
-                    <label htmlFor="reg-password">Пароль:</label>
+                    <label htmlFor="password">Пароль:</label>
                     <input
                         type="password"
-                        id="reg-password"
+                        id="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
                 </div>
-                <button type="submit">Зарегистрироваться</button>
+                <button type="submit">Войти</button>
                 {error && (
                     <div className={styles.errorMessage} role="alert">
                         {error.message}
@@ -73,6 +64,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ authController, onSuccess }
             </form>
         </div>
     );
+
 };
 
-export default RegisterForm;
+export default LoginForm;
