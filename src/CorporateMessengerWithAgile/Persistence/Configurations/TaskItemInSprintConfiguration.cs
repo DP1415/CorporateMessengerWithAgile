@@ -5,7 +5,7 @@ namespace Persistence.Configurations
 {
     public class TaskItemInSprintConfiguration : AbstractEntityTypeConfiguration<TaskItemInSprint>
     {
-        public override void Configure()
+        public override void ConfigureEntity()
         {
             builder.Property(tis => tis.TaskStatus).IsRequired();
 

@@ -1,11 +1,11 @@
-﻿using Domain.Entity;
+using Domain.Entity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Configurations
 {
     public class KanbanBoardColumnConfiguration : AbstractEntityTypeConfiguration<KanbanBoardColumn>
     {
-        public override void Configure()
+        public override void ConfigureEntity()
         {
             PropertyTitle(kbc => kbc.Title);
             builder.Property(kbc => kbc.PositionOnBoard).IsRequired();

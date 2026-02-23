@@ -1,11 +1,11 @@
-﻿using Domain.Entity;
+using Domain.Entity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Configurations
 {
     public class EmployeeConfiguration : AbstractEntityTypeConfiguration<Employee>
     {
-        public override void Configure()
+        public override void ConfigureEntity()
         {
             builder.HasOne(e => e.Company)
                    .WithMany(c => c.Employees)

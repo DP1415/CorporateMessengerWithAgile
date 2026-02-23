@@ -1,11 +1,11 @@
-﻿using Domain.Entity;
+using Domain.Entity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Configurations
 {
     class ProjectConfiguration : AbstractEntityTypeConfiguration<Project>
     {
-        public override void Configure()
+        public override void ConfigureEntity()
         {
             PropertyTitle(p => p.Title);
 

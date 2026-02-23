@@ -1,10 +1,10 @@
-﻿using Domain.Entity;
+using Domain.Entity;
 
 namespace Persistence.Configurations
 {
     public class UserConfiguration : AbstractEntityTypeConfiguration<User>
     {
-        public override void Configure()
+        public override void ConfigureEntity()
         {
             PropertyEmail(user => user.Email);
             PropertyUsername(user => user.Username);

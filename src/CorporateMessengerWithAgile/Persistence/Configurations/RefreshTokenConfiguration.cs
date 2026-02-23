@@ -5,7 +5,7 @@ namespace Persistence.Configurations
 {
     class RefreshTokenConfiguration : AbstractEntityTypeConfiguration<RefreshToken>
     {
-        public override void Configure()
+        public override void ConfigureEntity()
         {
             // wip добавление свойства token через valueobject
             builder.Property(rt => rt.IsRevoked).IsRequired();

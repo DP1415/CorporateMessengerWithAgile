@@ -1,11 +1,11 @@
-﻿using Domain.Entity;
+using Domain.Entity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Configurations
 {
     public class TaskItemConfiguration : AbstractEntityTypeConfiguration<TaskItem>
     {
-        public override void Configure()
+        public override void ConfigureEntity()
         {
             PropertyTitle(t => t.Title);
             PropertyText(t => t.Description);

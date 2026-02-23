@@ -1,11 +1,11 @@
-﻿using Domain.Entity;
+using Domain.Entity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Configurations
 {
     public class SprintConfiguration : AbstractEntityTypeConfiguration<Sprint>
     {
-        public override void Configure()
+        public override void ConfigureEntity()
         {
             builder.Property(s => s.DateStart).IsRequired();
             builder.Property(s => s.DateEnd).IsRequired();

@@ -1,4 +1,4 @@
-﻿using System.Linq.Expressions;
+using System.Linq.Expressions;
 using Domain.Entity;
 using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
@@ -15,9 +15,9 @@ namespace Persistence.Configurations
         {
             this.builder = builder;
             builder.HasKey(user => user.Id);
-            Configure();
+            ConfigureEntity();
         }
-        public abstract void Configure();
+        public abstract void ConfigureEntity();
 
         #region Свойства пользователя
         protected void PropertyEmail(Expression<Func<TEntity, Email?>> propertyExpression)

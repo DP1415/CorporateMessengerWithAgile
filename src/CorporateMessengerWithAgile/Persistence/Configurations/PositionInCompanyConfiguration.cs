@@ -1,11 +1,11 @@
-﻿using Domain.Entity;
+using Domain.Entity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Configurations
 {
     public class PositionInCompanyConfiguration : AbstractEntityTypeConfiguration<PositionInCompany>
     {
-        public override void Configure()
+        public override void ConfigureEntity()
         {
             PropertyTitle(pic => pic.Title);
             PropertyText(pic => pic.Description);
