@@ -19,53 +19,8 @@ namespace Persistence.Configurations
         }
         public abstract void ConfigureEntity();
 
-        #region Свойства пользователя
-        protected void PropertyEmail(Expression<Func<TEntity, Email?>> propertyExpression)
-        {
-            builder.OwnsOne(propertyExpression, email =>
-            {
-                email.Property(e => e.Value)
-                    .HasColumnName(TableNames.Emails)
-                    .HasMaxLength(Email.MAX_LENGTH)
-                    .IsRequired();
-            });
-        }
-
-        protected void PropertyPasswordHashed(Expression<Func<TEntity, PasswordHashed?>> propertyExpression)
-        {
-            builder.OwnsOne(propertyExpression, password =>
-            {
-                password.Property(p => p.Value)
-                    .HasColumnName(TableNames.PasswordHashes)
-                    .HasMaxLength(PasswordHashed.MAX_LENGTH)
-                    .IsRequired();
-            });
-        }
-
-        protected void PropertyPhoneNumber(Expression<Func<TEntity, PhoneNumber?>> propertyExpression)
-        {
-            builder.OwnsOne(propertyExpression, phone =>
-            {
-                phone.Property(p => p.Value)
-                    .HasColumnName(TableNames.PhoneNumbers)
-                    .HasMaxLength(PhoneNumber.MAX_LENGTH)
-                    .IsRequired(false);
-            });
-        }
-
-        protected void PropertyUsername(Expression<Func<TEntity, Username?>> propertyExpression)
-        {
-            builder.OwnsOne(propertyExpression, username =>
-            {
-                username.Property(u => u.Value)
-                    .HasColumnName(TableNames.Usernames)
-                    .HasMaxLength(Username.MAX_LENGTH)
-                    .IsRequired();
-            });
-        }
-        #endregion
-
-        protected void PropertyText(Expression<Func<TEntity, Text?>> propertyExpression,
+        protected void PropertyText(
+            Expression<Func<TEntity, Text?>> propertyExpression,
             bool isRequired = false)
         {
             builder.OwnsOne(propertyExpression, text =>
@@ -77,7 +32,8 @@ namespace Persistence.Configurations
             });
         }
 
-        protected void PropertyTitle(Expression<Func<TEntity, Title?>> propertyExpression,
+        protected void PropertyTitle(
+            Expression<Func<TEntity, Title?>> propertyExpression,
             bool isRequired = false)
         {
             builder.OwnsOne(propertyExpression, title =>
