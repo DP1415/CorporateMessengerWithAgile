@@ -1,122 +1,167 @@
 using Application.Dto;
 using Application.Dto.Summary;
+using AutoMapper;
+using Domain.Entity;
+using Domain.ValueObjects;
+using System.Linq.Expressions;
 
 namespace Application
 {
-    public class EntityMappingProfile : AutoMapper.Profile
+    file static class AutoMapperExtensions
+    {
+        internal static IMappingExpression<TEntity, TDto> MapProperty<TEntity, TDto, TValue>
+            (
+                this IMappingExpression<TEntity, TDto> map,
+                Expression<Func<TDto, TValue>> destinationMember,
+                Expression<Func<TEntity, TValue>> sourceMember
+            )
+            where TEntity : BaseEntity
+            where TDto : BaseDto => map.ForMember(destinationMember, opt => opt.MapFrom(sourceMember));
+
+        internal static IMappingExpression<TEntity, TDto> MapProperty<TEntity, TDto, TValue, TValueObject>
+            (
+                this IMappingExpression<TEntity, TDto> map,
+                Expression<Func<TDto, TValue>> destinationMember,
+                Expression<Func<TEntity, TValueObject>> sourceMember
+            )
+            where TEntity : BaseEntity
+            where TDto : BaseDto
+            where TValueObject : BaseValueObject<TValue>
+        {
+            var param = Expression.Parameter(typeof(TEntity), "entity");
+
+            return map.ForMember(
+                destinationMember,
+                opt => opt.MapFrom(Expression.Lambda<Func<TEntity, TValue>>
+                (
+                    Expression.Property
+                    (
+                        Expression.Invoke(sourceMember, param),
+                        nameof(BaseValueObject<TValue>.Value)
+                    ),
+                    param
+                ))
+            );
+        }
+
+        internal static IMappingExpression<TEntity, TDto> MapId<TEntity, TDto>(this IMappingExpression<TEntity, TDto> map)
+            where TEntity : BaseEntity
+            where TDto : BaseDto => map.MapProperty(dto => dto.Id, entity => entity.Id);
+    }
+    public class EntityMappingProfile : Profile
     {
         public EntityMappingProfile()
         {
             // User
-            CreateMap<Domain.Entity.User, UserSummaryDto>()
-                .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
-                .ForMember(d => d.Email, opt => opt.MapFrom(s => s.Email.Value))
-                .ForMember(d => d.Username, opt => opt.MapFrom(s => s.Username.Value))
-                .ForMember(d => d.PhoneNumber, opt => opt.MapFrom(s => s.PhoneNumber.Value))
-                .ForMember(d => d.Role, opt => opt.MapFrom(s => s.Role))
-                .ForMember(d => d.EmployeeIds, opt => opt.MapFrom(s => s.Employees.Select(e => e.Id).ToList()));
+            CreateMap<User, UserSummaryDto>()
+                .MapId()
+                .MapProperty(dto => dto.Email, user => user.Email)
+                .MapProperty(dto => dto.Username, user => user.Username)
+                .MapProperty(dto => dto.PhoneNumber, user => user.PhoneNumber)
+                .MapProperty(dto => dto.Role, user => user.Role)
+                .MapProperty(dto => dto.EmployeeIds, user => user.Employees.Select(employee => employee.Id).ToList());
 
             // Company
-            CreateMap<Domain.Entity.Company, CompanySummaryDto>()
-                .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
-                .ForMember(d => d.Title, opt => opt.MapFrom(s => s.Title.Value))
-                .ForMember(d => d.EmployeeIds, opt => opt.MapFrom(s => s.Employees.Select(e => e.Id).ToList()))
-                .ForMember(d => d.PositionIds, opt => opt.MapFrom(s => s.Positions.Select(p => p.Id).ToList()))
-                .ForMember(d => d.ProjectIds, opt => opt.MapFrom(s => s.Projects.Select(p => p.Id).ToList()));
+            CreateMap<Company, CompanySummaryDto>()
+                .MapId()
+                .MapProperty(dto => dto.Title, company => company.Title)
+                .MapProperty(dto => dto.EmployeeIds, company => company.Employees.Select(employee => employee.Id).ToList())
+                .MapProperty(dto => dto.PositionIds, company => company.Positions.Select(position => position.Id).ToList())
+                .MapProperty(dto => dto.ProjectIds, company => company.Projects.Select(project => project.Id).ToList());
 
             // Employee
-            CreateMap<Domain.Entity.Employee, EmployeeSummaryDto>()
-                .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
-                .ForMember(d => d.CompanyId, opt => opt.MapFrom(s => s.CompanyId))
-                .ForMember(d => d.PositionInCompanyId, opt => opt.MapFrom(s => s.PositionInCompanyId))
-                .ForMember(d => d.UserId, opt => opt.MapFrom(s => s.UserId))
-                .ForMember(d => d.TeamMemberIds, opt => opt.MapFrom(s => s.TeamMembers.Select(tm => tm.Id).ToList()));
+            CreateMap<Employee, EmployeeSummaryDto>()
+                .MapId()
+                .MapProperty(dto => dto.CompanyId, employee => employee.CompanyId)
+                .MapProperty(dto => dto.PositionInCompanyId, employee => employee.PositionInCompanyId)
+                .MapProperty(dto => dto.UserId, employee => employee.UserId)
+                .MapProperty(dto => dto.TeamMemberIds, employee => employee.TeamMembers.Select(teamMember => teamMember.Id).ToList());
 
             // PositionInCompany
-            CreateMap<Domain.Entity.PositionInCompany, PositionInCompanySummaryDto>()
-                .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
-                .ForMember(d => d.CompanyId, opt => opt.MapFrom(s => s.CompanyId))
-                .ForMember(d => d.Title, opt => opt.MapFrom(s => s.Title.Value))
-                .ForMember(d => d.Description, opt => opt.MapFrom(s => s.Description.Value))
-                .ForMember(d => d.EmployeeIds, opt => opt.MapFrom(s => s.Employees.Select(e => e.Id).ToList()));
+            CreateMap<PositionInCompany, PositionInCompanySummaryDto>()
+                .MapId()
+                .MapProperty(dto => dto.CompanyId, position => position.CompanyId)
+                .MapProperty(dto => dto.Title, position => position.Title)
+                .MapProperty(dto => dto.Description, position => position.Description)
+                .MapProperty(dto => dto.EmployeeIds, position => position.Employees.Select(employee => employee.Id).ToList());
 
             // Project
-            CreateMap<Domain.Entity.Project, ProjectSummaryDto>()
-                .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
-                .ForMember(d => d.CompanyId, opt => opt.MapFrom(s => s.CompanyId))
-                .ForMember(d => d.Title, opt => opt.MapFrom(s => s.Title.Value))
-                .ForMember(d => d.TaskItemIds, opt => opt.MapFrom(s => s.TaskItems.Select(t => t.Id).ToList()))
-                .ForMember(d => d.TeamIds, opt => opt.MapFrom(s => s.Teams.Select(t => t.Id).ToList()));
+            CreateMap<Project, ProjectSummaryDto>()
+                .MapId()
+                .MapProperty(dto => dto.CompanyId, project => project.CompanyId)
+                .MapProperty(dto => dto.Title, project => project.Title)
+                .MapProperty(dto => dto.TaskItemIds, project => project.TaskItems.Select(taskItem => taskItem.Id).ToList())
+                .MapProperty(dto => dto.TeamIds, project => project.Teams.Select(team => team.Id).ToList());
 
             // Sprint
-            CreateMap<Domain.Entity.Sprint, SprintSummaryDto>()
-                .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
-                .ForMember(d => d.TeamId, opt => opt.MapFrom(s => s.TeamId))
-                .ForMember(d => d.DateStart, opt => opt.MapFrom(s => s.DateStart))
-                .ForMember(d => d.DateEnd, opt => opt.MapFrom(s => s.DateEnd))
-                .ForMember(d => d.TaskItemIds, opt => opt.MapFrom(s => s.TaskItems.Select(t => t.Id).ToList()));
+            CreateMap<Sprint, SprintSummaryDto>()
+                .MapId()
+                .MapProperty(dto => dto.TeamId, sprint => sprint.TeamId)
+                .MapProperty(dto => dto.DateStart, sprint => sprint.DateStart)
+                .MapProperty(dto => dto.DateEnd, sprint => sprint.DateEnd)
+                .MapProperty(dto => dto.TaskItemIds, sprint => sprint.TaskItems.Select(taskItem => taskItem.Id).ToList());
 
             // TaskItem
-            CreateMap<Domain.Entity.TaskItem, TaskItemSummaryDto>()
-                .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
-                .ForMember(d => d.ProjectId, opt => opt.MapFrom(s => s.ProjectId))
-                .ForMember(d => d.AuthorId, opt => opt.MapFrom(s => s.AuthorId))
-                .ForMember(d => d.ResponsibleId, opt => opt.MapFrom(s => s.ResponsibleId))
-                .ForMember(d => d.SprintWithLastMentionId, opt => opt.MapFrom(s => s.SprintWithLastMentionId))
-                .ForMember(d => d.ParentTaskId, opt => opt.MapFrom(s => s.ParentTaskId))
-                .ForMember(d => d.SubtaskIds, opt => opt.MapFrom(s => s.Subtasks.Select(st => st.Id).ToList()))
-                .ForMember(d => d.Title, opt => opt.MapFrom(s => s.Title.Value))
-                .ForMember(d => d.Description, opt => opt.MapFrom(s => s.Description.Value))
-                .ForMember(d => d.Priority, opt => opt.MapFrom(s => s.Priority))
-                .ForMember(d => d.Complexity, opt => opt.MapFrom(s => s.Complexity))
-                .ForMember(d => d.Deadline, opt => opt.MapFrom(s => s.Deadline));
+            CreateMap<TaskItem, TaskItemSummaryDto>()
+                .MapId()
+                .MapProperty(dto => dto.ProjectId, taskItem => taskItem.ProjectId)
+                .MapProperty(dto => dto.AuthorId, taskItem => taskItem.AuthorId)
+                .MapProperty(dto => dto.ResponsibleId, taskItem => taskItem.ResponsibleId)
+                .MapProperty(dto => dto.SprintWithLastMentionId, taskItem => taskItem.SprintWithLastMentionId)
+                .MapProperty(dto => dto.ParentTaskId, taskItem => taskItem.ParentTaskId)
+                .MapProperty(dto => dto.SubtaskIds, taskItem => taskItem.Subtasks.Select(task => task.Id).ToList())
+                .MapProperty(dto => dto.Title, taskItem => taskItem.Title)
+                .MapProperty(dto => dto.Description, taskItem => taskItem.Description)
+                .MapProperty(dto => dto.Priority, taskItem => taskItem.Priority)
+                .MapProperty(dto => dto.Complexity, taskItem => taskItem.Complexity)
+                .MapProperty(dto => dto.Deadline, taskItem => taskItem.Deadline);
 
             // из TaskItemInSprint в TaskItemWithStatusDto
-            CreateMap<Domain.Entity.TaskItemInSprint, TaskItemWithStatusDto>()
-                .ForMember(d => d.Id, opt => opt.MapFrom(s => s.TaskItem.Id))
-                .ForMember(d => d.ProjectId, opt => opt.MapFrom(s => s.TaskItem.ProjectId))
-                .ForMember(d => d.AuthorId, opt => opt.MapFrom(s => s.TaskItem.AuthorId))
-                .ForMember(d => d.ResponsibleId, opt => opt.MapFrom(s => s.TaskItem.ResponsibleId))
-                .ForMember(d => d.SprintWithLastMentionId, opt => opt.MapFrom(s => s.TaskItem.SprintWithLastMentionId))
-                .ForMember(d => d.ParentTaskId, opt => opt.MapFrom(s => s.TaskItem.ParentTaskId))
-                .ForMember(d => d.SubtaskIds, opt => opt.MapFrom(s => s.TaskItem.Subtasks.Select(st => st.Id).ToList()))
-                .ForMember(d => d.Title, opt => opt.MapFrom(s => s.TaskItem.Title.Value))
-                .ForMember(d => d.Description, opt => opt.MapFrom(s => s.TaskItem.Description.Value))
-                .ForMember(d => d.Priority, opt => opt.MapFrom(s => s.TaskItem.Priority))
-                .ForMember(d => d.Complexity, opt => opt.MapFrom(s => s.TaskItem.Complexity))
-                .ForMember(d => d.Deadline, opt => opt.MapFrom(s => s.TaskItem.Deadline))
-                .ForMember(d => d.TaskStatus, opt => opt.MapFrom(s => s.TaskStatus));
+            CreateMap<TaskItemInSprint, TaskItemWithStatusDto>()
+                .MapId()
+                .MapProperty(dto => dto.ProjectId, taskItemInSprint => taskItemInSprint.TaskItem.ProjectId)
+                .MapProperty(dto => dto.AuthorId, taskItemInSprint => taskItemInSprint.TaskItem.AuthorId)
+                .MapProperty(dto => dto.ResponsibleId, taskItemInSprint => taskItemInSprint.TaskItem.ResponsibleId)
+                .MapProperty(dto => dto.SprintWithLastMentionId, taskItemInSprint => taskItemInSprint.TaskItem.SprintWithLastMentionId)
+                .MapProperty(dto => dto.ParentTaskId, taskItemInSprint => taskItemInSprint.TaskItem.ParentTaskId)
+                .MapProperty(dto => dto.SubtaskIds, taskItemInSprint => taskItemInSprint.TaskItem.Subtasks.Select(task => task.Id).ToList())
+                .MapProperty(dto => dto.Title, taskItemInSprint => taskItemInSprint.TaskItem.Title)
+                .MapProperty(dto => dto.Description, taskItemInSprint => taskItemInSprint.TaskItem.Description)
+                .MapProperty(dto => dto.Priority, taskItemInSprint => taskItemInSprint.TaskItem.Priority)
+                .MapProperty(dto => dto.Complexity, taskItemInSprint => taskItemInSprint.TaskItem.Complexity)
+                .MapProperty(dto => dto.Deadline, taskItemInSprint => taskItemInSprint.TaskItem.Deadline)
+                .MapProperty(dto => dto.TaskStatus, taskItemInSprint => taskItemInSprint.TaskStatus);
 
             // TaskItemInSprint
-            CreateMap<Domain.Entity.TaskItemInSprint, TaskItemInSprintSummaryDto>()
-                .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
-                .ForMember(d => d.TaskItemId, opt => opt.MapFrom(s => s.TaskItemId))
-                .ForMember(d => d.SprintId, opt => opt.MapFrom(s => s.SprintId))
-                .ForMember(d => d.TaskStatus, opt => opt.MapFrom(s => s.TaskStatus));
+            CreateMap<TaskItemInSprint, TaskItemInSprintSummaryDto>()
+                .MapId()
+                .MapProperty(dto => dto.TaskItemId, taskItemInSprint => taskItemInSprint.TaskItemId)
+                .MapProperty(dto => dto.SprintId, taskItemInSprint => taskItemInSprint.SprintId)
+                .MapProperty(dto => dto.TaskStatus, taskItemInSprint => taskItemInSprint.TaskStatus);
 
             // Team
-            CreateMap<Domain.Entity.Team, TeamSummaryDto>()
-                .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
-                .ForMember(d => d.ProjectId, opt => opt.MapFrom(s => s.ProjectId))
-                .ForMember(d => d.Title, opt => opt.MapFrom(s => s.Title.Value))
-                .ForMember(d => d.StandardSprintDuration, opt => opt.MapFrom(s => s.StandardSprintDuration))
-                .ForMember(d => d.TeamMemberIds, opt => opt.MapFrom(s => s.TeamMembers.Select(tm => tm.Id).ToList()))
-                .ForMember(d => d.SprintIds, opt => opt.MapFrom(s => s.Sprints.Select(sp => sp.Id).ToList()))
-                .ForMember(d => d.KanbanBoardColumnIds, opt => opt.MapFrom(s => s.KanbanBoardColumns.Select(k => k.Id).ToList()));
+            CreateMap<Team, TeamSummaryDto>()
+                .MapId()
+                .MapProperty(dto => dto.ProjectId, team => team.ProjectId)
+                .MapProperty(dto => dto.Title, team => team.Title)
+                .MapProperty(dto => dto.StandardSprintDuration, team => team.StandardSprintDuration)
+                .MapProperty(dto => dto.TeamMemberIds, team => team.TeamMembers.Select(teamMember => teamMember.Id).ToList())
+                .MapProperty(dto => dto.SprintIds, team => team.Sprints.Select(sprint => sprint.Id).ToList())
+                .MapProperty(dto => dto.KanbanBoardColumnIds, team => team.KanbanBoardColumns.Select(kanbanBoardColumns => kanbanBoardColumns.Id).ToList());
 
             // TeamMember
-            CreateMap<Domain.Entity.TeamMember, TeamMemberSummaryDto>()
-                .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
-                .ForMember(d => d.EmployeeId, opt => opt.MapFrom(s => s.EmployeeId))
-                .ForMember(d => d.TeamId, opt => opt.MapFrom(s => s.TeamId));
+            CreateMap<TeamMember, TeamMemberSummaryDto>()
+                .MapId()
+                .MapProperty(dto => dto.EmployeeId, teamMember => teamMember.EmployeeId)
+                .MapProperty(dto => dto.TeamId, teamMember => teamMember.TeamId);
 
             // KanbanBoardColumn
-            CreateMap<Domain.Entity.KanbanBoardColumn, KanbanBoardColumnSummaryDto>()
-                .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
-                .ForMember(d => d.TeamId, opt => opt.MapFrom(s => s.TeamId))
-                .ForMember(d => d.TaskStatus, opt => opt.MapFrom(s => s.TaskStatus))
-                .ForMember(d => d.PositionOnBoard, opt => opt.MapFrom(s => s.PositionOnBoard))
-                .ForMember(d => d.Title, opt => opt.MapFrom(s => s.Title.Value));
+            CreateMap<KanbanBoardColumn, KanbanBoardColumnSummaryDto>()
+                .MapId()
+                .MapProperty(dto => dto.TeamId, kanbanBoardColumn => kanbanBoardColumn.TeamId)
+                .MapProperty(dto => dto.TaskStatus, kanbanBoardColumn => kanbanBoardColumn.TaskStatus)
+                .MapProperty(dto => dto.PositionOnBoard, kanbanBoardColumn => kanbanBoardColumn.PositionOnBoard)
+                .MapProperty(dto => dto.Title, kanbanBoardColumn => kanbanBoardColumn.Title);
         }
     }
 }
