@@ -1,8 +1,9 @@
 using Application.Dto.Summary;
+using Domain.Entity;
 
 namespace Application.Dto;
 
 public class TaskItemWithStatusDto : TaskItemSummaryDto
 {
-    public int TaskStatus { get; set; }
+    public TaskItemStatus TaskStatus { get; set; }
 }
