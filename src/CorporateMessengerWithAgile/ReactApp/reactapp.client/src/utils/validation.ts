@@ -2,9 +2,6 @@
 import { z } from 'zod';
 import { Result, AppError } from '../models';
 
-/**
- * Валидирует данные по Zod-схеме и возвращает Result<T>
- */
 export function validateWithSchema<T>(schema: z.ZodType<T>, data: unknown): Result<T> {
     const parsed = schema.safeParse(data);
     if (parsed.success) {
@@ -14,4 +11,16 @@ export function validateWithSchema<T>(schema: z.ZodType<T>, data: unknown): Resu
         const error = new AppError('Validation.Error', `Validation failed: ${errors}`, -1);
         return Result.FailureWith(error);
     }
+}
+
+export function convertToArray<T>(schema: z.ZodType<T>, arrayData: unknown): Result<T[]> {
+    if (!Array.isArray(arrayData)) return Result.FailureWith(new AppError('Validation.Error', 'Полученные данные не являются массивом', -1));
+
+    const validatedData: T[] = [];
+    for (const item of arrayData) {
+        const validatedItem = validateWithSchema(schema, item);
+        if (validatedItem.isFailure) return validatedItem as Result<T[]>;
+        validatedData.push(validatedItem.value);
+    }
+    return Result.SuccessWith(validatedData);
 }

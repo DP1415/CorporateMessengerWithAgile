@@ -12,8 +12,7 @@ import {
     type TaskItemSummaryDto,
     type TaskItemWithStatusDto
 } from '../models';
-import { validateWithSchema } from '../utils/validation';
-import { AppError } from '../models/result/AppError';
+import { convertToArray, validateWithSchema } from '../utils/validation';
 import { z } from 'zod';
 import { AuthController } from '.';
 
@@ -34,49 +33,34 @@ export type EmployeeWithRelations = z.infer<typeof EmployeeFullHierarchySchema>;
 export class UserController extends AuthenticatedController {
     constructor(authController: AuthController) { super(authController, '/User'); }
 
-    protected convertToArray<T>(arrayData: unknown, schema: z.ZodType<T>): Result<T[]> {
-        if (!Array.isArray(arrayData)) {
-            return Result.FailureWith(new AppError('Validation.Error', 'Полученные данные не являются массивом', -1));
-        }
-        const validatedData: T[] = [];
-        for (const item of arrayData) {
-            const validatedItem = validateWithSchema(schema, item);
-            if (validatedItem.isFailure) {
-                return Result.FailureWith<T[]>(validatedItem.error);
-            }
-            validatedData.push(validatedItem.value);
-        }
-        return Result.SuccessWith(validatedData);
-    }
-
     async getEmployeesWithRelations(userId: Guid): Promise<Result<EmployeeWithRelations[]>> {
         const result = await this.request('GET', `/${userId}/employees`);
         if (result.isFailure) return result as Result<EmployeeWithRelations[]>;
-        return this.convertToArray<EmployeeWithRelations>(result.value, EmployeeFullHierarchySchema);
+        return convertToArray<EmployeeWithRelations>(EmployeeFullHierarchySchema, result.value);
     }
 
     async getTaskItemsByProject(projectId: Guid): Promise<Result<TaskItemSummaryDto[]>> {
         const result = await this.request('GET', `/task-items/get-by-project/${projectId}`);
         if (result.isFailure) return result as Result<TaskItemSummaryDto[]>;
-        return this.convertToArray<TaskItemSummaryDto>(result.value, TaskItemSummaryDtoSchema);
+        return convertToArray<TaskItemSummaryDto>(TaskItemSummaryDtoSchema, result.value);
     }
 
     async getSprintsByTeam(teamId: Guid): Promise<Result<z.infer<typeof SprintSummaryDtoSchema>[]>> {
         const result = await this.request('GET', `/teams/${teamId}/sprints`);
         if (result.isFailure) return result as Result<z.infer<typeof SprintSummaryDtoSchema>[]>;
-        return this.convertToArray(result.value, SprintSummaryDtoSchema);
+        return convertToArray(SprintSummaryDtoSchema, result.value);
     }
 
     async getTaskItemsBySprint(sprintId: Guid): Promise<Result<TaskItemSummaryDto[]>> {
         const result = await this.request('GET', `/sprints/${sprintId}/task-items`);
         if (result.isFailure) return result as Result<TaskItemSummaryDto[]>;
-        return this.convertToArray<TaskItemSummaryDto>(result.value, TaskItemSummaryDtoSchema);
+        return convertToArray<TaskItemSummaryDto>(TaskItemSummaryDtoSchema, result.value);
     }
 
     async getTaskItemsBySprintWithStatus(sprintId: Guid): Promise<Result<TaskItemWithStatusDto[]>> {
         const result = await this.request('GET', `/sprints/${sprintId}/task-items-with-status`);
         if (result.isFailure) return result as Result<TaskItemWithStatusDto[]>;
-        return this.convertToArray<TaskItemWithStatusDto>(result.value, TaskItemWithStatusDtoSchema);
+        return convertToArray<TaskItemWithStatusDto>(TaskItemWithStatusDtoSchema, result.value);
     }
 
     async createTaskItem(data: { title: string; description: string; priority: number; complexity: number; deadline: string; projectId: Guid; authorId: Guid; responsibleId: Guid; sprintWithLastMentionId?: Guid; parentTaskId?: Guid; }): Promise<Result<TaskItemSummaryDto>> {
