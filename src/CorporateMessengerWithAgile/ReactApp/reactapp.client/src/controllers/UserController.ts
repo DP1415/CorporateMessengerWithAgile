@@ -34,7 +34,7 @@ export class UserController extends AuthenticatedController {
     constructor(authController: AuthController) { super(authController, '/User'); }
 
     async getEmployeesWithRelations(userId: Guid): Promise<Result<EmployeeWithRelations[]>> {
-        const result = await this.request('GET', `/${userId}/employees`);
+        const result = await this.request('GET', `/employees`);
         if (result.isFailure) return result as Result<EmployeeWithRelations[]>;
         return convertToArray<EmployeeWithRelations>(EmployeeFullHierarchySchema, result.value);
     }

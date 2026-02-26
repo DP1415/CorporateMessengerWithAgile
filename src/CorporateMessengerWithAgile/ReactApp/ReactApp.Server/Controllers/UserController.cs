@@ -1,3 +1,4 @@
+using Application.AbsQuery;
 using Application.Dto;
 using Application.Dto.Summary;
 using Application.Entity.Employees.Queries.EmployeeGetByUserId;
@@ -11,55 +12,58 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ReactApp.Server.Controllers.Abstract;
+using System.Security.Claims;
 
 namespace ReactApp.Server.Controllers
 {
+    [Authorize]
     [Route("cmwa/[controller]")]
     public class UserController(ISender sender) : AbstractController(sender)
     {
-        [Authorize]
-        [HttpGet("{userId}/employees")]
-        public async Task<IEnumerable<EmployeeWithRelations>> GetEmployeesByUserId(
-            [FromRoute] Guid userId,
-            CancellationToken cancellationToken = default
-        ) => await Sender.Send(new EmployeeGetByUserIdQuery(userId), cancellationToken);
+        protected override async Task<TResponse> Send<TResponse>(
+            AbsQuery<TResponse> request,
+            CancellationToken cancellationToken)
+        {
+            var currentUserId = User.FindFirstValue("currentUserId");
+            if (!Guid.TryParse(currentUserId, out var userId)) throw new UnauthorizedAccessException("Неверный или отсутствующий ID пользователя");
+            request.CurrentUserId = userId;
+            return await base.Send(request, cancellationToken);
+        }
 
-        [Authorize]
+        [HttpGet("employees")]
+        public Task<IEnumerable<EmployeeWithRelations>> GetEmployeesByUserId(CancellationToken cancellationToken)
+            => Send(new EmployeeGetByUserIdQuery(), cancellationToken);
+
         [HttpGet("teams/{teamId}/")]
         public async Task<ActionResult<TeamWithRelationsDto>> GetTeamDetails(
             [FromRoute] Guid teamId,
             CancellationToken cancellationToken = default
         ) => (await Sender.Send(new TeamGetByIdWithDetailsQuery(teamId), cancellationToken)).ToActionResult();
 
-        [Authorize]
         [HttpGet("task-items/get-by-project/{projectId}")]
         public async Task<IEnumerable<TaskItemSummaryDto>> GetTaskItemsByProject(
             [FromRoute] Guid projectId,
             CancellationToken cancellationToken = default
         ) => await Sender.Send(new TaskItemsGetByProjectQuery(projectId), cancellationToken);
 
-        [Authorize]
         [HttpGet("teams/{teamId}/sprints")]
         public async Task<IEnumerable<SprintSummaryDto>> GetSprintsByTeam(
             [FromRoute] Guid teamId,
             CancellationToken cancellationToken = default
         ) => await Sender.Send(new SprintsGetByTeamQuery(teamId), cancellationToken);
 
-        [Authorize]
         [HttpGet("sprints/{sprintId}/task-items")]
         public async Task<IEnumerable<TaskItemSummaryDto>> GetTaskItemsBySprint(
             [FromRoute] Guid sprintId,
             CancellationToken cancellationToken = default
         ) => await Sender.Send(new TaskItemsGetBySprintQuery(sprintId), cancellationToken);
 
-        [Authorize]
         [HttpGet("sprints/{sprintId}/task-items-with-status")]
         public async Task<IEnumerable<TaskItemWithStatusDto>> GetTaskItemsBySprintWithStatus(
             [FromRoute] Guid sprintId,
             CancellationToken cancellationToken = default
         ) => await Sender.Send(new TaskItemsGetBySprintWithStatusQuery(sprintId), cancellationToken);
 
-        [Authorize]
         [HttpPost("task-items/create")]
         public async Task<ActionResult<TaskItemSummaryDto>> CreateTaskItem(
             [FromBody] CreateTaskItemRequest request,

@@ -14,7 +14,7 @@ namespace Application.Entity.Employees.Queries.EmployeeGetByUserId
         {
             Employee[] employees = await _context.Employees
                 .AsNoTracking()
-                .Where(e => e.UserId == request.UserId)
+                .Where(e => e.UserId == request.CurrentUserId)
                 .Include(e => e.Company)
                 .Include(e => e.PositionInCompany)
                 .Include(e => e.TeamMembers)
@@ -24,7 +24,7 @@ namespace Application.Entity.Employees.Queries.EmployeeGetByUserId
 
             if (employees.Length == 0) return [];
 
-            var result =
+            return
                 from employee in employees
                 select new EmployeeWithRelations(
                     EmployeeId: employee.Id,
@@ -41,7 +41,6 @@ namespace Application.Entity.Employees.Queries.EmployeeGetByUserId
                                                                                orderby teamMember.Team.Title.Value
                                                                                select teamMember.Team
                                                                                )));
-            return result;
         }
     }
 }

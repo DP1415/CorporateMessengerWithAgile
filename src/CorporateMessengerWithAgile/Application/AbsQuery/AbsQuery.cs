@@ -2,5 +2,8 @@
 
 namespace Application.AbsQuery
 {
-    public abstract record AbsQuery<TResult> : IRequest<TResult>;
+    public abstract record AbsQuery<TResult> : IRequest<TResult>
+    {
+        public Guid CurrentUserId { get; set; }
+    }
 }

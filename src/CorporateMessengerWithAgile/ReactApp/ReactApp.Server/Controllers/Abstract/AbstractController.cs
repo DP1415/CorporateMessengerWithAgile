@@ -1,4 +1,5 @@
-﻿using Domain.Result;
+using Application.AbsQuery;
+using Domain.Result;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +9,10 @@ namespace ReactApp.Server.Controllers.Abstract
     public abstract class AbstractController(ISender sender) : ControllerBase
     {
         protected readonly ISender Sender = sender;
+
+        protected virtual Task<TResponse> Send<TResponse>(
+            AbsQuery<TResponse> request,
+            CancellationToken cancellationToken) => Sender.Send(request, cancellationToken);
     }
 
     public static class ResultExtensions
