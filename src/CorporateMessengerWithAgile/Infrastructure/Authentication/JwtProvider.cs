@@ -11,7 +11,7 @@ namespace Infrastructure.Authentication
     public sealed class JwtProvider(IOptions<JwtProviderSettings> options) : IJwtProvider
     {
         private readonly TimeSpan Expires = options.Value.Expires;
-        private readonly string SecretKey = options.Value.SecretKey;
+        private readonly SecurityKey SecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.Value.SecretKey));
         private readonly string Issuer = options.Value.Issuer;
         private readonly string Audience = options.Value.Audience;
 
@@ -24,7 +24,7 @@ namespace Infrastructure.Authentication
                 new ("role", user.Role)
             ];
 
-            SecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecretKey));
+            SecurityKey key = SecurityKey;
             SigningCredentials signingCredentials = new(key, algorithm: SecurityAlgorithms.HmacSha256);
 
             JwtSecurityToken token = new(
