@@ -19,13 +19,12 @@ namespace Infrastructure.Authentication
         {
             DateTime expiresAt = DateTime.UtcNow.Add(Expires);
             Claim[] payload = [
-                new ("sub", user.Id.ToString()),
+                new ("currentUserId", user.Id.ToString()),
                 new ("email", user.Email.Value),
                 new ("role", user.Role)
             ];
 
-            SecurityKey key = SecurityKey;
-            SigningCredentials signingCredentials = new(key, algorithm: SecurityAlgorithms.HmacSha256);
+            SigningCredentials signingCredentials = new(SecurityKey, algorithm: SecurityAlgorithms.HmacSha256);
 
             JwtSecurityToken token = new(
                 issuer: Issuer,
