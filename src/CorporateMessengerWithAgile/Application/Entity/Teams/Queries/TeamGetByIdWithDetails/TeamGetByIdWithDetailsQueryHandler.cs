@@ -10,7 +10,7 @@ using Persistence;
 namespace Application.Entity.Teams.Queries.TeamGetByIdWithDetails
 {
     public class TeamGetByIdWithDetailsQueryHandler(AppDbContext context, IMapper mapper)
-        : AbsQueryEntityHandler<TeamGetByIdWithDetailsQuery, Team, Result<TeamWithRelationsDto>>(context, mapper)
+        : AbsQueryHandler<TeamGetByIdWithDetailsQuery, Team, Result<TeamWithRelationsDto>>(context, mapper)
     {
         public override async Task<Result<TeamWithRelationsDto>> Handle(TeamGetByIdWithDetailsQuery request, CancellationToken cancellationToken)
         {

@@ -8,5 +8,5 @@ namespace Application.Entity.Sprints.Queries.SprintsGetByTeam
         (
             Guid TeamId
         )
-        : AbsQueryEntity<Sprint, IEnumerable<SprintSummaryDto>>;
+        : AbsQuery<Sprint, IEnumerable<SprintSummaryDto>>;
 }

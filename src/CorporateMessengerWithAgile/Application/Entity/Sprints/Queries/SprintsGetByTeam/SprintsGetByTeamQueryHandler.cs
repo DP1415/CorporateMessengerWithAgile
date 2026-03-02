@@ -8,7 +8,7 @@ using Persistence;
 namespace Application.Entity.Sprints.Queries.SprintsGetByTeam
 {
     public class SprintsGetByTeamQueryHandler(AppDbContext context, IMapper mapper)
-        : AbsQueryEntityHandler<SprintsGetByTeamQuery, Sprint, IEnumerable<SprintSummaryDto>>(context, mapper)
+        : AbsQueryHandler<SprintsGetByTeamQuery, Sprint, IEnumerable<SprintSummaryDto>>(context, mapper)
     {
         public override async Task<IEnumerable<SprintSummaryDto>> Handle(
             SprintsGetByTeamQuery request,

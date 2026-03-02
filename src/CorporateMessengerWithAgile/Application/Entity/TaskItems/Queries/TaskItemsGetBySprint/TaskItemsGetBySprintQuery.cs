@@ -8,5 +8,5 @@ namespace Application.Entity.TaskItems.Queries.TaskItemsGetBySprint
         (
             Guid SprintId
         )
-        : AbsQueryEntity<TaskItem, IEnumerable<TaskItemSummaryDto>>;
+        : AbsQuery<TaskItem, IEnumerable<TaskItemSummaryDto>>;
 }

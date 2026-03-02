@@ -8,7 +8,7 @@ using Persistence;
 namespace Application.Entity.TaskItems.Queries.TaskItemsGetByProject
 {
     public class TaskItemsGetByProjectQueryHandler(AppDbContext context, IMapper mapper)
-    : AbsQueryEntityHandler<TaskItemsGetByProjectQuery, TaskItem, IEnumerable<TaskItemSummaryDto>>(context, mapper)
+    : AbsQueryHandler<TaskItemsGetByProjectQuery, TaskItem, IEnumerable<TaskItemSummaryDto>>(context, mapper)
     {
         public override async Task<IEnumerable<TaskItemSummaryDto>> Handle(
             TaskItemsGetByProjectQuery request,

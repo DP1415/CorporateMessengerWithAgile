@@ -9,7 +9,7 @@ using Persistence;
 namespace Application.Entity.Projects.Queries.GetByCompanyId
 {
     public class ProjectGetByCompanyIdQueryHandler(AppDbContext context, IMapper mapper)
-        : AbsQueryEntityHandler<ProjectGetByCompanyIdQuery, Project, Result<ProjectGetByCompanyIdQueryOutput>>(context, mapper)
+        : AbsQueryHandler<ProjectGetByCompanyIdQuery, Project, Result<ProjectGetByCompanyIdQueryOutput>>(context, mapper)
     {
         public override async Task<Result<ProjectGetByCompanyIdQueryOutput>> Handle(
             ProjectGetByCompanyIdQuery request,

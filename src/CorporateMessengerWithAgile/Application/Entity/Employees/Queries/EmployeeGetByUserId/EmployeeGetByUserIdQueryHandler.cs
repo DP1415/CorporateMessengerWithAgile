@@ -8,7 +8,7 @@ using Persistence;
 namespace Application.Entity.Employees.Queries.EmployeeGetByUserId
 {
     public class EmployeeGetByUserIdQueryHandler(AppDbContext context, IMapper mapper)
-        : AbsQueryEntityHandler<EmployeeGetByUserIdQuery, TeamMember, IEnumerable<EmployeeWithRelations>>(context, mapper)
+        : AbsQueryHandler<EmployeeGetByUserIdQuery, TeamMember, IEnumerable<EmployeeWithRelations>>(context, mapper)
     {
         public override async Task<IEnumerable<EmployeeWithRelations>> Handle(EmployeeGetByUserIdQuery request, CancellationToken cancellationToken)
         {

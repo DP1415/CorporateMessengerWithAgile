@@ -18,5 +18,5 @@ namespace Application.Entity.Employees.Queries.EmployeeGetByUserId
             IEnumerable<ProjectWithTeams> ProjectsAndTeams
         );
 
-    public record EmployeeGetByUserIdQuery : AbsQueryEntity<TeamMember, IEnumerable<EmployeeWithRelations>>;
+    public record EmployeeGetByUserIdQuery : AbsAuthorizedQuery<TeamMember, IEnumerable<EmployeeWithRelations>>;
 }

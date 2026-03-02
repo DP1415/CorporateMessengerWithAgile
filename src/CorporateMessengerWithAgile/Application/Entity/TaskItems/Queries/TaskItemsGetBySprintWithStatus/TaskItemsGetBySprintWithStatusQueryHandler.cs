@@ -9,7 +9,7 @@ namespace Application.Entity.TaskItems.Queries.TaskItemsGetBySprintWithStatus
 {
     // Изменили базовый класс, так как теперь работаем с TaskItemInSprint
     public class TaskItemsGetBySprintWithStatusQueryHandler(AppDbContext context, IMapper mapper)
-        : AbsQueryEntityHandler<TaskItemsGetBySprintWithStatusQuery, TaskItemInSprint, IEnumerable<TaskItemWithStatusDto>>(context, mapper)
+        : AbsQueryHandler<TaskItemsGetBySprintWithStatusQuery, TaskItemInSprint, IEnumerable<TaskItemWithStatusDto>>(context, mapper)
     {
         public override async Task<IEnumerable<TaskItemWithStatusDto>> Handle(
             TaskItemsGetBySprintWithStatusQuery request,

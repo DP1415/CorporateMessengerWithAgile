@@ -8,7 +8,7 @@ using Persistence;
 namespace Application.Entity.TaskItems.Queries.TaskItemsGetBySprint
 {
     public class TaskItemsGetBySprintQueryHandler(AppDbContext context, IMapper mapper)
-        : AbsQueryEntityHandler<TaskItemsGetBySprintQuery, TaskItem, IEnumerable<TaskItemSummaryDto>>(context, mapper)
+        : AbsQueryHandler<TaskItemsGetBySprintQuery, TaskItem, IEnumerable<TaskItemSummaryDto>>(context, mapper)
     {
         public override async Task<IEnumerable<TaskItemSummaryDto>> Handle(
             TaskItemsGetBySprintQuery request,

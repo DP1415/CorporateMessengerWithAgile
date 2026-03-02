@@ -9,7 +9,7 @@ using Persistence;
 namespace Application.Entity.Companies.Queries.GetById
 {
     public class CompanyGetByIdQueryHandler(AppDbContext context, IMapper mapper)
-        : AbsQueryEntityHandler<CompanyGetByIdQuery, Company, Result<CompanyGetByIdDto>>(context, mapper)
+        : AbsQueryHandler<CompanyGetByIdQuery, Company, Result<CompanyGetByIdDto>>(context, mapper)
     {
         public override async Task<Result<CompanyGetByIdDto>> Handle(CompanyGetByIdQuery request, CancellationToken cancellationToken)
         {

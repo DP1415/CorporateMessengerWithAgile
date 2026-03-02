@@ -8,5 +8,5 @@ namespace Application.Entity.Projects.Queries.GetByCompanyId
         (
             Guid CompanyId
         )
-        : AbsQueryEntity<Project, Result<ProjectGetByCompanyIdQueryOutput>>;
+        : AbsQuery<Project, Result<ProjectGetByCompanyIdQueryOutput>>;
 }

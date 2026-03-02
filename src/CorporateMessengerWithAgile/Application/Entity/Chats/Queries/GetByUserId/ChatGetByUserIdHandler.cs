@@ -8,7 +8,7 @@ using Persistence;
 namespace Application.Entity.Chats.Queries.GetByUserId
 {
     public class ChatGetByUserIdHandler(AppDbContext context, IMapper mapper)
-        : AbsQueryEntityHandler<ChatGetByUserId, Chat, IEnumerable<ChatSummaryDto>>(context, mapper)
+        : AbsQueryHandler<ChatGetByUserId, Chat, IEnumerable<ChatSummaryDto>>(context, mapper)
     {
         public override async Task<IEnumerable<ChatSummaryDto>> Handle(ChatGetByUserId request, CancellationToken cancellationToken)
         {

@@ -1,4 +1,4 @@
-﻿using Application.AbsQuery;
+using Application.AbsQuery;
 using Domain.Entity;
 using Domain.Result;
 
@@ -8,5 +8,5 @@ namespace Application.Entity.Companies.Queries.GetById
         (
             Guid Id
         )
-        : AbsQueryEntity<Company, Result<CompanyGetByIdDto>>;
+        : AbsQuery<Company, Result<CompanyGetByIdDto>>;
 }

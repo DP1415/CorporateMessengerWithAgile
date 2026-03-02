@@ -8,5 +8,5 @@ namespace Application.Entity.Chats.Queries.GetByUserId
         (
             Guid UserId
         )
-        : AbsQueryEntity<Chat, IEnumerable<ChatSummaryDto>>;
+        : AbsQuery<Chat, IEnumerable<ChatSummaryDto>>;
 }

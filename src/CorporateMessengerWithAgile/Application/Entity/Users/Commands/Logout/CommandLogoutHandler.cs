@@ -8,7 +8,7 @@ using Persistence;
 
 namespace Application.Entity.Users.Commands.Logout
 {
-    public class CommandLogoutHandler(AppDbContext context, IMapper mapper, IJwtProvider jwtProvider)
+    public class CommandLogoutHandler(AppDbContext context, IMapper mapper)
         : AbsCommandHandler<CommandLogout, Result>(context, mapper)
     {
         public override async Task<Result> Handle(CommandLogout request, CancellationToken cancellationToken)
