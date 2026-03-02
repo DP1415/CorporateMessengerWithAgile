@@ -10,6 +10,7 @@ namespace ReactApp.Server
     /// </summary>
     internal static class SeedData
     {
+
         #region Create Entity
         private static Company CreateCompany(string id, string title) => new()
         {
@@ -132,6 +133,40 @@ namespace ReactApp.Server
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
         };
+
+        private static Chat CreateChat(string id, string name, string description, Employee? ownerEmployee, Team? ownerTeam) => new()
+        {
+            Id = Guid.Parse(id),
+            Name = Title.Create(name).Value,
+            Description = Text.Create(description).Value,
+            OwnerEmployeeId = ownerEmployee?.Id,
+            OwnerTeamId = ownerTeam?.Id,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
+
+        private static ChatMember CreateChatMember(string id, Chat chat, User user, bool isAdmin) => new()
+        {
+            Id = Guid.Parse(id),
+            ChatId = chat.Id,
+            UserId = user.Id,
+            IsAdmin = isAdmin,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
+
+        private static Message CreateMessage(string id, Chat chat, User sender, string content, bool isEdited) => new()
+        {
+            Id = Guid.Parse(id),
+            Content = Text.Create(content).Value,
+            ChatId = chat.Id,
+            SenderId = sender.Id,
+            IsEdited = isEdited,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
+
+
         #endregion
 
         private static User CreateMainUser() => CreateUser("00000001-0000-4444-bbbb-faaaaaaaaa01", "main@main.com", "janesmith", "Password123!", "1111111111", "User");
@@ -199,6 +234,25 @@ namespace ReactApp.Server
             TaskItemInSprint taskInSprint8 = CreateTaskItemInSprint("0000000b-1111-4444-aaaa-faaaaaaaaa08", task8, sprint4, TaskItemStatus.Available, "В работе");
             TaskItemInSprint taskInSprint9 = CreateTaskItemInSprint("0000000b-1111-4444-aaaa-faaaaaaaaa09", task9, sprint1, TaskItemStatus.InProgress, "В работе");
             TaskItemInSprint taskInSprint10 = CreateTaskItemInSprint("0000000b-1111-4444-aaaa-faaaaaaaaa10", task10, sprint2, TaskItemStatus.Postponed, "Запланировано");
+            
+            Chat personalChat = CreateChat("c0000001-1111-4444-aaaa-f1aaaaaaaa01", "Личная переписка", "Чат для обсуждения рабочих вопросов", employee1, null);
+            Chat teamChat = CreateChat("c0000002-1111-4444-aaaa-f1aaaaaaaa02", "Командный чат Альфа", "Общий чат команды проекта Альфа", null, teamAlpha1);
+
+            ChatMember cmPersonalUser1 = CreateChatMember("c0000003-1111-4444-aaaa-f1aaaaaaaa03", personalChat, user1, true);
+            ChatMember cmPersonalUser2 = CreateChatMember("c0000004-1111-4444-aaaa-f1aaaaaaaa04", personalChat, user2, false);
+            ChatMember cmTeamUser1 = CreateChatMember("c0000005-1111-4444-aaaa-f1aaaaaaaa05", teamChat, user1, true);
+            ChatMember cmTeamUser2 = CreateChatMember("c0000006-1111-4444-aaaa-f1aaaaaaaa06", teamChat, user2, false);
+
+            Message msgPersonal1 = CreateMessage("c0000007-1111-4444-aaaa-f1aaaaaaaa07", personalChat, user1, "Привет! Как продвигается задача по аутентификации?", false);
+            Message msgPersonal2 = CreateMessage("c0000008-1111-4444-aaaa-f1aaaaaaaa08", personalChat, user2, "Привет! Почти закончил, осталось протестировать JWT-токены.", false);
+            Message msgPersonal3 = CreateMessage("c0000009-1111-4444-aaaa-f1aaaaaaaa09", personalChat, user1, "Отлично! Если нужна помощь — пиши.", false);
+            Message msgPersonal4 = CreateMessage("c000000a-1111-4444-aaaa-f1aaaaaaaa0a", personalChat, user2, "Спасибо! Кстати, я обновил документацию по API.", true);
+
+            Message msgTeam1 = CreateMessage("c000000b-1111-4444-aaaa-f1aaaaaaaa0b", teamChat, user1, "Коллеги, напоминаю: демо спринта завтра в 15:00!", false);
+            Message msgTeam2 = CreateMessage("c000000c-1111-4444-aaaa-f1aaaaaaaa0c", teamChat, user2, "Принято. Подготовлю презентацию по выполненным задачам.", false);
+            Message msgTeam3 = CreateMessage("c000000d-1111-4444-aaaa-f1aaaaaaaa0d", teamChat, user1, "Не забудьте обновить статусы задач в Jira до конца дня.", false);
+            Message msgTeam4 = CreateMessage("c000000e-1111-4444-aaaa-f1aaaaaaaa0e", teamChat, user2, "Готово! Все задачи перевёл в Review.", true);
+            Message msgTeam5 = CreateMessage("c000000f-1111-4444-aaaa-f1aaaaaaaa0f", teamChat, user1, "Супер! Тогда увидимся на дейли завтра в 10:00.", false);
 
             context.Users.AddRange(user1, user2);
             context.Companies.Add(company);
@@ -210,6 +264,10 @@ namespace ReactApp.Server
             context.Sprints.AddRange(sprint1, sprint2, sprint3, sprint4);
             context.TaskItems.AddRange(task1, task2, task3, task4, task5, task6, task7, task8, task9, task10);
             context.TaskItemInSprints.AddRange(taskInSprint1, taskInSprint2, taskInSprint3, taskInSprint4, taskInSprint5, taskInSprint6, taskInSprint7, taskInSprint8, taskInSprint9, taskInSprint10);
+
+            context.Chats.AddRange(personalChat, teamChat);
+            context.ChatMembers.AddRange(cmPersonalUser1, cmPersonalUser2, cmTeamUser1, cmTeamUser2);
+            context.Messages.AddRange(msgPersonal1, msgPersonal2, msgPersonal3, msgPersonal4, msgTeam1, msgTeam2, msgTeam3, msgTeam4, msgTeam5);
 
             context.SaveChanges();
         }
