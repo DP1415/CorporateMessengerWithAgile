@@ -1,8 +1,8 @@
-﻿using Domain.ValueObjects;
+using Domain.ValueObjects;
 
 namespace Domain.Entity
 {
-    public class Team : BaseEntity
+    public class Team : BaseEntityWithChats
     {
         public Project Project { get; set; } = null!;
         public Guid ProjectId { get; set; }

@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Configurations
 {
-    class TeamConfiguration : AbstractEntityTypeConfiguration<Team>
+    class TeamConfiguration : AbstractEntityWithChatsTypeConfiguration<Team>
     {
-        public override void ConfigureEntity()
+        public override void ConfigureEntityWithChats()
         {
             PropertyTitle(t => t.Title);
 

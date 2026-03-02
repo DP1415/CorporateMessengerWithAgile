@@ -6,6 +6,8 @@ namespace Persistence
     {
         public DbSet<Domain.Entity.User> Users { get; set; }
         public DbSet<Domain.Entity.Employee> Employees { get; set; }
+        public DbSet<Domain.Entity.Chat> Chats { get; set; }
+        public DbSet<Domain.Entity.ChatMember> ChatMembers { get; set; }
         public DbSet<Domain.Entity.Company> Companies { get; set; }
         public DbSet<Domain.Entity.PositionInCompany> PositionsInCompany { get; set; }
         public DbSet<Domain.Entity.Project> Projects { get; set; }
@@ -15,6 +17,7 @@ namespace Persistence
         public DbSet<Domain.Entity.TaskItem> TaskItems { get; set; }
         public DbSet<Domain.Entity.TaskItemInSprint> TaskItemInSprints { get; set; }
         public DbSet<Domain.Entity.KanbanBoardColumn> KanbanBoardColumns { get; set; }
+        public DbSet<Domain.Entity.Message> Messages { get; set; }
         public DbSet<Domain.Entity.RefreshToken> RefreshTokens { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
@@ -27,7 +30,10 @@ namespace Persistence
         {
             modelBuilder.ApplyConfiguration(new Configurations.UserConfiguration());
             modelBuilder.ApplyConfiguration(new Configurations.EmployeeConfiguration());
+            modelBuilder.ApplyConfiguration(new Configurations.ChatConfiguration());
+            modelBuilder.ApplyConfiguration(new Configurations.ChatMemberConfiguration());
             modelBuilder.ApplyConfiguration(new Configurations.CompanyConfiguration());
+            modelBuilder.ApplyConfiguration(new Configurations.MessageConfiguration());
             modelBuilder.ApplyConfiguration(new Configurations.PositionInCompanyConfiguration());
             modelBuilder.ApplyConfiguration(new Configurations.ProjectConfiguration());
             modelBuilder.ApplyConfiguration(new Configurations.TeamConfiguration());

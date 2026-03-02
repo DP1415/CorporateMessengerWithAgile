@@ -1,6 +1,6 @@
-﻿namespace Domain.Entity
+namespace Domain.Entity
 {
-    public class Employee : BaseEntity
+    public class Employee : BaseEntityWithChats
     {
         public Company Company { get; set; } = null!;
         public Guid CompanyId { get; set; }

@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Configurations
 {
-    public class EmployeeConfiguration : AbstractEntityTypeConfiguration<Employee>
+    public class EmployeeConfiguration() : AbstractEntityWithChatsTypeConfiguration<Employee>
     {
-        public override void ConfigureEntity()
+        public override void ConfigureEntityWithChats()
         {
             builder.HasOne(e => e.Company)
                    .WithMany(c => c.Employees)

@@ -8,4 +8,8 @@
         protected BaseEntity() { }
         protected BaseEntity(Guid id) { Id = id; CreatedAt = DateTime.UtcNow; }
     }
+    public abstract class BaseEntityWithChats : BaseEntity
+    {
+        public ICollection<Chat> Chats { get; set; } = [];
+    }
 }

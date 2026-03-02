@@ -11,6 +11,7 @@ namespace Domain.Entity
         public string Role { get; set; } = null!;
 
         public ICollection<Employee> Employees { get; set; } = [];
+        public ICollection<ChatMember> ChatMembers { get; set; } = [];
 
         public Guid RefreshTokenId { get; set; }
         public RefreshToken RefreshToken { get; set; } = null!;

@@ -14,7 +14,7 @@ namespace Persistence.Configurations
         public void Configure(EntityTypeBuilder<TEntity> builder)
         {
             this.builder = builder;
-            builder.HasKey(user => user.Id);
+            builder.HasKey(entity => entity.Id);
             ConfigureEntity();
         }
         public abstract void ConfigureEntity();
