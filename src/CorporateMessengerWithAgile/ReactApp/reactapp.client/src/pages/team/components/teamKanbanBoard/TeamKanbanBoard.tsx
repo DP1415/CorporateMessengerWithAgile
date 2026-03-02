@@ -22,17 +22,6 @@ const TeamKanbanBoard: React.FC<TeamKanbanBoardProps> = ({ tasks }) => {
         });
     };
 
-    const getStatusLabel = (status: number) => {
-        const statuses: Record<number, string> = {
-            0: 'Отменено',
-            1: 'Отложено',
-            2: 'Доступно',
-            3: 'В работе',
-            4: 'На тестировании',
-            5: 'Готово'
-        };
-        return statuses[status] || 'Неизвестно';
-    };
 
     const columns = [
         { id: 0, title: 'Отменено', status: 0 },
@@ -47,21 +36,20 @@ const TeamKanbanBoard: React.FC<TeamKanbanBoardProps> = ({ tasks }) => {
         return tasks.filter(task => task.taskStatus === status);
     };
 
-    return (
-        <div className={styles.kanbanBoard}>
-            {columns.map(column => {
+    return <div className={styles.kanbanBoard}>
+        {
+            columns.map((column) => {
                 const columnTasks = getTasksByStatus(column.status);
-                return (
-                    <div key={column.id} className={styles.column}>
-                        <div className={styles.columnHeader}>
-                            <h3>{column.title}</h3>
-                            {columnTasks.length != 0 && <span className={styles.taskCount}>{columnTasks.length}</span>}
-                        </div>
-                        <div className={styles.taskList}>
-                            {columnTasks.length === 0 ? (
-                                <div className={styles.emptyColumn}>Нет задач</div>
-                            ) : (
-                                columnTasks.map(task => (
+                return <div key={column.id} className={styles.column}>
+                    <div className={styles.columnHeader}>
+                        <h3>{column.title}</h3>
+                        {columnTasks.length != 0 && <span className={styles.taskCount}>{columnTasks.length}</span>}
+                    </div>
+                    <div className={styles.taskList}>
+                        {
+                            columnTasks.length === 0
+                                ? <div className={styles.emptyColumn}>Нет задач</div>
+                                : columnTasks.map((task) =>
                                     <div
                                         key={task.id}
                                         className={`${styles.taskCard} ${expandedTaskId === task.id ? styles.expanded : ''}`}
@@ -73,13 +61,12 @@ const TeamKanbanBoard: React.FC<TeamKanbanBoardProps> = ({ tasks }) => {
                                                 {expandedTaskId === task.id ? '−' : '+'}
                                             </span>
                                         </div>
-
-                                        {expandedTaskId === task.id && (
+                                        {
+                                            expandedTaskId === task.id &&
                                             <div className={styles.taskDetails}>
                                                 <div className={styles.taskDescription}>
                                                     <strong>Описание:</strong> {task.description}
                                                 </div>
-
                                                 <div className={styles.taskMeta}>
                                                     <div className={styles.metaItem}>
                                                         <strong>Приоритет:</strong> {task.priority}
@@ -91,36 +78,33 @@ const TeamKanbanBoard: React.FC<TeamKanbanBoardProps> = ({ tasks }) => {
                                                         <strong>Дедлайн:</strong> {formatDate(task.deadline)}
                                                     </div>
                                                     <div className={styles.metaItem}>
-                                                        <strong>Автор:</strong> {task.author?.fullName || 'Не указан'}
+                                                        <strong>Автор:</strong> {task.authorId || 'Не указан'}
                                                     </div>
                                                     <div className={styles.metaItem}>
-                                                        <strong>Ответственный:</strong> {task.responsible?.fullName || 'Не назначен'}
+                                                        <strong>Ответственный:</strong> {task.responsibleId || 'Не назначен'}
                                                     </div>
                                                 </div>
-
-                                                {task.subtasks && task.subtasks.length > 0 && (
+                                                {
+                                                    task.subtaskIds && task.subtaskIds.length > 0 &&
                                                     <div className={styles.subtasks}>
                                                         <strong>Подзадачи:</strong>
                                                         <ul className={styles.subtaskList}>
-                                                            {task.subtasks.map(subtask => (
-                                                                <li key={subtask.id} className={styles.subtask}>
-                                                                    {subtask.title}
-                                                                </li>
-                                                            ))}
+                                                            {task.subtaskIds.map(
+                                                                subtaskId => <li key={subtaskId} className={styles.subtask}> {subtaskId} </li>
+                                                            )}
                                                         </ul>
                                                     </div>
-                                                )}
+                                                }
                                             </div>
-                                        )}
+                                        }
                                     </div>
-                                ))
-                            )}
-                        </div>
+                                )
+                        }
                     </div>
-                );
-            })}
-        </div>
-    );
+                </div>;
+            })
+        }
+    </div>;
 };
 
 export default TeamKanbanBoard;

@@ -1,5 +1,5 @@
 // src/controllers/UserController.ts
-import { AuthenticatedController } from './AuthenticatedController';
+import { AuthenticatedController } from './abstract/AuthenticatedController';
 import {
     GuidSchema, type Guid, Result,
     CompanySummaryDtoSchema,

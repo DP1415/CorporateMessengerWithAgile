@@ -6,6 +6,7 @@ import styles from './UserLayout.module.css';
 import type { Result, UserSummaryDto } from '../../models';
 import { AppError } from '../../models';
 import SidebarMenu from './sidebarMenu/SidebarMenu';
+import { AppErrorDisplay } from '../../components';
 
 interface UserLayoutProps {
     userController: UserController;
@@ -41,16 +42,12 @@ const UserLayout: React.FC<UserLayoutProps> = ({ userController, currentUser }) 
     return (
         <div className={styles.userHomeLayout}>
             <SidebarMenu employeesWithRelations={employeesWithRelations} />
-
             <main className={styles.mainContent}>
                 {
                     loadingEmployeesWithRelations
                         ? <p>Загрузка данных...</p>
                         : <>
-                            {
-                                employeesWithRelationsError &&
-                                <p>Не удалось загрузить данные: {employeesWithRelationsError.message} ({employeesWithRelationsError.code})</p>
-                            }
+                            {employeesWithRelationsError && <AppErrorDisplay error={employeesWithRelationsError} />}
                             <Outlet context={{ userController, currentUser, employeesWithRelations }} />
                         </>
                 }

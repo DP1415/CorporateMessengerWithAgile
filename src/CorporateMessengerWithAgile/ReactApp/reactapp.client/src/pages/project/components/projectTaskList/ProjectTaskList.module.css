@@ -43,12 +43,6 @@
     user-select: none;
 }
 
-.taskDetails {
-    margin-top: 16px;
-    padding-top: 16px;
-    border-top: 1px solid #333;
-}
-
 .taskDescription {
     margin-bottom: 12px;
     line-height: 1.5;

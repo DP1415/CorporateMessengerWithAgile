@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './SidebarMenu.module.css';
 import { type EmployeeWithRelations } from '../../../controllers';
+import { GetCompanyRoute } from '../../../utils/routeHelpers';
 
 interface SidebarMenuProps {
     employeesWithRelations: EmployeeWithRelations[] | null;
@@ -32,9 +33,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ employeesWithRelations }) => 
             }
         };
 
-        const handleMouseUp = () => {
-            setIsResizing(false);
-        };
+        const handleMouseUp = () => { setIsResizing(false); };
 
         if (isResizing) {
             document.addEventListener('mousemove', handleMouseMove);
@@ -47,10 +46,6 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ employeesWithRelations }) => 
         };
     }, [isResizing]);
 
-    const getCompanyRoute = (companyTitle: string): string => {
-        return `/company/${encodeURIComponent(companyTitle)}`;
-    };
-
     return (
         <aside
             ref={sidebarRef}
@@ -60,15 +55,14 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ employeesWithRelations }) => 
             <nav>
                 <Link to="/" className={styles.navLink}>Главная</Link>
                 <Link to="/profile" className={styles.navLink}>Профиль</Link>
-
-                <div className={styles.divider}></div>
+                <hr />
 
                 {employeesWithRelations && employeesWithRelations.length > 0 &&
                     employeesWithRelations.map(
                         employee =>
                             <Link
                                 key={employee.company.id}
-                                to={getCompanyRoute(employee.company.title)}
+                                to={GetCompanyRoute(employee.company.title)}
                                 className={styles.navLink}
                             >
                                 {employee.company.title}

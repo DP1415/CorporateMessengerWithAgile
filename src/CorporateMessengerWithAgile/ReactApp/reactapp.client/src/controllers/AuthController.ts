@@ -1,5 +1,5 @@
 // src/controllers/AuthController.ts
-import { AbstractController } from './AbstractController';
+import { AbstractController } from './abstract/AbstractController';
 import { type UserSummaryDto, UserSummaryDtoSchema } from '../models';
 import { Result, AppError } from '../models';
 import { validateWithSchema } from '../utils/validation';

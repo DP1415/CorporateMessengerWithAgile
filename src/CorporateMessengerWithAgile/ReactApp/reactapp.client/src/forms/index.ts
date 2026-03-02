@@ -1,4 +1,4 @@
 // src/forms/index.ts
 
-export { default as LoginForm } from './LoginForm';
-export { default as RegisterForm } from './RegisterForm';
+export { default as LoginForm } from './auth/LoginForm';
+export { default as RegisterForm } from './auth/RegisterForm';

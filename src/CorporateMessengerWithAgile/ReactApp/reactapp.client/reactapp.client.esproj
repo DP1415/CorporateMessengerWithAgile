@@ -9,6 +9,6 @@
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist</BuildOutputFolder>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="src\controllers\" />
+    <Folder Include="src\pages\project\components\createTaskForm\" />
   </ItemGroup>
 </Project>

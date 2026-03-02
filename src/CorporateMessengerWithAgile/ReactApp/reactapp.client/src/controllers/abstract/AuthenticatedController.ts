@@ -1,7 +1,7 @@
-// src/controllers/AuthenticatedController.ts
-import { Result, AppError } from '../models';
+// src/controllers/abstract/AuthenticatedController.ts
+import { Result, AppError } from '../../models';
 import { AbstractController, type HttpMethod } from './AbstractController';
-import { AuthController } from './AuthController';
+import { AuthController } from '../AuthController';
 
 export abstract class AuthenticatedController extends AbstractController {
 

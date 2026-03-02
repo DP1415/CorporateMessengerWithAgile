@@ -1,0 +1,137 @@
+/* src/pages/project/components/createTaskForm/CreateTaskForm.module.css */
+.createTaskForm {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.createTaskForm h3 {
+    margin: 0 0 1.5rem 0;
+    font-size: 1.25em;
+    color: rgba(255, 255, 255, 0.87);
+}
+
+.formRow {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+    .formGroup label {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.6);
+        font-weight: 500;
+    }
+
+.formInput,
+.formSelect,
+.formTextarea {
+    background: #242424;
+    border: 1px solid #333;
+    border-radius: 6px;
+    padding: 10px 12px;
+    color: rgba(255, 255, 255, 0.87);
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+    .formInput:focus,
+    .formSelect:focus,
+    .formTextarea:focus {
+        outline: none;
+        border-color: #646cff;
+        box-shadow: 0 0 0 2px rgba(100, 108, 255, 0.1);
+    }
+
+    .formInput::placeholder,
+    .formTextarea::placeholder {
+        color: rgba(255, 255, 255, 0.3);
+    }
+
+    .formInput:disabled,
+    .formSelect:disabled,
+    .formTextarea:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+.formSelect {
+    cursor: pointer;
+}
+
+    .formSelect option {
+        background: #242424;
+        color: rgba(255, 255, 255, 0.87);
+    }
+
+.formActions {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.submitButton {
+    background: #646cff;
+    color: white;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+    .submitButton:hover:not(:disabled) {
+        background: #747bff;
+        transform: translateY(-1px);
+    }
+
+    .submitButton:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+.cancelButton {
+    background: transparent;
+    color: rgba(255, 255, 255, 0.6);
+    border: 1px solid #333;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+    .cancelButton:hover:not(:disabled) {
+        border-color: #ff4d4d;
+        color: #ff4d4d;
+    }
+
+    .cancelButton:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }

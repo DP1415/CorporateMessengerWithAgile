@@ -130,7 +130,10 @@ const TeamPage: React.FC = () => {
     };
 
     if (error) { return <div className={styles.error}>{error}</div>; }
-    if (!teamData) { return loading ? <div className={styles.loading}>Загрузка...</div> : <div>Данные команды не найдены</div>; }
+    if (!teamData) {
+        if (loading) return <div className={styles.loading}>Загрузка...</div>
+        else return <div>Данные команды не найдены</div>;
+    }
 
     const { employeeWithRelations, projectAndTeams, team } = teamData;
 
@@ -154,40 +157,42 @@ const TeamPage: React.FC = () => {
 
             <div className={styles.sprintsSection}>
                 <h2>Спринты команды</h2>
-                {loading ? (
-                    <div className={styles.loading}>Загрузка спринтов...</div>
-                ) : sprints.length === 0 ? (
-                    <div className={styles.empty}>Нет спринтов</div>
-                ) : (
+                {
+                    loading && <div className={styles.loading}>Загрузка спринтов...</div>
+                    ||
+                    sprints.length === 0 && <div className={styles.empty}>Нет спринтов</div>
+                    ||
                     <div className={styles.sprintsList}>
-                        {sprints.map((sprintWithTasks, index) => (
-                            <div key={sprintWithTasks.sprint.id} className={styles.sprintCard}>
-                                <div
-                                    className={`${styles.sprintHeader} ${sprintWithTasks.expanded ? styles.expanded : ''}`}
-                                    onClick={() => toggleExpand(index)}
-                                    style={{ cursor: 'pointer' }}
-                                >
-                                    <h3>Спринт: {formatDate(sprintWithTasks.sprint.dateStart)} - {formatDate(sprintWithTasks.sprint.dateEnd)}</h3>
-                                    <span className={styles.expandIcon}>
-                                        {sprintWithTasks.expanded ? '-' : '+'}
-                                    </span>
-                                </div>
-
-                                {sprintWithTasks.expanded && (
-                                    <div className={styles.kanbanContainer}>
-                                        {sprintWithTasks.loading ? (
-                                            <div className={styles.loading}>Загрузка задач...</div>
-                                        ) : sprintWithTasks.error ? (
-                                            <div className={styles.error}>{sprintWithTasks.error}</div>
-                                        ) : (
-                                            <TeamKanbanBoard tasks={sprintWithTasks.tasks} />
-                                        )}
+                        {
+                            sprints.map((sprintWithTasks, index) =>
+                                <div key={sprintWithTasks.sprint.id} className={styles.sprintCard}>
+                                    <div
+                                        className={`${styles.sprintHeader} ${sprintWithTasks.expanded && styles.expanded}`}
+                                        onClick={() => toggleExpand(index)}
+                                        style={{ cursor: 'pointer' }}
+                                    >
+                                        <h3>Спринт: {formatDate(sprintWithTasks.sprint.dateStart)} - {formatDate(sprintWithTasks.sprint.dateEnd)}</h3>
+                                        <span className={styles.expandIcon}>
+                                            {sprintWithTasks.expanded ? '-' : '+'}
+                                        </span>
                                     </div>
-                                )}
-                            </div>
-                        ))}
+                                    {
+                                        sprintWithTasks.expanded &&
+                                        <div className={styles.kanbanContainer}>
+                                            {
+                                                sprintWithTasks.loading && <div className={styles.loading}>Загрузка задач...</div>
+                                                ||
+                                                sprintWithTasks.error && <div className={styles.error}>{sprintWithTasks.error}</div>
+                                                ||
+                                                <TeamKanbanBoard tasks={sprintWithTasks.tasks} />
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            )
+                        }
                     </div>
-                )}
+                }
             </div>
         </div>
     );

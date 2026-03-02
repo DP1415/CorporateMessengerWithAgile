@@ -1,7 +1,7 @@
-// src/controllers/AbstractController.ts
+// src/controllers/abstract/AbstractController.ts
 import axios from 'axios';
 import type { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { AppError, Result } from '../models';
+import { AppError, Result } from '../../models';
 
 const API_BASE_URL = 'https://localhost:5018/cmwa';
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'HEAD';

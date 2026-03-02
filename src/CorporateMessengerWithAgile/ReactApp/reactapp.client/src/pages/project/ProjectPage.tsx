@@ -2,10 +2,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useOutletContext, Link } from 'react-router-dom';
 import type { UserLayoutContext } from '../../layouts';
-import type { Guid, TaskItemSummaryDto, TeamSummaryDto } from '../../models';
+import type { Guid, TaskItemSummaryDto } from '../../models';
+import { AppError } from '../../models';
 import type { EmployeeWithRelations, ProjectWithTeams } from '../../controllers';
 import ProjectTaskList from './components/projectTaskList/ProjectTaskList';
+import CreateTaskForm from './components/createTaskForm/CreateTaskForm';
 import styles from './ProjectPage.module.css';
+import { GetTeamRoute } from '../../utils/routeHelpers';
+import { AppErrorDisplay } from '../../components';
 
 interface CreateTaskFormData {
     title: string;
@@ -21,20 +25,45 @@ const ProjectPage: React.FC = () => {
 
     const [tasks, setTasks] = useState<TaskItemSummaryDto[]>([]);
     const [loading, setLoading] = useState(true);
-    const [errorGetTaskItemsByProject, setErrorGetTaskItemsByProject] = useState<string | null>(null);
+    const [errorGetTaskItemsByProject, setErrorGetTaskItemsByProject] = useState<AppError | null>(null);
     const [globalError, setGlobalError] = useState<string | null>(null);
     const [projectData, setProjectData] = useState<{
         employeeWithRelations: EmployeeWithRelations;
         projectAndTeams: ProjectWithTeams;
     } | null>(null);
+
     const [showCreateTaskForm, setShowCreateTaskForm] = useState(false);
-    const [createTaskForm, setCreateTaskForm] = useState<CreateTaskFormData>({
+    const [isCreatingTask, setIsCreatingTask] = useState(false);
+
+    const getInitialFormData = (): CreateTaskFormData => ({
         title: '',
         description: '',
         priority: 1,
         complexity: 1,
         deadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
     });
+
+    const [createTaskForm, setCreateTaskForm] = useState<CreateTaskFormData>(getInitialFormData());
+
+    const loadTasks1 = async (projectId: Guid) => {
+        try {
+            setLoading(true);
+            setErrorGetTaskItemsByProject(null);
+
+            const result = await userController.getTaskItemsByProject(projectId);
+
+            if (result.isSuccess && result.value) {
+                setTasks(result.value);
+            } else {
+                setErrorGetTaskItemsByProject(result.error);
+            }
+        } catch (err) {
+            setErrorGetTaskItemsByProject(new AppError("wip", 'Произошла ошибка при загрузке задач', -1));
+            console.error('Error loading tasks:', err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const fetchTasks = async () => {
         if (!projectData) return;
@@ -50,10 +79,10 @@ const ProjectPage: React.FC = () => {
             if (result.isSuccess && result.value) {
                 setTasks(result.value);
             } else {
-                setErrorGetTaskItemsByProject(result.error?.message || 'Не удалось загрузить задачи');
+                setErrorGetTaskItemsByProject(result.error);
             }
         } catch (err) {
-            setErrorGetTaskItemsByProject('Произошла ошибка при загрузке задач');
+            setErrorGetTaskItemsByProject(new AppError("wip", 'Произошла ошибка при загрузке задач', -1));
             console.error('Error loading tasks:', err);
         } finally {
             setLoading(false);
@@ -66,7 +95,6 @@ const ProjectPage: React.FC = () => {
             const employeeWithRelations: EmployeeWithRelations | undefined = employeesWithRelations.find(
                 emp => emp.company.title === decodedCompanyTitle
             );
-
             if (!employeeWithRelations) {
                 setGlobalError("Компания не найдена");
                 setLoading(false);
@@ -77,7 +105,6 @@ const ProjectPage: React.FC = () => {
             const projectAndTeams: ProjectWithTeams | undefined = employeeWithRelations.projectsAndTeams?.find(
                 p => p.project.title === decodedProjectTitle
             );
-
             if (!projectAndTeams) {
                 setGlobalError("Проект не найден");
                 setLoading(false);
@@ -89,185 +116,105 @@ const ProjectPage: React.FC = () => {
                 projectAndTeams
             });
 
-            try {
-                setLoading(true);
-                setErrorGetTaskItemsByProject(null);
-
-                const result = await userController.getTaskItemsByProject(
-                    projectAndTeams.project.id as unknown as Guid
-                );
-
-                if (result.isSuccess && result.value) {
-                    setTasks(result.value);
-                } else {
-                    setErrorGetTaskItemsByProject(result.error?.message || 'Не удалось загрузить задачи');
-                }
-            } catch (err) {
-                setErrorGetTaskItemsByProject('Произошла ошибка при загрузке задач');
-                console.error('Error loading tasks:', err);
-            } finally {
-                setLoading(false);
-            }
+            await loadTasks1(projectAndTeams.project.id);
         };
         loadTasks();
     }, [employeesWithRelations, companyTitle, projectTitle, userController]);
 
     if (globalError) { return <div>{globalError}</div>; }
-    if (!projectData) { return loading ? <div>Загрузка...</div> : <div>Данные проекта не найдены</div>; }
+    if (!projectData || companyTitle == undefined) { return loading ? <div>Загрузка...</div> : <div>Данные проекта не найдены</div>; }
 
     const { employeeWithRelations, projectAndTeams } = projectData;
 
-    const getTeamRoute = (team: TeamSummaryDto): string =>
-        `/company/${companyTitle}/project/${encodeURIComponent(projectAndTeams.project.title)}/team/${encodeURIComponent(team.title)}`;
-
-    const handleCreateTask = async () => {
+    const handleCreateTaskSubmit = async (data: CreateTaskFormData) => {
         if (!projectData) return;
 
-        const result = await userController.createTaskItem({
-            title: createTaskForm.title,
-            description: createTaskForm.description,
-            priority: createTaskForm.priority,
-            complexity: createTaskForm.complexity,
-            deadline: createTaskForm.deadline,
-            projectId: projectData.projectAndTeams.project.id,
-            authorId: employeeWithRelations.employeeId,
-            responsibleId: employeeWithRelations.employeeId,
-            sprintWithLastMentionId: undefined,
-            parentTaskId: undefined
-        });
-
-        if (result.isSuccess) {
-            setShowCreateTaskForm(false);
-            setCreateTaskForm({
-                title: '',
-                description: '',
-                priority: 1,
-                complexity: 1,
-                deadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+        setIsCreatingTask(true);
+        try {
+            const result = await userController.createTaskItem({
+                title: data.title,
+                description: data.description,
+                priority: data.priority,
+                complexity: data.complexity,
+                deadline: data.deadline,
+                projectId: projectData.projectAndTeams.project.id,
+                authorId: employeeWithRelations.employeeId,
+                responsibleId: employeeWithRelations.employeeId,
+                sprintWithLastMentionId: undefined,
+                parentTaskId: undefined
             });
-            await fetchTasks();
-        } else {
-            console.error(`Ошибка создания задачи: ${result.error?.message || 'Неизвестная ошибка'}`);
+
+            if (result.isSuccess) {
+                setShowCreateTaskForm(false);
+                setCreateTaskForm(getInitialFormData());
+                await fetchTasks();
+            } else {
+                console.error(`Ошибка создания задачи: ${result.error?.message || 'Неизвестная ошибка'}`);
+                alert(`Ошибка: ${result.error?.message || 'Не удалось создать задачу'}`);
+            }
+        } catch (err) {
+            console.error('Critical error creating task:', err);
+            alert('Произошла критическая ошибка при создании задачи');
+        } finally {
+            setIsCreatingTask(false);
         }
+    };
+
+    const handleCancelCreate = () => {
+        setShowCreateTaskForm(false);
+        setCreateTaskForm(getInitialFormData());
     };
 
     return (<>
         <h1>Проект: {projectAndTeams.project.title}</h1>
-        <p>Компания: {employeeWithRelations.company.title}</p>
 
         <div className={styles.createTaskSection}>
             <button
-                className={styles.createTaskButton}
                 onClick={() => setShowCreateTaskForm(!showCreateTaskForm)}
+                disabled={isCreatingTask}
             >
                 {showCreateTaskForm ? '− Отменить' : '+ Добавить задачу'}
             </button>
 
-            {showCreateTaskForm && (
-                <div className={styles.createTaskForm}>
-                    <h3>Новая задача</h3>
-                    <div className={styles.formRow}>
-                        <div className={styles.formGroup}>
-                            <label>Название *</label>
-                            <input
-                                type="text"
-                                value={createTaskForm.title}
-                                onChange={(e) => setCreateTaskForm({ ...createTaskForm, title: e.target.value })}
-                                className={styles.formInput}
-                                placeholder="Введите название задачи"
-                                required
-                            />
-                        </div>
-                    </div>
-                    <div className={styles.formRow}>
-                        <div className={styles.formGroup}>
-                            <label>Описание</label>
-                            <textarea
-                                value={createTaskForm.description}
-                                onChange={(e) => setCreateTaskForm({ ...createTaskForm, description: e.target.value })}
-                                className={styles.formTextarea}
-                                placeholder="Описание задачи"
-                                rows={3}
-                            />
-                        </div>
-                    </div>
-                    <div className={styles.formRow}>
-                        <div className={styles.formGroup}>
-                            <label>Приоритет</label>
-                            <select
-                                value={createTaskForm.priority}
-                                onChange={(e) => setCreateTaskForm({ ...createTaskForm, priority: parseInt(e.target.value) })}
-                                className={styles.formSelect}
-                            >
-                                <option value={0}>0 - Низкий</option>
-                                <option value={1}>1 - Средний</option>
-                                <option value={2}>2 - Высокий</option>
-                                <option value={3}>3 - Критический</option>
-                            </select>
-                        </div>
-                        <div className={styles.formGroup}>
-                            <label>Сложность</label>
-                            <select
-                                value={createTaskForm.complexity}
-                                onChange={(e) => setCreateTaskForm({ ...createTaskForm, complexity: parseInt(e.target.value) })}
-                                className={styles.formSelect}
-                            >
-                                <option value={0}>0 - Легкий</option>
-                                <option value={1}>1 - Средний</option>
-                                <option value={2}>2 - Сложный</option>
-                                <option value={3}>3 - Очень сложный</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div className={styles.formRow}>
-                        <div className={styles.formGroup}>
-                            <label>Дедлайн</label>
-                            <input
-                                type="date"
-                                value={createTaskForm.deadline}
-                                onChange={(e) => setCreateTaskForm({ ...createTaskForm, deadline: e.target.value })}
-                                className={styles.formInput}
-                            />
-                        </div>
-                    </div>
-                    <div className={styles.formActions}>
-                        <button
-                            className={styles.submitButton}
-                            onClick={handleCreateTask}
-                            disabled={!createTaskForm.title}
-                        >
-                            Создать задачу
-                        </button>
-                    </div>
-                </div>
-            )}
+            {showCreateTaskForm &&
+                <CreateTaskForm
+                    onSubmit={handleCreateTaskSubmit}
+                    onCancel={handleCancelCreate}
+                    initialData={createTaskForm}
+                    isLoading={isCreatingTask}
+                />
+            }
         </div>
 
+        <hr />
         <h2>Команды проекта</h2>
-        {projectAndTeams.teams.length > 0 ? (
-            <ul>
-                {projectAndTeams.teams.map(team => (
-                    <li key={team.id}>
-                        <Link to={getTeamRoute(team)}>
-                            {team.title}
-                        </Link>
-                    </li>
-                ))}
-            </ul>
-        ) : (
-            <p>Нет команд</p>
-        )}
-
-        {loading ? (
-            <div>Загрузка задач...</div>
-        ) : errorGetTaskItemsByProject ? (
-            <div>
-                <p>{errorGetTaskItemsByProject}</p>
-                <button onClick={() => fetchTasks()}>Повторить попытку</button>
-            </div >
-        ) : (
-            <ProjectTaskList tasks={tasks} />
-        )}
+        {
+            projectAndTeams.teams.length > 0
+                ? <ul>
+                    {
+                        projectAndTeams.teams.map(team =>
+                            <li key={team.id}>
+                                <Link to={GetTeamRoute(companyTitle, projectAndTeams.project.title, team.title)}>
+                                    {team.title}
+                                </Link>
+                            </li>
+                        )
+                    }
+                </ul>
+                : <p>Нет команд</p>
+        }
+        <hr />
+        <h2>Задачи</h2>
+        {
+            loading && !isCreatingTask
+                ? <p>Загрузка задач...</p>
+                : errorGetTaskItemsByProject
+                    ? <>
+                        <AppErrorDisplay error={errorGetTaskItemsByProject} />
+                        <button onClick={fetchTasks}>Повторить попытку</button>
+                    </>
+                    : <ProjectTaskList tasks={tasks} />
+        }
     </>);
 };
 
