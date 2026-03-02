@@ -1,6 +1,6 @@
 namespace Application.Dto.Summary
 {
-    public class TeamSummaryDto : BaseDto
+    public class TeamSummaryDto : BaseEntityWithChatsDto
     {
         public Guid ProjectId { get; set; }
         public string Title { get; set; } = null!;

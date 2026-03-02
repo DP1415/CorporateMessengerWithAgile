@@ -47,6 +47,10 @@ namespace Application
         internal static IMappingExpression<TEntity, TDto> MapId<TEntity, TDto>(this IMappingExpression<TEntity, TDto> map)
             where TEntity : BaseEntity
             where TDto : BaseDto => map.MapProperty(dto => dto.Id, entity => entity.Id);
+
+        internal static IMappingExpression<TEntity, TDto> MapChats<TEntity, TDto>(this IMappingExpression<TEntity, TDto> map)
+            where TEntity : BaseEntityWithChats
+            where TDto : BaseEntityWithChatsDto => map.MapProperty(dto => dto.ChatIds, entity => entity.Chats.Select(chat => chat.Id).ToList());
     }
     public class EntityMappingProfile : Profile
     {
@@ -141,7 +145,7 @@ namespace Application
 
             // Team
             CreateMap<Team, TeamSummaryDto>()
-                .MapId()
+                .MapId().MapChats()
                 .MapProperty(dto => dto.ProjectId, team => team.ProjectId)
                 .MapProperty(dto => dto.Title, team => team.Title)
                 .MapProperty(dto => dto.StandardSprintDuration, team => team.StandardSprintDuration)
@@ -162,6 +166,29 @@ namespace Application
                 .MapProperty(dto => dto.TaskStatus, kanbanBoardColumn => kanbanBoardColumn.TaskStatus)
                 .MapProperty(dto => dto.PositionOnBoard, kanbanBoardColumn => kanbanBoardColumn.PositionOnBoard)
                 .MapProperty(dto => dto.Title, kanbanBoardColumn => kanbanBoardColumn.Title);
+
+            // Chat
+            CreateMap<Chat, ChatSummaryDto>()
+                .MapId()
+                .MapProperty(dto => dto.Name, chat => chat.Name)
+                .MapProperty(dto => dto.Description, chat => chat.Description)
+                .MapProperty(dto => dto.OwnerEmployeeId, chat => chat.OwnerEmployeeId)
+                .MapProperty(dto => dto.OwnerTeamId, chat => chat.OwnerTeamId);
+
+            // ChatMember
+            CreateMap<ChatMember, ChatMemberSummaryDto>()
+                .MapId()
+                .MapProperty(dto => dto.ChatId, chatMember => chatMember.ChatId)
+                .MapProperty(dto => dto.UserId, chatMember => chatMember.UserId)
+                .MapProperty(dto => dto.IsAdmin, chatMember => chatMember.IsAdmin);
+
+            // Message
+            CreateMap<Message, MessageSummaryDto>()
+                .MapId()
+                .MapProperty(dto => dto.Content, message => message.Content)
+                .MapProperty(dto => dto.ChatId, message => message.ChatId)
+                .MapProperty(dto => dto.SenderId, message => message.SenderId)
+                .MapProperty(dto => dto.IsEdited, message => message.IsEdited);
         }
     }
 }
