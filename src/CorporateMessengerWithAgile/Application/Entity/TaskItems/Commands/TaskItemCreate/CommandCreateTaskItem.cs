@@ -15,5 +15,5 @@ namespace Application.Entity.TaskItems.Commands.TaskItemCreate
         Guid ResponsibleId,
         Guid? SprintWithLastMentionId = null,
         Guid? ParentTaskId = null
-    ) : AbsCommandCreateEntity<TaskItem, TaskItemSummaryDto>;
+    ) : AbsAuthorizedCommandCreateEntity<TaskItem, TaskItemSummaryDto>;
 }

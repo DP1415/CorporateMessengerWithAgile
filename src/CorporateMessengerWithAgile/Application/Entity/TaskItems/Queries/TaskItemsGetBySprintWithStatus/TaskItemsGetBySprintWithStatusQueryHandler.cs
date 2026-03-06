@@ -20,6 +20,13 @@ namespace Application.Entity.TaskItems.Queries.TaskItemsGetBySprintWithStatus
             TaskItemInSprint[] taskItemsInSprints = await _context.TaskItemInSprints
                 .AsNoTracking()
                 .Where(tis => tis.SprintId == request.SprintId)
+                .Join(_context.Sprints
+                    .Where(s => _context.TeamMembers
+                        .Any(tm => tm.Employee.User.Id == request.CurrentUserId && tm.TeamId == s.TeamId))
+                    .Select(s => s.Id),
+                    tis => tis.SprintId,
+                    sprintId => sprintId,
+                    (tis, _) => tis)
                 .Include(tis => tis.TaskItem)
                     .ThenInclude(ti => ti.Project)
                 .Include(tis => tis.TaskItem)

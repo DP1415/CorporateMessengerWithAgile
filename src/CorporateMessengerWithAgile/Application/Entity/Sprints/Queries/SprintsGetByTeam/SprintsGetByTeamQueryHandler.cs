@@ -17,6 +17,12 @@ namespace Application.Entity.Sprints.Queries.SprintsGetByTeam
             Sprint[] sprints = await _context.Sprints
                 .AsNoTracking()
                 .Where(s => s.TeamId == request.TeamId)
+                .Join(_context.TeamMembers
+                    .Where(tm => tm.Employee.User.Id == request.CurrentUserId)
+                    .Select(tm => tm.TeamId),
+                    s => s.TeamId,
+                    teamId => teamId,
+                    (s, _) => s)
                 .OrderBy(s => s.DateStart)
                 .Include(s => s.Team)
                 .Include(s => s.TaskItems)

@@ -19,7 +19,14 @@ namespace Application.Entity.Teams.Queries.TeamGetByIdWithDetails
                 .Include(t => t.TeamMembers).ThenInclude(tm => tm.Employee).ThenInclude(e => e.User)
                 .Include(t => t.Sprints)
                 .Include(t => t.KanbanBoardColumns)
-                .FirstOrDefaultAsync(t => t.Id == request.TeamId, cancellationToken);
+                .Where(t => t.Id == request.TeamId)
+                .Join(_context.TeamMembers
+                    .Where(tm => tm.Employee.User.Id == request.CurrentUserId)
+                    .Select(tm => tm.TeamId),
+                    t => t.Id,
+                    teamId => teamId,
+                    (t, _) => t)
+                .FirstOrDefaultAsync(cancellationToken);
 
             if (team is null) return ApplicationErrors.TeamError.NotFound(request.TeamId);
 

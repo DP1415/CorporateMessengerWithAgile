@@ -9,5 +9,5 @@ namespace Application.Entity.TaskItems.Queries.TaskItemsGetByProject
         (
             Guid ProjectId
         )
-        : AbsQuery<TaskItem, IEnumerable<TaskItemSummaryDto>>;
+        : AbsAuthorizedQuery<TaskItem, IEnumerable<TaskItemSummaryDto>>;
 }

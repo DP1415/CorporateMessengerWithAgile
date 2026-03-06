@@ -14,9 +14,20 @@ namespace Application.Entity.TaskItems.Queries.TaskItemsGetBySprint
             TaskItemsGetBySprintQuery request,
             CancellationToken cancellationToken)
         {
+            var authorizedTeamMemberIds = _context.TeamMembers
+                .Where(tm => tm.Employee.User.Id == request.CurrentUserId)
+                .Select(tm => tm.Id);
+
             TaskItemInSprint[] taskItemInSprints = await _context.TaskItemInSprints
                 .AsTracking()
                 .Where(tis => tis.SprintId == request.SprintId)
+                .Join(_context.Sprints
+                    .Where(s => _context.TeamMembers
+                        .Any(tm => tm.Employee.User.Id == request.CurrentUserId && tm.TeamId == s.TeamId))
+                    .Select(s => s.Id),
+                    tis => tis.SprintId,
+                    sprintId => sprintId,
+                    (tis, _) => tis)
                 .Include(tis => tis.TaskItem)
                     .ThenInclude(t => t.Project)
                 .Include(tis => tis.TaskItem.Author)

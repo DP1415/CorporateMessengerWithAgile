@@ -27,6 +27,18 @@ namespace Application
         {
             public static TeamNotFound NotFound(Guid id) => new(id);
             public record TeamNotFound(Guid Id) : Error("Team.NotFound", $"Команда с ID {Id} не найдена", StatusCodes.Status404NotFound);
+
+            public static TeamAccessDenied AccessDenied(Guid id) => new(id);
+            public record TeamAccessDenied(Guid Id) : Error("Team.AccessDenied", $"Доступ к команде с ID {Id} запрещен", StatusCodes.Status403Forbidden);
+        }
+
+        public class ProjectError
+        {
+            public static ProjectNotFound NotFound(Guid id) => new(id);
+            public record ProjectNotFound(Guid Id) : Error("Project.NotFound", $"Проект с ID {Id} не найден", StatusCodes.Status404NotFound);
+
+            public static ProjectAccessDenied AccessDenied(Guid id) => new(id);
+            public record ProjectAccessDenied(Guid Id) : Error("Project.AccessDenied", $"Доступ к проекту с ID {Id} запрещен", StatusCodes.Status403Forbidden);
         }
 
         public class RefreshTokenError

@@ -8,5 +8,5 @@ namespace Application.Entity.TaskItems.Queries.TaskItemsGetBySprintWithStatus
         (
             Guid SprintId
         )
-        : AbsQuery<TaskItemInSprint, IEnumerable<TaskItemWithStatusDto>>;
+        : AbsAuthorizedQuery<TaskItemInSprint, IEnumerable<TaskItemWithStatusDto>>;
 }

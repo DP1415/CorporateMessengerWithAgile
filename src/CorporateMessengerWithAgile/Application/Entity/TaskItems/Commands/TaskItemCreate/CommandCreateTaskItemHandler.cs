@@ -4,6 +4,7 @@ using AutoMapper;
 using Domain.Entity;
 using Domain.Result;
 using Domain.ValueObjects;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Entity.TaskItems.Commands.TaskItemCreate
@@ -34,6 +35,27 @@ namespace Application.Entity.TaskItems.Commands.TaskItemCreate
             };
 
             return taskItem;
+        }
+
+        public override async Task<Result<TaskItemSummaryDto>> Handle(CommandCreateTaskItem request, CancellationToken cancellationToken)
+        {
+            var hasAccess = await _context.TeamMembers
+                .AnyAsync(
+                    tm =>
+                        tm.Employee.User.Id == request.CurrentUserId &&
+                        tm.Team.ProjectId == request.ProjectId,
+                    cancellationToken);
+
+            if (!hasAccess)
+                return ApplicationErrors.ProjectError.AccessDenied(request.ProjectId);
+
+            Result<TaskItem> entity = Create(request);
+            if (entity.IsFailure) return entity.Error;
+
+            await _dbSet.AddAsync(entity.Value, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return _mapper.Map<TaskItemSummaryDto>(entity.Value);
         }
     }
 }

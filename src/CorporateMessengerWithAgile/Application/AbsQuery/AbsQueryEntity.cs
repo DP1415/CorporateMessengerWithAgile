@@ -8,7 +8,7 @@ using Persistence;
 namespace Application.AbsQuery
 {
     public abstract record AbsQuery<TEntity, TResult> : AbsQuery<TResult> where TEntity : BaseEntity;
-    public abstract record AbsAuthorizedQuery<TEntity, TResult> : AbsQuery<TEntity, TResult>, IAuthorizedQuery where TEntity : BaseEntity { public Guid CurrentUserId { get; set; } }
+    public abstract record AbsAuthorizedQuery<TEntity, TResult> : AbsQuery<TEntity, TResult>, IAuthorizedRequest where TEntity : BaseEntity { public Guid CurrentUserId { get; set; } }
     public abstract class AbsQueryHandler<TQuery, TEntity, TResult>(AppDbContext context, IMapper mapper)
         : AbsQueryHandler<TQuery, TResult>(context, mapper)
         where TQuery : AbsQuery<TEntity, TResult>
