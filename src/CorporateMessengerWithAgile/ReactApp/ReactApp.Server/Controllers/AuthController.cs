@@ -10,7 +10,7 @@ using ReactApp.Server.Controllers.Abstract;
 namespace ReactApp.Server.Controllers
 {
     [Route("cmwa/[controller]")]
-    public class AuthController(ISender sender) : AbstractController(sender)
+    public class AuthController(ISender sender) : BaseController(sender)
     {
         [HttpPost("Register")]
         public async Task<ActionResult<UserSummaryDto>> Register(

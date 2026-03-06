@@ -1,4 +1,4 @@
-﻿using Application.AbsCommand.Create;
+using Application.AbsCommand.Create;
 using Application.AbsCommand.Delete;
 using Application.AbsCommand.Update;
 using Application.AbsQuery;
@@ -23,7 +23,7 @@ namespace ReactApp.Server.Controllers.Abstract
             ISender sender,
             Func<Guid, TCommandDelete> deleteCommandFactory
         )
-        : AbstractController(sender)
+        : BaseController(sender)
         where TEntity : BaseEntity
         where TEntityDto : BaseDto
         where TCommandGetAll : AbsQueryEntityWithOptions<TEntity, TEntityDto>, new()
