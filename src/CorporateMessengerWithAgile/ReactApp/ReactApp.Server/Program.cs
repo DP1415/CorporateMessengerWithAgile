@@ -13,7 +13,7 @@ namespace ReactApp.Server
             builder.Services.AddControllers();
             builder.Services.AddAuth(builder.Configuration);
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddAutoMapper(Application.DependencyInjection.Assembly);
+            builder.Services.AddAutoMapper(cfg => { }, typeof(Application.EntityMappingProfile).Assembly);
             builder.Services.AddMediatR(cnf => cnf.RegisterServicesFromAssemblies(Application.DependencyInjection.Assembly));
             builder.Services.AddValidatorsFromAssembly(Application.DependencyInjection.Assembly);
             builder.Services.AddDbContext<Persistence.AppDbContext>(options => options.UseInMemoryDatabase("CorporateMessengerDb"));
