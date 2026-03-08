@@ -27,7 +27,7 @@ namespace Application.Entity.Users.Commands.Login
                     cancellationToken
                 );
 
-            if (user == null || !user.PasswordHashed.Equals(passwordhashed.Value))
+            if (user == null || user.PasswordHashed != passwordhashed)
                 return ApplicationErrors.AuthenticationError.Invalid;
 
             string refreshTokenValue = Guid.NewGuid().ToString("N"); // 32 символа без дефисов
