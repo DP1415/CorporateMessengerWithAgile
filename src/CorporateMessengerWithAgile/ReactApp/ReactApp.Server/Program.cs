@@ -1,6 +1,7 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
+using ReactApp.Server.Controllers;
 
 namespace ReactApp.Server
 {
@@ -10,6 +11,7 @@ namespace ReactApp.Server
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddSignalR();
             builder.Services.AddControllers();
             builder.Services.AddAuth(builder.Configuration);
             builder.Services.AddEndpointsApiExplorer();
@@ -52,6 +54,7 @@ namespace ReactApp.Server
             app.UseCors("AllowFrontend");
             app.UseStaticFiles();
             app.UseRouting();
+            app.MapHub<ChatHub>("/chathub");
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();

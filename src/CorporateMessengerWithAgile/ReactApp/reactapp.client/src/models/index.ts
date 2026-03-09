@@ -1,6 +1,9 @@
 // src/models/index.ts
 export { GuidSchema, type Guid } from "./Guid";
-export { BaseDtoSchema, type BaseDto } from "./entity/BaseDto";
+export {
+    BaseDtoSchema, type BaseDto,
+    BaseEntityWithChatsDtoSchema, type BaseEntityWithChatsDto
+} from "./entity/BaseDto";
 
 export { UserSummaryDtoSchema, type UserSummaryDto } from "./entity/UserSummaryDto";
 export { CompanySummaryDtoSchema, type CompanySummaryDto } from "./entity/CompanySummaryDto";

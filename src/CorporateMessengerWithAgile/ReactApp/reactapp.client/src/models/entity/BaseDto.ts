@@ -7,3 +7,9 @@ export const BaseDtoSchema = z.object({
 });
 
 export type BaseDto = z.infer<typeof BaseDtoSchema>;
+
+export const BaseEntityWithChatsDtoSchema = BaseDtoSchema.extend({
+    chatIds: z.array(GuidSchema).optional(),
+});
+
+export type BaseEntityWithChatsDto = z.infer<typeof BaseEntityWithChatsDtoSchema>;
