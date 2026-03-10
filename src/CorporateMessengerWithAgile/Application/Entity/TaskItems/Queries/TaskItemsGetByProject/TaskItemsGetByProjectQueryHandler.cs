@@ -8,7 +8,7 @@ using Persistence;
 namespace Application.Entity.TaskItems.Queries.TaskItemsGetByProject
 {
     public class TaskItemsGetByProjectQueryHandler(AppDbContext context, IMapper mapper)
-    : AbsQueryHandler<TaskItemsGetByProjectQuery, TaskItem, IEnumerable<TaskItemSummaryDto>>(context, mapper)
+        : AbsQueryHandler<TaskItemsGetByProjectQuery, TaskItem, IEnumerable<TaskItemSummaryDto>>(context, mapper)
     {
         public override async Task<IEnumerable<TaskItemSummaryDto>> Handle(
             TaskItemsGetByProjectQuery request,
@@ -17,12 +17,10 @@ namespace Application.Entity.TaskItems.Queries.TaskItemsGetByProject
             TaskItem[] taskItems = await _context.TaskItems
                 .AsNoTracking()
                 .Where(t => t.ProjectId == request.ProjectId)
-                .Join(_context.TeamMembers
-                    .Where(tm => tm.Employee.User.Id == request.CurrentUserId)
-                    .Select(tm => tm.Team.ProjectId),
-                    t => t.ProjectId,
-                    projectId => projectId,
-                    (t, _) => t)
+                .Where(t => _context.TeamMembers
+                    .Any(tm => tm.Team.ProjectId == t.ProjectId &&
+                               tm.Employee.User.Id == request.CurrentUserId)
+                )
                 .Include(t => t.Project)
                 .Include(t => t.Author)
                 .Include(t => t.Responsible)

@@ -71,8 +71,12 @@ namespace Application
 
             CreateMap<TaskItemInSprint, TaskItemInSprintSummaryDto>();
             CreateMap<TaskItemInSprint, TaskItemWithStatusDto>()
-                .MapIds(dto => dto.SubtaskIds, taskItemInSprint => taskItemInSprint.TaskItem.Subtasks);
-
+                .MapIds(dto => dto.SubtaskIds, taskItemInSprint => taskItemInSprint.TaskItem.Subtasks)
+                .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.TaskItem.Title))
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.TaskItem.Description))
+                .ForMember(dest => dest.ProjectId, opt => opt.MapFrom(src => src.TaskItem.ProjectId))
+                .ForMember(dest => dest.AuthorId, opt => opt.MapFrom(src => src.TaskItem.AuthorId))
+                .ForMember(dest => dest.ResponsibleId, opt => opt.MapFrom(src => src.TaskItem.ResponsibleId));
 
             CreateMap<Team, TeamSummaryDto>()
                 .MapChats()
