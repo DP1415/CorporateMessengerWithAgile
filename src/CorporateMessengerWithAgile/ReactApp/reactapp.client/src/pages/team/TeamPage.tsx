@@ -17,7 +17,7 @@ interface SprintWithTasks {
 
 const TeamPage: React.FC = () => {
     const { companyTitle, projectTitle, teamTitle } = useParams<{ companyTitle: string; projectTitle: string; teamTitle: string; }>();
-    const { userController, employeesWithRelations } = useOutletContext<UserLayoutContext>();
+    const { controller, employeesWithRelations } = useOutletContext<UserLayoutContext>();
 
     const [sprints, setSprints] = useState<SprintWithTasks[]>([]);
     const [loading, setLoading] = useState(true);
@@ -71,7 +71,7 @@ const TeamPage: React.FC = () => {
                 setLoading(true);
                 setError(null);
 
-                const result = await userController.getSprintsByTeam(team.id as unknown as Guid);
+                const result = await controller.Sprint.getSprintsByTeam(team.id as unknown as Guid);
 
                 if (result.isSuccess && result.value) {
                     const initialSprintsWithTasks: SprintWithTasks[] = result.value.map(sprint => ({
@@ -93,7 +93,7 @@ const TeamPage: React.FC = () => {
             }
         };
         loadData();
-    }, [employeesWithRelations, companyTitle, projectTitle, teamTitle, userController]);
+    }, [employeesWithRelations, companyTitle, projectTitle, teamTitle, controller]);
 
     const toggleExpand = async (index: number) => {
         const updatedSprints = [...sprints];
@@ -112,7 +112,7 @@ const TeamPage: React.FC = () => {
             sprint.error = null;
             setSprints([...updatedSprints]); // Обновляем состояние до запроса
 
-            const tasksResult = await userController.getTaskItemsBySprintWithStatus(sprint.sprint.id as unknown as Guid);
+            const tasksResult = await controller.Task.getTaskItemsBySprintWithStatus(sprint.sprint.id as unknown as Guid);
 
             if (tasksResult.isSuccess && tasksResult.value) {
                 sprint.tasks = tasksResult.value;

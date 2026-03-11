@@ -1,7 +1,7 @@
 // src/layouts/userLayout/UserLayout.tsx
 import React, { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import { UserController, type EmployeeWithRelations } from '../../controllers';
+import { AppControllers, type EmployeeWithRelations } from '../../controllers';
 import styles from './UserLayout.module.css';
 import type { Result, UserSummaryDto } from '../../models';
 import { AppError } from '../../models';
@@ -9,24 +9,24 @@ import SidebarMenu from './sidebarMenu/SidebarMenu';
 import { AppErrorDisplay } from '../../components';
 
 interface UserLayoutProps {
-    userController: UserController;
+    controller: AppControllers;
     currentUser: UserSummaryDto;
 }
 
 export interface UserLayoutContext {
-    userController: UserController;
+    controller: AppControllers;
     currentUser: UserSummaryDto;
     employeesWithRelations: EmployeeWithRelations[];
 }
 
-const UserLayout: React.FC<UserLayoutProps> = ({ userController, currentUser }) => {
+const UserLayout: React.FC<UserLayoutProps> = ({ controller, currentUser }) => {
     const [employeesWithRelations, setEmployeesWithRelations] = useState<EmployeeWithRelations[]>([]);
     const [loadingEmployeesWithRelations, setLoadingEmployeesWithRelations] = useState(true);
     const [employeesWithRelationsError, setEmployeesWithRelationsError] = useState<AppError | null>(null);
 
     useEffect(() => {
         const fetchCompanies = async () => {
-            const result: Result<EmployeeWithRelations[]> = await userController.getEmployeesWithRelations(currentUser.id);
+            const result: Result<EmployeeWithRelations[]> = await controller.Employee.getEmployeesWithRelations();
             if (result.isFailure) {
                 setEmployeesWithRelations([])
                 setEmployeesWithRelationsError(result.error);
@@ -37,7 +37,7 @@ const UserLayout: React.FC<UserLayoutProps> = ({ userController, currentUser }) 
             setLoadingEmployeesWithRelations(false);
         };
         fetchCompanies();
-    }, [currentUser.id, userController]);
+    }, [currentUser.id, controller]);
 
     return (
         <div className={styles.userHomeLayout}>
@@ -48,7 +48,7 @@ const UserLayout: React.FC<UserLayoutProps> = ({ userController, currentUser }) 
                         ? <p>Загрузка данных...</p>
                         : <>
                             {employeesWithRelationsError && <AppErrorDisplay error={employeesWithRelationsError} />}
-                            <Outlet context={{ userController, currentUser, employeesWithRelations }} />
+                            <Outlet context={{ controller, currentUser, employeesWithRelations }} />
                         </>
                 }
             </main>

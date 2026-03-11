@@ -2,14 +2,14 @@
 import React from 'react';
 import { useOutletContext } from 'react-router-dom';
 import type { UserLayoutContext } from '../../layouts';
-import type { UserController } from '../../controllers';
+import type { AuthController } from '../../controllers';
 
 interface ProfilePageProps {
-    onLogout: (userController: UserController) => void;
+    onLogout: (authController: AuthController) => void;
 }
 
 const ProfilePage: React.FC<ProfilePageProps> = ({ onLogout }) => {
-    const { userController, currentUser } = useOutletContext<UserLayoutContext>();
+    const { controller, currentUser } = useOutletContext<UserLayoutContext>();
 
     return (
         <div>
@@ -20,7 +20,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onLogout }) => {
                 <p>Роль: {currentUser.role}</p>
                 <p>Телефон: {currentUser.phoneNumber || 'Не указан'}</p>
             </div>
-            <button onClick={() => onLogout(userController)}>Выйти</button>
+            <button onClick={() => onLogout(controller.Auth)}>Выйти</button>
         </div>
     );
 };

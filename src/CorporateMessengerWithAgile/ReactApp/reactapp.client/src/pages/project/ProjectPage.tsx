@@ -21,7 +21,7 @@ interface CreateTaskFormData {
 
 const ProjectPage: React.FC = () => {
     const { companyTitle, projectTitle } = useParams<{ companyTitle: string; projectTitle: string }>();
-    const { userController, employeesWithRelations } = useOutletContext<UserLayoutContext>();
+    const { controller, employeesWithRelations } = useOutletContext<UserLayoutContext>();
 
     const [tasks, setTasks] = useState<TaskItemSummaryDto[]>([]);
     const [loading, setLoading] = useState(true);
@@ -50,7 +50,7 @@ const ProjectPage: React.FC = () => {
             setLoading(true);
             setErrorGetTaskItemsByProject(null);
 
-            const result = await userController.getTaskItemsByProject(projectId);
+            const result = await controller.Task.getTaskItemsByProject(projectId);
 
             if (result.isSuccess && result.value) {
                 setTasks(result.value);
@@ -72,7 +72,7 @@ const ProjectPage: React.FC = () => {
             setLoading(true);
             setErrorGetTaskItemsByProject(null);
 
-            const result = await userController.getTaskItemsByProject(
+            const result = await controller.Task.getTaskItemsByProject(
                 projectData.projectAndTeams.project.id as unknown as Guid
             );
 
@@ -119,7 +119,7 @@ const ProjectPage: React.FC = () => {
             await loadTasks1(projectAndTeams.project.id);
         };
         loadTasks();
-    }, [employeesWithRelations, companyTitle, projectTitle, userController]);
+    }, [employeesWithRelations, companyTitle, projectTitle, controller]);
 
     if (globalError) { return <div>{globalError}</div>; }
     if (!projectData || companyTitle == undefined) { return loading ? <div>Загрузка...</div> : <div>Данные проекта не найдены</div>; }
@@ -131,7 +131,7 @@ const ProjectPage: React.FC = () => {
 
         setIsCreatingTask(true);
         try {
-            const result = await userController.createTaskItem({
+            const result = await controller.Task.createTaskItem({
                 title: data.title,
                 description: data.description,
                 priority: data.priority,

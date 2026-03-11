@@ -78,7 +78,7 @@ export class AuthController extends AbstractController {
             return Result.FailureWith(new AppError('Auth.Error', 'UserId не найден для обновления токена', -1));
 
         const body = { OldRefreshToken: refreshToken, UserId: currentUserId };
-        const result = await this.request('POST', '/Refresh', body);
+        const result = await this.request('POST', '/Logout', body);
         if (result.isFailure) return result as Result;
 
         localStorage.removeItem(LOCAL_STORAGE_NAME.accessToken);

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { useState, useEffect } from 'react';
 import { type UserSummaryDto, UserSummaryDtoSchema } from './models';
 import { loadFromStorage, saveToStorage } from './utils/storage';
-import { AuthController, UserController } from './controllers';
+import { AppControllers, AuthController} from './controllers';
 import { LoginForm, RegisterForm, } from './forms';
 import { UserLayout } from './layouts';
 import {
@@ -15,8 +15,7 @@ import {
     TeamPage
 } from './pages';
 
-const authController = new AuthController();
-const userController = new UserController(authController);
+const controller = new AppControllers()
 
 const App: React.FC = () => {
     const [currentUser, setCurrentUser] = useState<UserSummaryDto | null>(null);
@@ -40,17 +39,17 @@ const App: React.FC = () => {
         saveToStorage('currentUser', userData);
     };
 
-    const handleLogout = (userController: UserController) => {
-        userController.Logout();
+    const handleLogout = (authController: AuthController) => {
+        authController.Logout();
         localStorage.removeItem('currentUser');
         setCurrentUser(null);
     };
 
-    const loginForm = <LoginForm authController={authController} onSuccess={handleLoginSuccess} initialUsername={initialUsername} />;
-    const registerForm = <RegisterForm authController={authController} onSuccess={handleRegisterSuccess} />;
+    const loginForm = <LoginForm authController={controller.Auth} onSuccess={handleLoginSuccess} initialUsername={initialUsername} />;
+    const registerForm = <RegisterForm authController={controller.Auth} onSuccess={handleRegisterSuccess} />;
     const userLayout =
         currentUser
-            ? <UserLayout userController={userController} currentUser={currentUser} />
+            ? <UserLayout controller={controller} currentUser={currentUser} />
             : <Navigate to="/login" replace />;
 
     return (
