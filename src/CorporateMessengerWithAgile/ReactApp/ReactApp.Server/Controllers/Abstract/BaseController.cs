@@ -38,7 +38,7 @@ namespace ReactApp.Server.Controllers.Abstract
             CancellationToken cancellationToken)
             where TQuery : IRequest<TResponse>, IAuthorizedRequest
         {
-            string? currentUserId = User.FindFirstValue("currentUserId");
+            string? currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (!Guid.TryParse(currentUserId, out var userId)) throw new UnauthorizedAccessException("Неверный или отсутствующий ID пользователя");
             request.CurrentUserId = userId;
             return await Sender.Send<TResponse>(request, cancellationToken);
@@ -49,7 +49,7 @@ namespace ReactApp.Server.Controllers.Abstract
         //    CancellationToken cancellationToken)
         //    where TCommand : AbsCommand<TResult>, IAuthorizedCommand
         //{
-        //    string? currentUserId = User.FindFirstValue("currentUserId");
+        //    string? currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         //    if (!Guid.TryParse(currentUserId, out var userId)) throw new UnauthorizedAccessException("Неверный или отсутствующий ID пользователя");
         //    command.CurrentUserId = userId;
         //    return await Sender.Send<TResult>(command, cancellationToken);

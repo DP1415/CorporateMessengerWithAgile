@@ -19,9 +19,9 @@ namespace Infrastructure.Authentication
         {
             DateTime expiresAt = DateTime.UtcNow.Add(Expires);
             Claim[] payload = [
-                new ("currentUserId", user.Id.ToString()),
-                new ("email", user.Email.Value),
-                new ("role", user.Role)
+                new (ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new (ClaimTypes.Email, user.Email.Value),
+                new (ClaimTypes.Role, user.Role)
             ];
 
             SigningCredentials signingCredentials = new(SecurityKey, algorithm: SecurityAlgorithms.HmacSha256);
